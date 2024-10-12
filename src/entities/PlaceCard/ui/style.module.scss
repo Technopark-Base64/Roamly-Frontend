@@ -1,0 +1,22 @@
+.card {
+  background-color: #4c5765;
+  flex: 1;
+  display: flex;
+  gap: 30px;
+  height: 120px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.info {
+  padding: 10px 0;
+  .name {
+    font-size: 20px;
+  }
+}
