@@ -47,6 +47,14 @@ export const TripPage = () => {
 		return () => clearTimeout(handler);
 	}, [searchInput]);
 
+	const handleClickSearchItem = (pl: IPlace) => {
+		setSelectedPlaces((prev) => {
+			if (!prev.find((place) => place.place_id === pl.place_id)) {
+				prev.push(pl);
+			}
+			return prev;
+		});
+	};
 
 	return (
 		<div className={cls.page}>
@@ -74,12 +82,8 @@ export const TripPage = () => {
 						return <PlaceCard
 							place={pl}
 							key={pl.place_id}
-							onClick={() => setSelectedPlaces((prev) => {
-								if (!prev.find((place) => place.place_id === pl.place_id)) {
-									prev.push(pl);
-								}
-								return prev;
-							})}
+							selected={!!selectedPlaces.find((place) => place.place_id === pl.place_id)}
+							onClick={() => handleClickSearchItem(pl)}
 						/>;
 					})}
 
