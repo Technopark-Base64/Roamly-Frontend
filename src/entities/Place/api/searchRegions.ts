@@ -6,7 +6,7 @@ export const searchRegions = async (region: string) => {
 
 		return (await response.json()).results;
 	} catch {
-		return {};
+		return [];
 	}
 };
 

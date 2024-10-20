@@ -1,0 +1,47 @@
+.page {
+  display: flex;
+  flex-flow: column;
+  min-height: calc(100dvh - 50px);
+  width: 1024px;
+  margin: 0 auto;
+  background-color: #2f343d;
+}
+
+.content {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.button {
+  background-color: #4f5467;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.input {
+  background-color: #4f5467;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.placesList {
+  display: flex;
+  gap: 10px;
+  flex-flow: column;
+}

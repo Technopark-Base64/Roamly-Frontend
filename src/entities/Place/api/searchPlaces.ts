@@ -7,7 +7,7 @@ export const searchPlaces = async (region: IPlace, place: string) => {
 
 		return (await response.json()).results;
 	} catch {
-		return {};
+		return [];
 	}
 };
 
