@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { StoreProvider } from 'src/app/providers/StoreProvider';
 import App from './app/App';
 
 const root = ReactDOM.createRoot(
@@ -18,7 +19,9 @@ if (navigator.serviceWorker) {
 root.render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<App />
+			<StoreProvider>
+				<App />
+			</StoreProvider>
 		</BrowserRouter>
 	</React.StrictMode>
 );

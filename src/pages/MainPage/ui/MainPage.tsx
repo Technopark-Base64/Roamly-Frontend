@@ -1,20 +1,43 @@
-import { TripsList } from '../../../widgets/TripsList';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { TripsList } from 'src/widgets/TripsList';
+import { useCurrentUser } from 'src/entities/User';
 import cls from './style.module.scss';
 
 export const MainPage = () => {
+	const navigate = useNavigate();
+	const { currentUser } = useCurrentUser();
+
+	useEffect(() => {
+		if (!currentUser) {
+			navigate('/login');
+		}
+	}, [currentUser]);
+
 
 	return (
 		<div className={cls.page}>
-			<div className={cls.titleContainer}>
-				<div className={cls.title}>
-					Мои поездки
+
+			<div className={cls.content}>
+				<div className={cls.titleContainer}>
+					<div className={cls.title}>
+						Мои поездки
+					</div>
+
+					<div>
+						<button className="shared-button">
+							Новая
+						</button>
+					</div>
 				</div>
-				<button className={cls.button}>
-					Новая
-				</button>
+
+				<TripsList />
 			</div>
 
-			<TripsList />
+			<div className={cls.menu}>
+				<button className="shared-button"> Активные </button>
+				<button className="shared-button"> Прошедшие </button>
+			</div>
 
 		</div>
 	);

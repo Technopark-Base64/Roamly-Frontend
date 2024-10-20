@@ -1,9 +1,15 @@
 .page {
   display: flex;
-  flex-flow: column;
-  min-height: calc(100dvh - 50px);
+  gap: 20px;
   width: 1024px;
   margin: 0 auto;
+}
+
+.content {
+  display: flex;
+  flex-flow: column;
+  min-height: calc(100dvh - 50px);
+  flex: 1;
   background-color: #2f343d;
 }
 
@@ -13,17 +19,17 @@
   justify-content: space-between;
 
   .title {
-    font-size: 24px;
+    font-size: 26px;
   }
 }
 
-.button {
-  background-color: #4f5467;
-  color: white;
-  padding: 12px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.menu {
+  width: 150px;
+  height: 300px;
+  background-color: #2f343d;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
 }
-

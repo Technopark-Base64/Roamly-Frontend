@@ -1,4 +1,4 @@
-import { GOOGLE_API_KEY } from '../../../shared/config';
+import { GOOGLE_API_KEY } from 'src/shared/config';
 
 export const searchRegions = async (region: string) => {
 	try {

@@ -1,0 +1,18 @@
+.shared-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 5px 20px;
+  flex: 1;
+  max-height: 32px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.shared-button-active {
+  background-color: rgba(255, 255, 255, 0.2);
+}

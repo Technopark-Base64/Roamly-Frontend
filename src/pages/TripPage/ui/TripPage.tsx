@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { IPlace, searchPlaces } from '../../../entities/Place';
-import { PlaceCard } from '../../../entities/PlaceCard';
+import { useNavigate } from 'react-router-dom';
+import { IPlace, searchPlaces } from 'src/entities/Place';
+import { PlaceCard } from 'src/entities/PlaceCard';
+import { useCurrentUser } from 'src/entities/User';
 import cls from './style.module.scss';
 
 type TMenu = 'search' | 'selected' | 'calendar';
@@ -31,6 +33,14 @@ export const TripPage = () => {
 	const [searchResult, setSearchResult] = useState<IPlace[]>([]);
 	const [selectedPlaces, setSelectedPlaces] = useState<IPlace[]>(selectedInit);
 	const [plan, setPlan] = useState<any[]>([]);
+	const navigate = useNavigate();
+	const { currentUser } = useCurrentUser();
+
+	useEffect(() => {
+		if (!currentUser) {
+			navigate('/login');
+		}
+	}, [currentUser]);
 
 	const handleSearchInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchInput(event.target.value);

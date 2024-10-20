@@ -1,13 +1,28 @@
 .navbar {
   position: fixed;
-  width: 100vw;
+  width: calc(100vw - 56px);
   height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 28px;
   background-color: #3e4250;
 }
 
 .logo {
   font-size: 24px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.avatarMock {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  background-color: #646e85;
 }

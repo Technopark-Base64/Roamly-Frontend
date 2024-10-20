@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IPlace, searchRegions } from '../../../entities/Place';
-import { PlaceCard } from '../../../entities/PlaceCard';
+import { IPlace, searchRegions } from 'src/entities/Place';
+import { PlaceCard } from 'src/entities/PlaceCard';
 import cls from './style.module.scss';
 
 export const TripsList = () => {

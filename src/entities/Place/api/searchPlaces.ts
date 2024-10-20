@@ -1,4 +1,4 @@
-import { GOOGLE_API_KEY } from '../../../shared/config';
+import { GOOGLE_API_KEY } from 'src/shared/config';
 import { IPlace } from '../model/types';
 
 export const searchPlaces = async (region: IPlace, place: string) => {

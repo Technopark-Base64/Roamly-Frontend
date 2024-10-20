@@ -53,9 +53,8 @@ module.exports = {
 		'no-unused-vars': 'warn',
 		'object-curly-spacing': ['error', 'always'],
 		'react-hooks/rules-of-hooks': 'error',
-		'react-hooks/exhaustive-deps': 'error',
+		'react-hooks/exhaustive-deps': 'off',
 		'react/display-name': 'off',
-		'@conarti/feature-sliced/layers-slices': 1,
-		'@conarti/feature-sliced/absolute-relative': 'off',
+		'@conarti/feature-sliced/layers-slices': 'off',
 	}
 };

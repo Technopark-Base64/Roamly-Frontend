@@ -1,4 +1,4 @@
-import { GOOGLE_API_KEY } from '../../../shared/config';
+import { GOOGLE_API_KEY } from 'src/shared/config';
 import { TPlacePhoto } from '../model/types';
 
 export const getPlacePhoto = (photo: TPlacePhoto, width = 200) => {
