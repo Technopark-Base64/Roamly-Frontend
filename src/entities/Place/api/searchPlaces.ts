@@ -1,11 +1,13 @@
 import { GOOGLE_API_KEY } from 'src/shared/config';
-import { IPlace } from '../model/types';
+import { mapResponseToPlace } from '../lib/mapResponseToPlace';
+import { IPlace, IPlaceResponse } from '../model/types';
 
 export const searchPlaces = async (region: IPlace, place: string) => {
 	try {
 		const response = await fetch(requestUrl(region, place));
+		const results: IPlaceResponse[] = (await response.json()).results;
 
-		return (await response.json()).results;
+		return results.map(mapResponseToPlace);
 	} catch {
 		return [];
 	}
@@ -14,9 +16,9 @@ export const searchPlaces = async (region: IPlace, place: string) => {
 const requestUrl = (region: IPlace, place: string) => {
 	return `https://maps.googleapis.com/maps/api/place/textsearch/json
 	?query=${place}
-	&location=${region.geometry.location.lat},${region.geometry.location.lng}
+	&location=${region.location.lat},${region.location.lng}
 	&radius=20000
-	&fields=formatted_address,name,rating,opening_hours,geometry
+	&fields=formatted_address,name,rating,geometry
 	&key=${GOOGLE_API_KEY}`;
 };
 

@@ -1,6 +1,17 @@
-import { TPlacePhoto } from '../../PlacePhoto';
-
 export interface IPlace {
+  formattedAddress: string,
+  location: {
+    lat: number,
+    lng: number,
+  },
+  name: string,
+  photos: string [],
+  placeId: string,
+  rating: number,
+  types: string[],
+}
+
+export interface IPlaceResponse {
   formatted_address: string,
   geometry: {
     location: {
@@ -9,7 +20,10 @@ export interface IPlace {
     },
   },
   name: string,
-  photos: TPlacePhoto[],
+  photos: {
+    photo_reference: string,
+  } [],
   place_id: string,
+  rating: number,
   types: string[],
 }

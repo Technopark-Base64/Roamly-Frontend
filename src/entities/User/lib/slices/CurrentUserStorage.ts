@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICurrentUserStorage } from '../../model/types/Store';
+import { IUser } from '../../model/types/User';
 
 const initialState: ICurrentUserStorage = {
 	user: null,
@@ -9,7 +10,7 @@ const currentUserSlice = createSlice({
 	name: 'currentUser',
 	initialState,
 	reducers: {
-		newCurrentUser: (state, action) => {
+		newCurrentUser: (state, action: { payload: IUser }) => {
 			state.user = action.payload;
 		},
 		clearCurrentUser: (state) => {

@@ -1,9 +1,8 @@
 import { GOOGLE_API_KEY } from 'src/shared/config';
-import { TPlacePhoto } from '../model/types';
 
-export const getPlacePhoto = (photo: TPlacePhoto, width = 200) => {
+export const getPlacePhoto = (photoUrl: string, width = 200) => {
 	return `https://maps.googleapis.com/maps/api/place/photo
 	?maxwidth=${width}
-	&photo_reference=${photo.photo_reference}
+	&photo_reference=${photoUrl}
 	&key=${GOOGLE_API_KEY}`;
 };

@@ -1,0 +1,23 @@
+.fade {
+  position: fixed;
+  inset: 0 0 auto auto;
+  z-index: 100;
+  height: 100dvh;
+  width: 100dvw;
+  background-color: rgba(15, 17, 19, 0.7);
+  display: flex;
+}
+
+.modal {
+  position: relative;
+  background-color: #3e4250;
+  padding: 40px;
+  margin: auto;
+}
+
+.closeButton {
+  position: absolute;
+  inset: 8px 15px auto auto;
+  cursor: pointer;
+  font-size: 20px;
+}

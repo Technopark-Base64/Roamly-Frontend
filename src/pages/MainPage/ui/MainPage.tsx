@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TripsList } from 'src/widgets/TripsList';
 import { useCurrentUser } from 'src/entities/User';
+import { ModalWrapper } from 'src/shared/components/ModalWrapper/ui/ModalWrapper';
 import cls from './style.module.scss';
 
 export const MainPage = () => {
+	const [showModal, setShowModal] = useState(false);
 	const navigate = useNavigate();
 	const { currentUser } = useCurrentUser();
 
@@ -25,7 +27,7 @@ export const MainPage = () => {
 					</div>
 
 					<div>
-						<button className="shared-button">
+						<button className="shared-button" onClick={() => setShowModal(true)} >
 							Новая
 						</button>
 					</div>
@@ -38,6 +40,12 @@ export const MainPage = () => {
 				<button className="shared-button"> Активные </button>
 				<button className="shared-button"> Прошедшие </button>
 			</div>
+
+			{showModal &&
+				<ModalWrapper onClose={() => setShowModal(false)} >
+					Hello!
+				</ModalWrapper>
+			}
 
 		</div>
 	);

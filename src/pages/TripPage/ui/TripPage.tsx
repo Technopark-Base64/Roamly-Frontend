@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IPlace, searchPlaces } from 'src/entities/Place';
-import { PlaceCard } from 'src/entities/PlaceCard';
+import { IPlace, searchPlaces, PlaceCard } from 'src/entities/Place';
 import { useCurrentUser } from 'src/entities/User';
+import { IPlaceResponse } from '../../../entities/Place/model/types';
 import cls from './style.module.scss';
 
 type TMenu = 'search' | 'selected' | 'calendar';
 
-const region: IPlace = {
+const region: IPlaceResponse = {
 	'formatted_address': 'Москва, Россия',
 	'geometry': {
 		'location': {
@@ -18,12 +18,11 @@ const region: IPlace = {
 	'name': 'Москва',
 	'photos': [
 		{
-			'height': 875,
 			'photo_reference': 'AdCG2DPbiYwpmR_WDUU6jwIdfKZSwIIN5B93nXEI-I4lyd2c3J-qVqFZXZ6eKaLw2mJgid46LiQl53JrtzlM_qsmUQbpLXd_jcwhmiz9GCgmnjeuV1Gx3vwh9vI8PHEPDlOGv28qTn515Cjsv3KK-Rc1ZjU37xi2VbPHP7zjayOXeJob3qx4',
-			'width': 667
 		}
 	],
 	'place_id': 'ChIJybDUc_xKtUYRTM9XV8zWRD0',
+	'rating': 5,
 	'types': [],
 };
 
@@ -31,7 +30,7 @@ export const TripPage = () => {
 	const [menu, setMenu] = useState<TMenu>('selected');
 	const [searchInput, setSearchInput] = useState('');
 	const [searchResult, setSearchResult] = useState<IPlace[]>([]);
-	const [selectedPlaces, setSelectedPlaces] = useState<IPlace[]>(selectedInit);
+	const [selectedPlaces, setSelectedPlaces] = useState<IPlace[]>();
 	const [plan, setPlan] = useState<any[]>([]);
 	const navigate = useNavigate();
 	const { currentUser } = useCurrentUser();

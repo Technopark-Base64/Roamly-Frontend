@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IPlace } from '../../Place';
-import { getPlacePhoto } from '../../PlacePhoto';
+import { getPlacePhoto } from '../../Place';
 import cls from './style.module.scss';
 
 interface IProps {
