@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+import { Page404 } from 'src/pages/Page404';
 import { PlacesList } from 'src/widgets/PlacesList';
 import { TripCard, useCurrentTrip } from 'src/entities/Trip';
 import cls from './style.module.scss';
@@ -28,6 +29,9 @@ export const TripPage = () => {
 		},
 	];
 
+	if (!currentTrip)
+		return <Page404 />;
+
 	return (
 		<div className={cls.page}>
 			{ currentTrip && <TripCard trip={currentTrip} /> }
@@ -56,7 +60,7 @@ export const TripPage = () => {
 
 
 
-
+// https://www.google.com/maps/search/?api=1&query=Google&query_place_id=ChIJv21XTFtKtUYR8ikdmhgpqJM
 
 
 

@@ -1,9 +1,10 @@
 .page {
   display: flex;
   flex-flow: column;
-  min-height: calc(100dvh - 50px);
+  min-height: calc(100dvh - 70px);
   width: 1024px;
   margin: 0 auto;
+  padding-top: 10px;
   background-color: #2f343d;
 }
 

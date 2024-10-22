@@ -72,9 +72,10 @@ export const PlacesList = ({ places }: IProps) => {
 					<PlaceCard
 						place={place}
 						key={place.placeId}
-						selected={!!search && !!currentTrip?.places.find((pl) => pl.placeId === place.placeId)}
-						onClick={search ? () => handleAddPlace(place) : undefined}
-						onClose={!search ? () => handleRemovePlace(place) : undefined}
+						selected={!!currentTrip?.places.find((pl) => pl.placeId === place.placeId)}
+						colorSelected={!!search}
+						onAdd={() => handleAddPlace(place)}
+						onRemove={() => handleRemovePlace(place)}
 					/>
 				))}
 
