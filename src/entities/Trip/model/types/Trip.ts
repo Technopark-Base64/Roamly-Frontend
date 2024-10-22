@@ -4,10 +4,10 @@ import { IUser } from '../../../User';
 
 export interface ITrip {
   id: string,
-  users?: IUser[],
+  users: IUser[],
   startTime: Date,
   endTime: Date,
   area: IPlace,
-  places?: IPlace[],
-  events?: IEvent[],
+  places: IPlace[],
+  events: IEvent[],
 }

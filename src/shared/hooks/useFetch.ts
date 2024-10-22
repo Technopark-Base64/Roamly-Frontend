@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export interface IUseFetchProps {
+export interface IUseFetchProps<T> {
 	url: string,
 	options: {
 		method: string,
@@ -12,18 +12,18 @@ export interface IUseFetchProps {
 	enabled?: boolean,
 	retryCount?: number,
 	retryDelay?: number,
+	mapFunction?: (item: any) => T
 }
 
-export const useFetch = <T>(props: IUseFetchProps) => {
+export const useFetch = <T>(props: IUseFetchProps<T>) => {
 	const {
 		url,
 		options,
 		enabled = true,
 		retryCount = 1,
 		retryDelay = 500,
+		mapFunction = (item: T) => item,
 	} = props;
-
-	options.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
 	const [data, setData] = useState<T | null>(null);
 	const [isFetching, setIsFetching] = useState<boolean>(false);
@@ -43,14 +43,16 @@ export const useFetch = <T>(props: IUseFetchProps) => {
 
 				setIsFetching(false);
 
+				console.log(data);
+
 				if (!response.ok)
 					setError(data.error);
 				else
-					setData(data);
+					setData(mapFunction(data));
 
 				return;
 			} catch (err: unknown) {
-				// currentError = String(err);
+				console.log(err);
 				currentError = 'Fetch Error';
 			}
 

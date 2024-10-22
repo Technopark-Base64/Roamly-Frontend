@@ -7,8 +7,8 @@ export interface IPlace {
   name: string,
   photos: string [],
   placeId: string,
-  rating: number,
-  types: string[],
+  rating?: number,
+  types?: string[],
 }
 
 export interface IPlaceResponse {

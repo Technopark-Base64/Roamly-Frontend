@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TripsList } from 'src/widgets/TripsList';
+import { NewTripForm } from 'src/features/NewTripForm';
 import { useCurrentUser } from 'src/entities/User';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper/ui/ModalWrapper';
 import cls from './style.module.scss';
@@ -43,63 +44,10 @@ export const MainPage = () => {
 
 			{showModal &&
 				<ModalWrapper onClose={() => setShowModal(false)} >
-					Hello!
+					<NewTripForm />
 				</ModalWrapper>
 			}
 
 		</div>
 	);
 };
-
-
-
-
-
-
-
-
-// const [places, setPlaces] = useState();
-// const [regions, setRegions] = useState();
-//
-// useEffect(() => {
-// 	searchRegions('Москва').then((res) => {
-// 		setRegions(res);
-// 	});
-// }, []);
-//
-// useEffect(() => {
-// 	if (regions?.length) {
-// 		searchPlaces(regions[0], 'Парки').then((res) => {
-// 			setPlaces(res);
-// 		});
-// 	}
-// }, [regions]);
-//
-// return (
-// 	<div className={cls.page}>
-// 		<div className={cls.title}>
-// 			Hello from Roamly!
-// 		</div>
-// 		<div>
-// 			{regions?.map((pl: any) => {
-// 				console.log(pl);
-// 				return (
-// 					<div key={pl.place_id}>
-// 						{pl.name}
-// 						<img src={getPlacePhoto(pl.photos[0])} alt=""/>
-// 					</div>
-// 				);
-// 			})}
-// 		</div>
-// 		<div>
-// 			{places?.map((pl: any) => {
-// 				return (
-// 					<div key={pl.place_id}>
-// 						{pl.name}
-// 						<img src={getPlacePhoto(pl.photos[0])} alt=""/>
-// 					</div>
-// 				);
-// 			})}
-// 		</div>
-// 	</div>
-// );

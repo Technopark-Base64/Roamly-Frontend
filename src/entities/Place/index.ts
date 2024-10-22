@@ -1,6 +1,6 @@
 import { getPlacePhoto } from './api/getPlacePhoto';
+import { searchArea } from './api/searchArea';
 import { searchPlaces } from './api/searchPlaces';
-import { searchRegions } from './api/searchRegions';
 import { IPlace } from './model/types';
 import { PlaceCard } from './ui/PlaceCard';
 
@@ -9,7 +9,7 @@ export type {
 };
 
 export {
-	searchRegions,
+	searchArea,
 	searchPlaces,
 	getPlacePhoto,
 	PlaceCard,

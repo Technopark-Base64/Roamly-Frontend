@@ -36,7 +36,7 @@ export const LoginForm = () => {
 				<input
 					className="shared-input"
 					type="text"
-					id="username"
+					id="login"
 					value={login}
 					placeholder="Логин"
 					onChange={handleLoginInput}

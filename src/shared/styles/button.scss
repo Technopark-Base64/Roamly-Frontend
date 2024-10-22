@@ -1,5 +1,5 @@
 .shared-button {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #4f5467;
   border: none;
   color: white;
   font-size: 18px;
@@ -9,10 +9,10 @@
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: #646e85;
   }
 }
 
 .shared-button-active {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #646e85;
 }

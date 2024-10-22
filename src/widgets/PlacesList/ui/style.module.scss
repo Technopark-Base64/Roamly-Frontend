@@ -1,0 +1,21 @@
+.listContainer {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.inputContainer {
+  width: 400px;
+}
+
+.emptyLabel {
+  margin: auto;
+  font-size: 18px;
+}
+
+.errLabel {
+  color: red;
+}

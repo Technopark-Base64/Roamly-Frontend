@@ -1,5 +1,6 @@
 .listContainer {
   display: flex;
+  flex-flow: column;
   flex: 1;
   gap: 20px;
   padding: 20px;
@@ -7,4 +8,5 @@
 
 .emptyLabel {
   margin: auto;
+  font-size: 16px;
 }

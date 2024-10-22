@@ -1,0 +1,13 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+}
+
+.clearBtn {
+  position: absolute;
+  inset: 2px 12px auto auto;
+  cursor: pointer;
+  font-size: 20px;
+  color: black;
+}

@@ -8,7 +8,7 @@ import { getCurrentTrip } from '../model/selectors/getCurrentTrip';
 
 
 export const useCurrentTrip = () => {
-	const currentUser = useSelector((state: RootState) => getCurrentTrip(state));
+	const currentTrip = useSelector((state: RootState) => getCurrentTrip(state));
 	const dispatch = useDispatch<AppDispatch>();
 
 	const setCurrentTrip = (trip: ITrip | null) => {
@@ -28,5 +28,5 @@ export const useCurrentTrip = () => {
 		dispatch(setTripEvents(events));
 	};
 
-	return { currentUser, setCurrentTrip, setCurrentTripPlaces, setCurrentTripEvents };
+	return { currentTrip, setCurrentTrip, setCurrentTripPlaces, setCurrentTripEvents };
 };

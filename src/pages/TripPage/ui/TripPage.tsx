@@ -1,124 +1,66 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { IPlace, searchPlaces, PlaceCard } from 'src/entities/Place';
-import { useCurrentUser } from 'src/entities/User';
-import { IPlaceResponse } from '../../../entities/Place/model/types';
+import { ReactNode, useState } from 'react';
+import { PlacesList } from 'src/widgets/PlacesList';
+import { TripCard, useCurrentTrip } from 'src/entities/Trip';
 import cls from './style.module.scss';
 
-type TMenu = 'search' | 'selected' | 'calendar';
+type TMenu = 'places' | 'search' | 'calendar';
 
-const region: IPlaceResponse = {
-	'formatted_address': 'Москва, Россия',
-	'geometry': {
-		'location': {
-			'lat': 55.755826,
-			'lng': 37.6172999
-		},
-	},
-	'name': 'Москва',
-	'photos': [
-		{
-			'photo_reference': 'AdCG2DPbiYwpmR_WDUU6jwIdfKZSwIIN5B93nXEI-I4lyd2c3J-qVqFZXZ6eKaLw2mJgid46LiQl53JrtzlM_qsmUQbpLXd_jcwhmiz9GCgmnjeuV1Gx3vwh9vI8PHEPDlOGv28qTn515Cjsv3KK-Rc1ZjU37xi2VbPHP7zjayOXeJob3qx4',
-		}
-	],
-	'place_id': 'ChIJybDUc_xKtUYRTM9XV8zWRD0',
-	'rating': 5,
-	'types': [],
-};
+interface ITab {
+	menu: TMenu,
+	label: string,
+	element: ReactNode,
+}
 
 export const TripPage = () => {
-	const [menu, setMenu] = useState<TMenu>('selected');
-	const [searchInput, setSearchInput] = useState('');
-	const [searchResult, setSearchResult] = useState<IPlace[]>([]);
-	const [selectedPlaces, setSelectedPlaces] = useState<IPlace[]>();
-	const [plan, setPlan] = useState<any[]>([]);
-	const navigate = useNavigate();
-	const { currentUser } = useCurrentUser();
+	const [menu, setMenu] = useState<TMenu>('places');
+	const { currentTrip } = useCurrentTrip();
 
-	useEffect(() => {
-		if (!currentUser) {
-			navigate('/login');
-		}
-	}, [currentUser]);
-
-	const handleSearchInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchInput(event.target.value);
-	};
-
-	useEffect(() => {
-		const handler = setTimeout(async () => {
-			const result = await searchPlaces(region, searchInput);
-			setSearchResult(result);
-		}, 300);
-
-		return () => clearTimeout(handler);
-	}, [searchInput]);
-
-	const handleClickSearchItem = (pl: IPlace) => {
-		setSelectedPlaces((prev) => {
-			if (!prev.find((place) => place.place_id === pl.place_id)) {
-				prev.unshift(pl);
-			}
-			return prev;
-		});
-
-		console.log(selectedPlaces);
-	};
+	const tabs: ITab[] = [
+		{
+			menu: 'places',
+			label: 'Места',
+			element: <PlacesList places={currentTrip?.places ?? []} />,
+		},
+		{
+			menu: 'calendar',
+			label: 'Календарь',
+			element: <div> CALENDAR </div>,
+		},
+	];
 
 	return (
 		<div className={cls.page}>
-			<PlaceCard place={region} />
-			<div className={cls.content}>
+			{ currentTrip && <TripCard trip={currentTrip} /> }
 
-				<div className={cls.buttonContainer}>
-					<button className={cls.button} onClick={() => setMenu('selected')}>
-						Выбранные
+			<div className={cls.buttonContainer}>
+				{tabs.map((tab) => (
+					<button
+						className={`${cls.tab} ${menu === tab.menu && cls.tabActive}`}
+						onClick={() => setMenu(tab.menu)}
+						key={tab.menu}
+					>
+						{tab.label}
 					</button>
-					<button className={cls.button} onClick={() => setMenu('search')}>
-						Поиск
-					</button>
-					<button className={cls.button} onClick={() => setMenu('calendar')}>
-						Календарь
-					</button>
-				</div>
-
-				{menu === 'search' &&
-					<input className={cls.input} placeholder="начните вводить" value={searchInput} onInput={handleSearchInput}/>
-				}
-
-				{menu === 'calendar' &&
-					<button className={cls.button} onClick={() => setPlan(events)}>
-						Спланировать
-					</button>
-				}
-
-				<div className={cls.placesList}>
-					{menu === 'search' && searchResult.map((pl) => {
-						return <PlaceCard
-							place={pl}
-							key={pl.place_id}
-							selected={!!selectedPlaces.find((place) => place.place_id === pl.place_id)}
-							onClick={() => handleClickSearchItem(pl)}
-						/>;
-					})}
-
-					{menu === 'selected' && selectedPlaces.map((pl) => {
-						return <PlaceCard place={pl} key={pl.place_id}/>;
-					})}
-
-					{menu === 'calendar' && !!plan.length && plan.map((event) => {
-						return <div key={1}>
-							{event.place} <br />
-							{event.start_time} <br />
-							{event.end_time} <br />
-						</div>;
-					})}
-				</div>
-
+				))}
 			</div>
+
+			<div className={cls.content}>
+				{ tabs.find((item) => item.menu === menu)!.element }
+			</div>
+
 		</div>
 	);
 };
+
+
+
+
+
+
+
+
+
+
 
 const events = [
 	{

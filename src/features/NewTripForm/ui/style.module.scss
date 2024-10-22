@@ -1,0 +1,60 @@
+.form {
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+  width: 300px;
+}
+
+.title {
+  font-size: 22px;
+}
+
+.hintLabel {
+  font-size: 16px;
+  text-align: start;
+  height: 30px;
+  padding-left: 10px;
+}
+
+.errLabel {
+  color: red;
+}
+
+.regionContainer {
+  display: flex;
+  flex-flow: column;
+}
+
+.regionShow {
+  padding: 8px 20px;
+  background-color: #555a70;
+  position: relative;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.cancelBtn {
+  position: absolute;
+  inset: 5px 15px auto auto;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.dateContainer {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.dateForm {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+  gap: 10px;
+
+  input {
+    height: 25px;
+  }
+}

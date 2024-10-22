@@ -8,6 +8,10 @@
   border-radius: 8px;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .selected {
   background-color: #646e85;
 }
@@ -20,6 +24,11 @@
 
 .info {
   padding: 10px 0;
+  display: flex;
+  flex-flow: column;
+  gap: 15px;
+  text-align: start;
+
   .name {
     font-size: 20px;
   }

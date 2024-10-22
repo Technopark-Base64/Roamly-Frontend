@@ -1,4 +1,5 @@
 .card {
+  position: relative;
   background-color: #4c5765;
   width: calc(100% - 40px);
   display: flex;
@@ -6,6 +7,10 @@
   height: 120px;
   padding: 20px;
   border-radius: 8px;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .selected {
@@ -16,6 +21,7 @@
   width: 120px;
   height: 120px;
   object-fit: cover;
+  background-color: #646e85;
 }
 
 .info {
@@ -23,4 +29,11 @@
   .name {
     font-size: 20px;
   }
+}
+
+.closeBtn {
+  position: absolute;
+  inset: 6px 18px auto auto;
+  cursor: pointer;
+  font-size: 24px;
 }

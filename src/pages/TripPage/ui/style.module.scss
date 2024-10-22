@@ -7,41 +7,35 @@
   background-color: #2f343d;
 }
 
+.buttonContainer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+
 .content {
   display: flex;
   flex-flow: column;
-  gap: 10px;
-  margin-top: 20px;
+  align-items: center;
+  padding: 20px;
+  flex: 1;
 }
 
-.buttonContainer {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-}
-
-.button {
+.tab {
+  flex: 1;
   background-color: #4f5467;
   color: white;
-  padding: 12px 20px;
+  padding: 8px;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #646e85;
+  }
 }
 
-.input {
-  background-color: #4f5467;
-  color: white;
-  padding: 12px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.placesList {
-  display: flex;
-  gap: 10px;
-  flex-flow: column;
+.tabActive {
+  background-color: #646e85;
 }

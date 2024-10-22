@@ -1,1 +1,3 @@
-export type IEvent = Record<string, null>;
+export interface IEvent {
+  id: number,
+}
