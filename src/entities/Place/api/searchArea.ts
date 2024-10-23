@@ -1,23 +1,16 @@
-import { GOOGLE_API_KEY } from 'src/shared/config';
+import { BACKEND_API_URL } from 'src/shared/config';
 import { mapResponseToPlace } from '../lib/mapResponseToPlace';
 
 export const searchArea = (region: string) => ({
-	url: requestUrl(region),
+	url: `${BACKEND_API_URL}/place?name=${region}&type=locality`,
 	options: {
 		method: 'GET',
 		headers: {
 			accept: 'application/json',
 		},
+		credentials: 'include',
 	},
 	enabled: false,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	mapFunction: (body: any) => body.results.map(mapResponseToPlace),
 });
-
-const requestUrl = (region: string) => {
-	return `https://maps.googleapis.com/maps/api/place/textsearch/json
-	?query=${region}
-	&type=locality
-	&fields=formatted_address,name,rating,geometry
-	&key=${GOOGLE_API_KEY}`;
-};

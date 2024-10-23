@@ -18,7 +18,6 @@ export const SignupForm = () => {
 			return;
 
 		const result = await Signup();
-		console.log(result);
 	};
 
 	const handleLoginInput = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -11,7 +11,6 @@ export const LoginForm = () => {
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 		const result = await Login();
-		console.log(result);
 	};
 
 	const handleLoginInput = (event: React.ChangeEvent<HTMLInputElement>) => {

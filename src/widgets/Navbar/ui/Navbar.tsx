@@ -14,7 +14,6 @@ export const Navbar = () => {
 
 	const handleLogout = async () => {
 		const result = await Logout();
-		console.log(result);
 	};
 
 	return (

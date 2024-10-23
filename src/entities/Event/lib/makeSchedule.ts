@@ -5,8 +5,6 @@ export const makeSchedule = (events: IEvent[]): ISchedule => {
 	if (!events.length)
 		return [];
 
-	console.log(events);
-
 	const sortedEvents = [...events].sort((e1, e2) => e1.startTime.getTime() - e2.startTime.getTime());
 
 	const schedule: ISchedule = [{

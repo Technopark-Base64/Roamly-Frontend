@@ -3,6 +3,7 @@ import { useCurrentUser } from 'src/entities/User';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { requestCheckAuth } from '../api/check';
 import { requestLogin } from '../api/login';
+import { requestLogout } from '../api/logout';
 import { requestSignup } from '../api/signup';
 import { IAuthResponse } from '../model/types';
 
@@ -34,7 +35,7 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	const { data: isAuth, refetch: fetchCheckAuth } = useFetch<IAuthResponse>(requestCheckAuth());
 	const { data: loginRes, refetch: fetchLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
 	const { data: signupRes, refetch: fetchSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
-	const { data: logoutRes, refetch: fetchLogout } = useFetch<IAuthResponse>(requestCheckAuth());
+	const { data: logoutRes, refetch: fetchLogout } = useFetch<IAuthResponse>(requestLogout());
 
 	const Login = async () => {
 		return await fetchLogin();
@@ -65,7 +66,6 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	};
 
 	useEffect(() => {
-		console.log('isAuth', isAuth);
 		isAuth ? setUserId(isAuth.user_id) : setUserId(0);
 	}, [isAuth]);
 
