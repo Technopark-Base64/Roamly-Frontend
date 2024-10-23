@@ -55,7 +55,7 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         run: |
-          echo "$PRIVATE_KEY" > key.pem
+          echo "$SSH_PRIVATE_KEY" > key.pem
           chmod 400 key.pem
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@212.111.86.198 'rm -rf /home/ubuntu/frontend/*'
           scp -o StrictHostKeyChecking=no -i key.pem -r ./build/* ubuntu@212.111.86.198:/home/ubuntu/frontend/
