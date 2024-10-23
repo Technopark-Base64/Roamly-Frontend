@@ -47,6 +47,6 @@ jobs:
           host: 212.111.86.198
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          source: "build/*"
+          source: "build"
           target: "/home/ubuntu/frontend"
           strip_components: 1
