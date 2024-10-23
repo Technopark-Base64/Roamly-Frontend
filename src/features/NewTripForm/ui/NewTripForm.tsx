@@ -35,7 +35,8 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 	}));
 
 	useEffect(() => {
-		console.log(createRes);  //&& navigate(`/trip/${createRes.area_id}#places`);
+		console.log(createRes);
+		createRes && navigate(`/trip/${createRes.area_id}#places`);
 	}, [createRes]);
 
 	useEffect(() => {
@@ -67,11 +68,12 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 		setEndDate(e.target.value);
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
 		if (!selectedRegion || !startDate || !endDate)
 			return;
 
-		createRefetch();
+		!prevTrip && createRefetch();
 	};
 
 	return (
