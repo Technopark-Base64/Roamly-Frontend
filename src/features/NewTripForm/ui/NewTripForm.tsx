@@ -35,7 +35,7 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 	}));
 
 	useEffect(() => {
-		createRes && navigate(`/trip/${createRes.area_id}#places`);
+		console.log(createRes);  //&& navigate(`/trip/${createRes.area_id}#places`);
 	}, [createRes]);
 
 	useEffect(() => {
