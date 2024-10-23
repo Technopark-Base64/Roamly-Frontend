@@ -56,8 +56,8 @@ const MoscowTrip: ITrip = {
 		]
 	},
 	id: 'WEsdKJJHJgjhdJHGhks',
-	startTime: new Date(),
-	endTime: new Date(),
+	startTime: new Date('2023-10-13T11:30:00Z'),
+	endTime: new Date('2023-10-15T11:30:00Z'),
 	places: [],
 	users: [],
 	events: [],

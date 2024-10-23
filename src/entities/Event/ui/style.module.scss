@@ -1,0 +1,36 @@
+.card {
+  background-color: #4c5765;
+  width: calc(100% - 60px);
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  padding: 20px 30px;
+  border-radius: 8px;
+}
+
+.timeInfo {
+  font-size: 14px;
+  text-align: start;
+  width: 85px;
+
+  .startTime {
+    font-size: 24px;
+  }
+}
+
+.image {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #646e85;
+}
+
+.placeInfo {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  text-align: start;
+  font-size: 18px;
+  flex: 1;
+}
