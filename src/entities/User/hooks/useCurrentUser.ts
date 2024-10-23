@@ -10,6 +10,7 @@ export const useCurrentUser = () => {
 	const dispatch = useDispatch<AppDispatch>();
 
 	const setCurrentUser = (user: IUser | null) => {
+		console.log('setUser', user);
 		if (user) {
 			dispatch(newCurrentUser(user));
 			return;

@@ -65,6 +65,7 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	};
 
 	useEffect(() => {
+		console.log('isAuth', isAuth);
 		isAuth ? setUserId(isAuth.user_id) : setUserId(0);
 	}, [isAuth]);
 
