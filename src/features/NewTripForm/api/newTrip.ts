@@ -1,13 +1,13 @@
 import { BACKEND_API_URL } from 'src/shared/config';
 
 interface IProps {
-	email: string,
-	login: string,
-	password: string,
+  area_id: string,
+  start_time: string,
+  end_time: string
 }
 
-export const requestSignup = ({ email, login, password }: IProps) => ({
-	url: `${BACKEND_API_URL}/auth/register`,
+export const newTrip = (tripForm: IProps) => ({
+	url: `${BACKEND_API_URL}/trip`,
 	options: {
 		method: 'POST',
 		headers: {
@@ -15,7 +15,7 @@ export const requestSignup = ({ email, login, password }: IProps) => ({
 			accept: 'application/json',
 		},
 		credential: 'include',
-		body: JSON.stringify({ email, password, login }),
+		body: JSON.stringify(tripForm)
 	},
 	enabled: false,
 });

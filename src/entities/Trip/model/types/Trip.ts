@@ -1,5 +1,5 @@
 import { IEvent } from '../../../Event';
-import { IPlace } from '../../../Place';
+import { IPlace, IPlaceResponse } from '../../../Place';
 import { IUser } from '../../../User';
 
 export interface ITrip {
@@ -9,5 +9,16 @@ export interface ITrip {
   endTime: Date,
   area: IPlace,
   places: IPlace[],
+  events: IEvent[],
+}
+
+export interface ITripResponse {
+  id: string,
+  users: IUser[]
+  start_time: string,
+  end_time: string,
+  area_id: string,
+  area: IPlaceResponse,
+  places: IPlaceResponse[],
   events: IEvent[],
 }

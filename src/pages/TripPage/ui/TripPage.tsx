@@ -1,10 +1,12 @@
 import { ReactNode, useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
 import { EventsList } from 'src/widgets/EventsList';
 import { PlacesList } from 'src/widgets/PlacesList';
-import { TripCard, useCurrentTrip } from 'src/entities/Trip';
+import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
 import { useCurrentUser } from 'src/entities/User';
+import { useFetch } from 'src/shared/hooks/useFetch';
+import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
 type TMenu = 'places' | 'calendar';
@@ -17,18 +19,27 @@ interface ITab {
 
 export const TripPage = () => {
 	const location = useLocation();
+	const { id } = useParams();
 	const hash = location.hash.replace('#', '');
 
 	const [menu, setMenu] = useState<TMenu>('places');
-	const { currentTrip } = useCurrentTrip();
-	const { currentUser } = useCurrentUser();
+	const { currentTrip, setCurrentTrip } = useCurrentTrip();
+	// const { currentUser } = useCurrentUser();
 	const navigate = useNavigate();
 
+	const {
+		data,
+	} = useFetch<ITrip>(getTrip(id ?? ''));
+
 	useEffect(() => {
-		if (!currentUser) {
-			navigate('/login');
-		}
-	}, [currentUser]);
+		data && setCurrentTrip(data);
+	}, [data]);
+
+	// useEffect(() => {
+	// 	if (!currentUser) {
+	// 		navigate('/login');
+	// 	}
+	// }, [currentUser]);
 
 	useEffect(() => {
 		switch (hash) {

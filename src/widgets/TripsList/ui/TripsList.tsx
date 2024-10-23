@@ -1,8 +1,10 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ITrip } from 'src/entities/Trip';
 import { TripCard } from 'src/entities/Trip';
 import { useCurrentTrip } from 'src/entities/Trip';
+import { useFetch } from 'src/shared/hooks/useFetch';
+import { getTrips } from '../api/getTrips';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -10,9 +12,17 @@ interface IProps {
 }
 
 export const TripsList = ({ showPast = false }: IProps) => {
-	const trips = [MoscowPastTrip, MoscowTrip, PeterTrip];
+	const [trips, setTrips] = useState<ITrip[]>([]);
 	const { setCurrentTrip } = useCurrentTrip();
 	const navigate = useNavigate();
+
+	const {
+		data,
+	} = useFetch<ITrip[]>(getTrips());
+
+	useEffect(() => {
+		data && setTrips(data);
+	}, [data]);
 	
 	const handleClick = (trip: ITrip) => {
 		setCurrentTrip(trip); // TODO Delete

@@ -1,9 +1,11 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IPlace, searchArea } from 'src/entities/Place';
 import { ITrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { stringDateGreater } from 'src/shared/utils';
+import { newTrip } from '../api/newTrip';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -11,6 +13,7 @@ interface IProps {
 }
 
 export const NewTripForm = ({ prevTrip }: IProps) => {
+	const navigate = useNavigate();
 	const [search, setSearch] = useState(prevTrip?.area.name ?? '');
 	const [selectedRegion, setSelectedRegion] = useState<IPlace | undefined>(prevTrip?.area);
 	const [startDate, setStartDate] = useState<string | undefined>(prevTrip?.startTime.toISOString().slice(0, 10));
@@ -21,6 +24,19 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 		error,
 		refetch,
 	} = useFetch<IPlace[]>(searchArea(search));
+
+	const {
+		data: createRes,
+		refetch: createRefetch,
+	} = useFetch<{area_id: string}>(newTrip({
+		area_id: selectedRegion?.placeId ?? '',
+		start_time: startDate ?? '',
+		end_time: endDate ?? '',
+	}));
+
+	useEffect(() => {
+		createRes && navigate(`/trip/${createRes.area_id}#places`);
+	}, [createRes]);
 
 	useEffect(() => {
 		search && !prevTrip && refetch();
@@ -51,8 +67,15 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 		setEndDate(e.target.value);
 	};
 
+	const handleSubmit = () => {
+		if (!selectedRegion || !startDate || !endDate)
+			return;
+
+		createRefetch();
+	};
+
 	return (
-		<form className={cls.form}>
+		<form className={cls.form} onSubmit={handleSubmit}>
 			<div className={cls.title}>
 				{prevTrip ? 'Изменить поездку' : 'Новая поездка'}
 			</div>

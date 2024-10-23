@@ -14,8 +14,7 @@ export const requestLogin = ({ email, password }: IProps) => ({
 			accept: 'application/json',
 		},
 		credential: 'include',
-		body: JSON.stringify({ email, password })
-		// body: new URLSearchParams(Object.entries({ email, password })).toString(),
+		body: JSON.stringify({ email, password }),
 	},
 	enabled: false,
 });
