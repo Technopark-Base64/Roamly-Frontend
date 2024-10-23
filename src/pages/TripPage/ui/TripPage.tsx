@@ -4,7 +4,6 @@ import { Page404 } from 'src/pages/Page404';
 import { EventsList } from 'src/widgets/EventsList';
 import { PlacesList } from 'src/widgets/PlacesList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
-import { useCurrentUser } from 'src/entities/User';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
