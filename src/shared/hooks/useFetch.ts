@@ -51,7 +51,7 @@ export const useFetch = <T>(props: IUseFetchProps<T>) => {
 				else
 					setData(mapFunction(data));
 
-				return;
+				return response.ok;
 			} catch (err: unknown) {
 				console.log(err);
 				currentError = 'Fetch Error';
@@ -63,6 +63,8 @@ export const useFetch = <T>(props: IUseFetchProps<T>) => {
 		setIsFetching(false);
 		setData(prev => prev);
 		setError(currentError);
+
+		return !currentError;
 	};
 
 	useEffect(() => {

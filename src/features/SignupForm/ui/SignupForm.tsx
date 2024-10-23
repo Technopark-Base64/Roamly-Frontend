@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useCurrentUser } from 'src/entities/User';
+import { useAuth } from 'src/features/Authorization';
 import cls from './style.module.scss';
 
 
@@ -9,20 +9,16 @@ export const SignupForm = () => {
 	const [password, setPassword] = useState('');
 	const [repPassword, setRepPassword] = useState('');
 
-	const { setCurrentUser } = useCurrentUser();
+	const { Signup } = useAuth({ email, password, login });
 
-	const handleSubmit = (event: React.FormEvent) => {
+	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
 
-		if (password !== repPassword) {
+		if (password !== repPassword)
 			return;
-		}
 
-		setCurrentUser({
-			id: 0,
-			login,
-			email,
-		});
+		const result = await Signup();
+		console.log(result);
 	};
 
 	const handleLoginInput = (event: React.ChangeEvent<HTMLInputElement>) => {
