@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ITrip } from 'src/entities/Trip';
 import { TripCard } from 'src/entities/Trip';
