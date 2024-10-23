@@ -1,1 +1,2 @@
-export const GOOGLE_API_KEY = 'AIzaSyCmy2xhNFqvs4NsBk9cuYd3tatnABRfHCU';
+export const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
+export const BACKEND_API_URL = process.env.REACT_APP_BACKEND_URL;
