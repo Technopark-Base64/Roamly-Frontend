@@ -5,6 +5,7 @@ interface IProps {
 	initValue: string,
   placeholder?: string,
   delay?: number,
+	// eslint-disable-next-line no-unused-vars
   onChange?: ((input: string) => void) | (() => void),
 }
 

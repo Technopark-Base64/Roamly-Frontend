@@ -76,7 +76,7 @@ export const TripPage = () => {
 			</div>
 
 			<div className={cls.content}>
-				{ tabs.find((item) => item.menu === menu)!.element }
+				{ tabs.find((item) => item.menu === menu)?.element }
 			</div>
 
 		</div>

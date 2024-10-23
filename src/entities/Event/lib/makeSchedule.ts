@@ -15,8 +15,8 @@ export const makeSchedule = (events: IEvent[]): ISchedule => {
 	}];
 
 	sortedEvents.forEach((event) => {
-		if (toDayString(event.startTime) === schedule.at(-1)!.day) {
-			schedule.at(-1)!.events.push(formatEvent(event));
+		if (toDayString(event.startTime) === schedule.at(-1)?.day) {
+			schedule.at(-1)?.events.push(formatEvent(event));
 		} else {
 			schedule.push({
 				day: toDayString(event.startTime),

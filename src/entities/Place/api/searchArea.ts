@@ -11,6 +11,7 @@ export const searchArea = (region: string) => ({
 	},
 	enabled: false,
 	useProxy: true,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	mapFunction: (body: any) => body.results.map(mapResponseToPlace),
 });
 

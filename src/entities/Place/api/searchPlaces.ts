@@ -11,6 +11,7 @@ export const searchPlaces = (place: string, region?: IPlace, ) => ({
 		},
 	},
 	enabled: false,
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	mapFunction: (body: any) => body.results.map(mapResponseToPlace),
 });
 

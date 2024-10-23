@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const TripsList = ({ showPast = false }: IProps) => {
-	const [trips, setTrips] = useState<ITrip[]>([MoscowPastTrip, MoscowTrip, PeterTrip]);
+	const trips = [MoscowPastTrip, MoscowTrip, PeterTrip];
 	const { setCurrentTrip } = useCurrentTrip();
 	const navigate = useNavigate();
 	

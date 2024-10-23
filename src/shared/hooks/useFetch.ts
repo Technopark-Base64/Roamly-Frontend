@@ -12,7 +12,8 @@ export interface IUseFetchProps<T> {
 	enabled?: boolean,
 	retryCount?: number,
 	retryDelay?: number,
-	mapFunction?: (item: any) => T
+	// eslint-disable-next-line no-unused-vars
+	mapFunction?: (item: unknown) => T
 }
 
 export const useFetch = <T>(props: IUseFetchProps<T>) => {
