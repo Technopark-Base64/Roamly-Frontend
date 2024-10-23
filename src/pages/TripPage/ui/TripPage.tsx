@@ -28,6 +28,7 @@ export const TripPage = () => {
 
 	const {
 		data,
+		error,
 	} = useFetch<ITrip>(getTrip(id ?? ''));
 
 	useEffect(() => {
@@ -66,7 +67,7 @@ export const TripPage = () => {
 		},
 	];
 
-	if (!currentTrip)
+	if (error)
 		return <Page404 />;
 
 	return (
