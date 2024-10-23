@@ -1,17 +1,20 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
 import cls from './style.module.scss';
 
 export const Navbar = () => {
-	const { currentUser, setCurrentUser } = useCurrentUser();
+	const { currentUser } = useCurrentUser();
+	const { Logout } = useAuth({});
 	const navigate = useNavigate();
 
 	const handleLogoClick = () => {
 		navigate('/');
 	};
 
-	const handleLogout = () => {
-		setCurrentUser(null);
+	const handleLogout = async () => {
+		const result = await Logout();
+		console.log(result);
 	};
 
 	return (

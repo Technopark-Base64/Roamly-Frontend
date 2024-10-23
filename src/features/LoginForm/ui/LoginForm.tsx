@@ -1,25 +1,21 @@
 import React, { useState } from 'react';
-import { useCurrentUser } from 'src/entities/User';
+import { useAuth } from '../../Authorization';
 import cls from './style.module.scss';
 
 
 export const LoginForm = () => {
-	const [login, setLogin] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const { setCurrentUser } = useCurrentUser();
-
-
-	const handleSubmit = (event: React.FormEvent) => {
+	const { Login } = useAuth({ email, password });
+	
+	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
-		setCurrentUser({
-			id: 0,
-			login,
-			email: '',
-		});
+		const result = await Login();
+		console.log(result);
 	};
 
 	const handleLoginInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setLogin(event.target.value);
+		setEmail(event.target.value);
 	};
 
 	const handlePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,9 +32,9 @@ export const LoginForm = () => {
 				<input
 					className="shared-input"
 					type="text"
-					id="login"
-					value={login}
-					placeholder="Логин"
+					id="email"
+					value={email}
+					placeholder="Email"
 					onChange={handleLoginInput}
 				/>
 
