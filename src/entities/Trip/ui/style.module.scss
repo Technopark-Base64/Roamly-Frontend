@@ -12,8 +12,8 @@
   cursor: pointer;
 }
 
-.selected {
-  background-color: #646e85;
+.activeTrip {
+  background-color: #7c9ebe;
 }
 
 .image {
@@ -27,6 +27,7 @@
   padding: 10px 0;
   display: flex;
   flex-flow: column;
+  flex: 1;
   gap: 15px;
   text-align: start;
 

@@ -3,11 +3,15 @@ import { useCurrentUser } from 'src/entities/User';
 import cls from './style.module.scss';
 
 export const Navbar = () => {
-	const { currentUser } = useCurrentUser();
+	const { currentUser, setCurrentUser } = useCurrentUser();
 	const navigate = useNavigate();
 
 	const handleLogoClick = () => {
 		navigate('/');
+	};
+
+	const handleLogout = () => {
+		setCurrentUser(null);
 	};
 
 	return (
@@ -22,9 +26,12 @@ export const Navbar = () => {
 						<></> :
 						<div className={cls.avatarMock} />
 					}
-					<div>{currentUser.login} </div>
+					<div>{currentUser.login}</div>
+					<button className="shared-button" onClick={handleLogout}>
+						Выход
+					</button>
 				</div>
 			}
 		</div>
-	);2;
+	);
 };

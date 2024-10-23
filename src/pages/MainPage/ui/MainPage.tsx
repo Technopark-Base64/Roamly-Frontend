@@ -8,6 +8,7 @@ import cls from './style.module.scss';
 
 export const MainPage = () => {
 	const [showModal, setShowModal] = useState(false);
+	const [showPastTrips, setShowPastTrips] = useState(false);
 	const navigate = useNavigate();
 	const { currentUser } = useCurrentUser();
 
@@ -24,7 +25,7 @@ export const MainPage = () => {
 			<div className={cls.content}>
 				<div className={cls.titleContainer}>
 					<div className={cls.title}>
-						Мои поездки
+						{showPastTrips ? 'Прошедшие' : 'Активные'} поездки
 					</div>
 
 					<div>
@@ -34,17 +35,17 @@ export const MainPage = () => {
 					</div>
 				</div>
 
-				<TripsList />
+				<TripsList showPast={showPastTrips} />
 			</div>
 
 			<div className={cls.menu}>
-				<button className="shared-button"> Активные </button>
-				<button className="shared-button"> Прошедшие </button>
+				<button className="shared-button" onClick={() => setShowPastTrips(false)}> Активные </button>
+				<button className="shared-button" onClick={() => setShowPastTrips(true)}> Прошедшие </button>
 			</div>
 
 			{showModal &&
 				<ModalWrapper onClose={() => setShowModal(false)} >
-					<NewTripForm />
+					<NewTripForm prevTrip={null} />
 				</ModalWrapper>
 			}
 

@@ -1,15 +1,20 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { IPlace, searchArea } from 'src/entities/Place';
+import { ITrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
+import { stringDateGreater } from 'src/shared/utils';
 import cls from './style.module.scss';
 
+interface IProps {
+	prevTrip: ITrip | null;
+}
 
-export const NewTripForm = () => {
-	const [search, setSearch] = useState('');
-	const [selectedRegion, setSelectedRegion] = useState<IPlace | null>(null);
-	const [startDate, setStartDate] = useState<string | null>(null);
-	const [endDate, setEndDate] = useState<string | null>(null);
+export const NewTripForm = ({ prevTrip }: IProps) => {
+	const [search, setSearch] = useState(prevTrip?.area.name ?? '');
+	const [selectedRegion, setSelectedRegion] = useState<IPlace | undefined>(prevTrip?.area);
+	const [startDate, setStartDate] = useState<string | undefined>(prevTrip?.startTime.toISOString().slice(0, 10));
+	const [endDate, setEndDate] = useState<string | undefined>(prevTrip?.endTime.toISOString().slice(0, 10));
 
 	const {
 		data,
@@ -18,7 +23,7 @@ export const NewTripForm = () => {
 	} = useFetch<IPlace[]>(searchArea(search));
 
 	useEffect(() => {
-		search && refetch();
+		search && !prevTrip && refetch();
 	}, [search]);
 
 	const handleClickRegion = () => {
@@ -27,26 +32,34 @@ export const NewTripForm = () => {
 
 	const handleCancelSelect = (e: MouseEvent) => {
 		e.stopPropagation();
-		setSelectedRegion(null);
+		setSelectedRegion(undefined);
 	};
 
 	const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (endDate && stringDateGreater(e.target.value, endDate)) {
+			setStartDate(endDate);
+			return;
+		}
 		setStartDate(e.target.value);
 	};
 
 	const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (startDate && stringDateGreater(startDate, e.target.value)) {
+			setEndDate(startDate);
+			return;
+		}
 		setEndDate(e.target.value);
 	};
 
 	return (
 		<form className={cls.form}>
 			<div className={cls.title}>
-        Новая поездка
+				{prevTrip ? 'Изменить поездку' : 'Новая поездка'}
 			</div>
 
 
 			<div className={cls.regionContainer}>
-				<span className={cls.hintLabel}> Выберите город </span>
+				{!prevTrip && <span className={cls.hintLabel}> Выберите город </span>}
 
 				{!selectedRegion &&
 					<Input
@@ -72,6 +85,12 @@ export const NewTripForm = () => {
 					</div>
 				}
 
+				{prevTrip &&
+					<div className={`${cls.regionShow} ${cls.block}`}>
+						{ prevTrip.area.name }
+					</div>
+				}
+
 				{error &&
 					<div className={cls.regionShow}>
 						<span className={cls.errLabel}>
@@ -85,16 +104,16 @@ export const NewTripForm = () => {
 			<div className={cls.dateContainer}>
 				<div className={cls.dateForm}>
 					Начало
-					<input type="date" onChange={handleStartDateChange}/>
+					<input type="date" value={startDate} onChange={handleStartDateChange}/>
 				</div>
 
 				<div className={cls.dateForm}>
 					Конец
-					<input type="date" onChange={handleEndDateChange} />
+					<input type="date" value={endDate} onChange={handleEndDateChange} />
 				</div>
 			</div>
 
-			<button type="submit" className="shared-button"> Создать </button>
+			<button type="submit" className="shared-button"> {prevTrip ? 'Сохранить' :'Создать'} </button>
 		</form>
 	);
 };

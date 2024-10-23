@@ -35,6 +35,10 @@
   cursor: pointer;
 }
 
+.block {
+  cursor: not-allowed;
+}
+
 .cancelBtn {
   position: absolute;
   inset: 5px 15px auto auto;
