@@ -13,7 +13,7 @@ export const Navbar = () => {
 	};
 
 	const handleLogout = async () => {
-		const result = await Logout();
+		await Logout();
 	};
 
 	return (

@@ -17,7 +17,7 @@ export const SignupForm = () => {
 		if (password !== repPassword)
 			return;
 
-		const result = await Signup();
+		await Signup();
 	};
 
 	const handleLoginInput = (event: React.ChangeEvent<HTMLInputElement>) => {
