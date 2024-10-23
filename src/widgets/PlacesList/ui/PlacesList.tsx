@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { IPlace, PlaceCard, searchPlaces } from 'src/entities/Place';
-import { useCurrentTrip } from 'src/entities/Trip';
+import { ITrip, useCurrentTrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
+import { addPlaceToTrip } from '../api/addPlaceToTrip';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -24,9 +25,23 @@ export const PlacesList = ({ places }: IProps) => {
 		search && refetch();
 	}, [search]);
 
+	const [placeIdToAdd, setPlaceIdToAdd] = useState('');
+	const {
+		refetch: addPlace
+	} = useFetch<ITrip>(addPlaceToTrip({
+		place_id: placeIdToAdd,
+		trip_id: currentTrip?.id ?? '',
+	}));
+
+	useEffect(() => {
+		placeIdToAdd && addPlace();
+	}, [placeIdToAdd]);
+
 	const handleAddPlace = (place: IPlace) => {
-		if (currentTrip && !currentTrip.places.find((pl) => pl.placeId === place.placeId))
+		if (currentTrip && !currentTrip.places.find((pl) => pl.placeId === place.placeId)) {
 			setCurrentTripPlaces([place, ...currentTrip.places]);
+			setPlaceIdToAdd(place.placeId);
+		}
 	};
 
 	const handleRemovePlace = (place: IPlace) => {
