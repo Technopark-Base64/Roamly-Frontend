@@ -27,8 +27,8 @@ jobs:
       - name: Upload build result
         uses: actions/upload-artifact@v4
         with:
-          name: bundle
-          path: ./bundle
+          name: build
+          path: ./build
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,6 +44,6 @@ jobs:
           host: 212.111.86.198
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
-          source: "bundle/*"
+          source: "build/*"
           target: "/home/ubuntu/frontend"
           strip_components: 1
