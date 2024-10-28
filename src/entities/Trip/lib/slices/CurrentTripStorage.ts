@@ -13,7 +13,11 @@ const currentTripSlice = createSlice({
 	initialState,
 	reducers: {
 		setTrip: (state, action: { payload: ITrip }) => {
-			state.trip = action.payload;
+			state.trip = {
+				...action.payload,
+				startTime: action.payload.startTime.toString(),
+				endTime: action.payload.endTime.toString(),
+			};
 		},
 		setTripPlaces: (state, action: { payload: IPlace[] }) => {
 			if (state.trip) state.trip.places = action.payload;

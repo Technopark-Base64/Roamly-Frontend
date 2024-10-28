@@ -6,9 +6,8 @@ export const requestLogout = () => ({
 		method: 'POST',
 		headers: {
 			accept: 'application/json',
-			'Origin': 'http://localhost:3000',
 		},
-		credential: 'include',
+		credentials: 'include',
 	},
 	enabled: false,
 });

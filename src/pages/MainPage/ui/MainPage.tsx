@@ -1,31 +1,35 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { TripsList } from 'src/widgets/TripsList';
 import { NewTripForm } from 'src/features/NewTripForm';
-import { useCurrentUser } from 'src/entities/User';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper/ui/ModalWrapper';
 import cls from './style.module.scss';
 
 export const MainPage = () => {
-	const [showModal, setShowModal] = useState(false);
-	const [showPastTrips, setShowPastTrips] = useState(false);
+	const location = useLocation();
 	const navigate = useNavigate();
-	const { currentUser } = useCurrentUser();
+	const menu = location.hash.replace('#', '');
+	
+	const [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
-		if (!currentUser) {
-			navigate('/login');
-		}
-	}, [currentUser]);
-
+		if (menu !== 'passed')
+			navigate(`${location.pathname}`, { replace: true });
+	}, [menu]);
 
 	return (
 		<div className={cls.page}>
 
+			{showModal &&
+				<ModalWrapper onClose={() => setShowModal(false)} >
+					<NewTripForm prevTrip={null} />
+				</ModalWrapper>
+			}
+
 			<div className={cls.content}>
 				<div className={cls.titleContainer}>
 					<div className={cls.title}>
-						{showPastTrips ? 'Прошедшие' : 'Активные'} поездки
+						{menu === 'passed' ? 'Прошедшие' : 'Активные'} поездки
 					</div>
 
 					<div>
@@ -35,19 +39,13 @@ export const MainPage = () => {
 					</div>
 				</div>
 
-				<TripsList showPast={showPastTrips} />
+				<TripsList showPast={menu === 'passed'} />
 			</div>
 
 			<div className={cls.menu}>
-				<button className="shared-button" onClick={() => setShowPastTrips(false)}> Активные </button>
-				<button className="shared-button" onClick={() => setShowPastTrips(true)}> Прошедшие </button>
+				<button className="shared-button" onClick={() => navigate(`${location.pathname}`)}> Активные </button>
+				<button className="shared-button" onClick={() => navigate(`${location.pathname}#passed`)}> Прошедшие </button>
 			</div>
-
-			{showModal &&
-				<ModalWrapper onClose={() => setShowModal(false)} >
-					<NewTripForm prevTrip={null} />
-				</ModalWrapper>
-			}
 
 		</div>
 	);

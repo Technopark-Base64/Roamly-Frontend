@@ -2,7 +2,7 @@ import { mapResponseToTrip } from 'src/entities/Trip';
 import { BACKEND_API_URL } from 'src/shared/config';
 
 export const getTrips = () => ({
-	url: `${BACKEND_API_URL}/trip`,
+	url: `${BACKEND_API_URL}/trip/`,
 	options: {
 		method: 'GET',
 		headers: {

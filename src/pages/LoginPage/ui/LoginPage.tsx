@@ -1,21 +1,12 @@
-import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { LoginForm } from 'src/features/LoginForm';
 import { SignupForm } from 'src/features/SignupForm';
-import { useCurrentUser } from 'src/entities/User';
 import cls from './style.module.scss';
 
 export const LoginPage = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const selected = location.hash.replace('#', '');
-	const { currentUser } = useCurrentUser();
-
-	useEffect(() => {
-		if (currentUser) {
-			navigate('/');
-		}
-	}, [currentUser]);
 
 	const handleSelectLogin = () => {
 		navigate('/login');

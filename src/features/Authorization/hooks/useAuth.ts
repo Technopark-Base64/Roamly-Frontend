@@ -14,60 +14,83 @@ interface IProps {
 }
 
 export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
-	const { currentUser, setCurrentUser } = useCurrentUser();
+	const { setCurrentUser } = useCurrentUser();
 
-	const [userId, setUserId] = useState<number>(currentUser ? currentUser.id : 0);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		if (!userId) {
-			setCurrentUser(null);
-			return;
-		}
-		if (currentUser)
-			return;
-		setCurrentUser({
-			id: userId,
-			login: 'Default User',
-			email: 'A@A.COM',
-		});
-	}, [userId]);
+	const defaultUser = {
+		id: 1,
+		login: 'Default User',
+		email: 'A@A.COM',
+	};
 
-	const { data: isAuth, refetch: fetchCheckAuth } = useFetch<IAuthResponse>(requestCheckAuth());
-	const { data: loginRes, refetch: fetchLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
-	const { data: signupRes, refetch: fetchSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
-	const { data: logoutRes, refetch: fetchLogout } = useFetch<IAuthResponse>(requestLogout());
+	const { data: isAuth, refetch: fetchCheckAuth, isFetching: isFetchingCheck, error: errorCheck } = useFetch<IAuthResponse>(requestCheckAuth());
+	const { data: loginRes, refetch: fetchLogin, isFetching: isFetchingLogin, error: errorLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
+	const { data: signupRes, refetch: fetchSignup, isFetching: isFetchingSignup, error: errorSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
+	const { data: logoutRes, refetch: fetchLogout, isFetching: isFetchingLogout, error: errorLogout } = useFetch<IAuthResponse>(requestLogout());
 
 	const Login = async () => {
 		return await fetchLogin();
 	};
 
 	useEffect(() => {
-		loginRes && setUserId(loginRes.user_id);
+		!!loginRes && setCurrentUser(defaultUser);
 	}, [loginRes]);
+
+	useEffect(() => {
+		setIsLoading(isFetchingLogin);
+	}, [isFetchingLogin]);
+
+	useEffect(() => {
+		setError(errorLogin);
+	}, [errorLogin]);
 
 	const Signup = async () => {
 		return await fetchSignup();
 	};
 
 	useEffect(() => {
-		signupRes && setUserId(signupRes.user_id);
+		!!signupRes && setCurrentUser(defaultUser);
 	}, [signupRes]);
+
+	useEffect(() => {
+		setIsLoading(isFetchingSignup);
+	}, [isFetchingSignup]);
+
+	useEffect(() => {
+		setError(errorSignup);
+	}, [errorSignup]);
 
 	const Logout = async () => {
 		return await fetchLogout();
 	};
 
 	useEffect(() => {
-		logoutRes && setUserId(0);
+		!!logoutRes && setCurrentUser(null);
 	}, [logoutRes]);
 
+	useEffect(() => {
+		setIsLoading(isFetchingLogout);
+	}, [isFetchingLogout]);
+
+	useEffect(() => {
+		setError(errorLogout);
+	}, [errorLogout]);
+
 	const CheckAuth = async () => {
-		return await fetchCheckAuth();
+		const result = await fetchCheckAuth();
+		result ? setCurrentUser(defaultUser) : setCurrentUser(null);
+		return result;
 	};
 
 	useEffect(() => {
-		isAuth ? setUserId(isAuth.user_id) : setUserId(0);
-	}, [isAuth]);
+		setIsLoading(isFetchingCheck);
+	}, [isFetchingCheck]);
 
-	return { Login, Signup, Logout, CheckAuth };
+	useEffect(() => {
+		setError(errorCheck);
+	}, [errorCheck]);
+
+	return { Login, Signup, Logout, CheckAuth, isLoading, error };
 };

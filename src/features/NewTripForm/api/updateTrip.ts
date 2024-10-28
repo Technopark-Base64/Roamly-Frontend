@@ -1,20 +1,22 @@
 import { BACKEND_API_URL } from 'src/shared/config';
 
 interface IProps {
-  place_id: string,
-	trip_id: string,
+	id: string,
+  area_id: string,
+  start_time: string,
+  end_time: string
 }
 
-export const addPlaceToTrip = (req: IProps) => ({
-	url: `${BACKEND_API_URL}/trip/place/`,
+export const updateTrip = (tripForm: IProps) => ({
+	url: `${BACKEND_API_URL}/trip/`,
 	options: {
-		method: 'POST',
+		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
 			accept: 'application/json',
 		},
 		credentials: 'include',
-		body: JSON.stringify(req)
+		body: JSON.stringify(tripForm)
 	},
 	enabled: false,
 });

@@ -40,14 +40,14 @@ export const useFetch = <T>(props: IUseFetchProps<T>) => {
 			try {
 				const response = await fetch(url, options);
 
-				const data = await response.json();
+				const data = response.status === 204
+					? { status: 'ok' }
+					: await response.json();
 
 				setIsFetching(false);
 
-				console.log(data);
-
 				if (!response.ok)
-					setError(data.error);
+					setError(data.error ?? data.err);
 				else
 					setData(mapFunction(data));
 

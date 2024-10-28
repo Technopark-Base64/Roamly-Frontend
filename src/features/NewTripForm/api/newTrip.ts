@@ -7,14 +7,14 @@ interface IProps {
 }
 
 export const newTrip = (tripForm: IProps) => ({
-	url: `${BACKEND_API_URL}/trip`,
+	url: `${BACKEND_API_URL}/trip/`,
 	options: {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			accept: 'application/json',
 		},
-		credential: 'include',
+		credentials: 'include',
 		body: JSON.stringify(tripForm)
 	},
 	enabled: false,

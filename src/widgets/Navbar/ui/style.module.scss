@@ -1,5 +1,6 @@
 .navbar {
   position: fixed;
+  z-index: 10;
   width: calc(100vw - 56px);
   height: 60px;
   display: flex;

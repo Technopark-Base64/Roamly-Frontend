@@ -10,7 +10,7 @@ export const getTrip = (id: string) => ({
 		},
 		credentials: 'include',
 	},
-	enabled: false,
+	enabled: true,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	mapFunction: (body: any) => mapResponseToTrip(body.trip),
 });

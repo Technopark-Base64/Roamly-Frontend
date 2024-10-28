@@ -5,7 +5,10 @@ import { ITrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { stringDateGreater } from 'src/shared/utils';
+import { deleteTrip } from '../api/deleteTrip';
 import { newTrip } from '../api/newTrip';
+import { updateTrip } from '../api/updateTrip';
+import { INewTripResponse } from '../model/types';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -28,15 +31,29 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 	const {
 		data: createRes,
 		refetch: createRefetch,
-	} = useFetch<{area_id: string}>(newTrip({
+	} = useFetch<INewTripResponse>(newTrip({
 		area_id: selectedRegion?.placeId ?? '',
 		start_time: startDate ?? '',
 		end_time: endDate ?? '',
 	}));
 
+	const {
+		error: updateError,
+		refetch: updateRefetch,
+	} = useFetch<unknown>(updateTrip({
+		id: prevTrip?.id ?? '',
+		area_id: selectedRegion?.placeId ?? '',
+		start_time: startDate ?? '',
+		end_time: endDate ?? '',
+	}));
+
+	const {
+		error: deleteError,
+		refetch: deleteRefetch,
+	} = useFetch<unknown>(deleteTrip(prevTrip?.id ?? ''));
+
 	useEffect(() => {
-		console.log(createRes);
-		createRes && navigate(`/trip/${createRes.area_id}#places`);
+		createRes && navigate(`/trip/${createRes.id}`);
 	}, [createRes]);
 
 	useEffect(() => {
@@ -65,15 +82,36 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 			setEndDate(startDate);
 			return;
 		}
+		const now = new Date().toISOString().slice(0, 10);
+		if (stringDateGreater(now, e.target.value)) {
+			setEndDate(now);
+			return;
+		}
 		setEndDate(e.target.value);
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!selectedRegion || !startDate || !endDate)
 			return;
 
-		!prevTrip && createRefetch();
+		if (!prevTrip) {
+			await createRefetch();
+			return;
+		}
+		await updateRefetch();
+		if (!updateError) {
+			navigate(0);
+		}
+	};
+
+	const handleDelete = async () => {
+		await deleteRefetch();
+		console.log(deleteError);
+		if (!deleteError) {
+			navigate('/', { replace: true });
+			navigate(0);
+		}
 	};
 
 	return (
@@ -81,7 +119,6 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 			<div className={cls.title}>
 				{prevTrip ? 'Изменить поездку' : 'Новая поездка'}
 			</div>
-
 
 			<div className={cls.regionContainer}>
 				{!prevTrip && <span className={cls.hintLabel}> Выберите город </span>}
@@ -139,6 +176,7 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 			</div>
 
 			<button type="submit" className="shared-button"> {prevTrip ? 'Сохранить' :'Создать'} </button>
+			{ prevTrip && <button type="button" className="shared-button shared-button-red" onClick={handleDelete}> Удалить </button> }
 		</form>
 	);
 };

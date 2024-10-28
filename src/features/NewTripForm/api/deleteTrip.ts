@@ -1,20 +1,14 @@
 import { BACKEND_API_URL } from 'src/shared/config';
 
-interface IProps {
-  place_id: string,
-	trip_id: string,
-}
-
-export const addPlaceToTrip = (req: IProps) => ({
-	url: `${BACKEND_API_URL}/trip/place/`,
+export const deleteTrip = (id: string) => ({
+	url: `${BACKEND_API_URL}/trip/${id}`,
 	options: {
-		method: 'POST',
+		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
 			accept: 'application/json',
 		},
 		credentials: 'include',
-		body: JSON.stringify(req)
 	},
 	enabled: false,
 });

@@ -13,6 +13,15 @@
   }
 }
 
+.shared-button-red {
+  background-color: #654c4c;
+  color: #ff8080;
+
+  &:hover {
+    background-color: #856464;
+  }
+}
+
 .shared-button-active {
   background-color: #646e85;
 }

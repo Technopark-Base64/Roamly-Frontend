@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
 import { EventsList } from 'src/widgets/EventsList';
@@ -8,7 +8,7 @@ import { useFetch } from 'src/shared/hooks/useFetch';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
-type TMenu = 'places' | 'calendar';
+type TMenu = 'places' | 'recoms' | 'calendar' | 'map';
 
 interface ITab {
 	menu: TMenu,
@@ -19,11 +19,9 @@ interface ITab {
 export const TripPage = () => {
 	const location = useLocation();
 	const { id } = useParams();
-	const hash = location.hash.replace('#', '');
+	const menu = location.hash.replace('#', '');
 
-	const [menu, setMenu] = useState<TMenu>('places');
 	const { currentTrip, setCurrentTrip } = useCurrentTrip();
-	// const { currentUser } = useCurrentUser();
 	const navigate = useNavigate();
 
 	const {
@@ -35,25 +33,6 @@ export const TripPage = () => {
 		data && setCurrentTrip(data);
 	}, [data]);
 
-	// useEffect(() => {
-	// 	if (!currentUser) {
-	// 		navigate('/login');
-	// 	}
-	// }, [currentUser]);
-
-	useEffect(() => {
-		switch (hash) {
-		case 'places':
-			setMenu('places');
-			break;
-		case 'calendar':
-			setMenu('calendar');
-			break;
-		default:
-			setMenu('places');
-		}
-	}, [hash]);
-
 	const tabs: ITab[] = [
 		{
 			menu: 'places',
@@ -61,11 +40,26 @@ export const TripPage = () => {
 			element: <PlacesList places={currentTrip?.places ?? []} />,
 		},
 		{
+			menu: 'recoms',
+			label: 'Рекомендации',
+			element: <div> Рекомендации </div>,
+		},
+		{
 			menu: 'calendar',
 			label: 'Календарь',
 			element: <EventsList events={currentTrip?.events ?? []} />,
 		},
+		{
+			menu: 'map',
+			label: 'Карта',
+			element: <div> Карта </div>,
+		},
 	];
+
+	useEffect(() => {
+		if (!tabs.find((item) => item.menu === menu))
+			navigate(`${location.pathname}#places`, { replace: true });
+	}, [menu]);
 
 	if (error)
 		return <Page404 />;

@@ -39,7 +39,6 @@ export const PlacesList = ({ places }: IProps) => {
 
 	const handleAddPlace = (place: IPlace) => {
 		if (currentTrip && !currentTrip.places.find((pl) => pl.placeId === place.placeId)) {
-			setCurrentTripPlaces([place, ...currentTrip.places]);
 			setPlaceIdToAdd(place.placeId);
 		}
 	};
