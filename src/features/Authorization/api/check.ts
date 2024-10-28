@@ -6,8 +6,9 @@ export const requestCheckAuth = () => ({
 		method: 'GET',
 		headers: {
 			accept: 'application/json',
+			'Origin': 'http://localhost:3000',
 		},
-		credential: 'include',
+		credentials: 'include',
 	},
 	enabled: false,
 });

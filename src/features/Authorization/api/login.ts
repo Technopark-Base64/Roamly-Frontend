@@ -11,6 +11,7 @@ export const requestLogin = ({ email, password }: IProps) => ({
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
+			'Origin': 'http://localhost:3000',
 			accept: 'application/json',
 		},
 		credential: 'include',
