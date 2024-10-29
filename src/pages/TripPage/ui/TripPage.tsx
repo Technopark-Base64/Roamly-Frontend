@@ -2,6 +2,7 @@ import { ReactNode, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
 import { EventsList } from 'src/widgets/EventsList';
+import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
 import { useFetch } from 'src/shared/hooks/useFetch';
@@ -52,7 +53,7 @@ export const TripPage = () => {
 		{
 			menu: 'map',
 			label: 'Карта',
-			element: <div> Карта </div>,
+			element: <MapWidget />,
 		},
 	];
 

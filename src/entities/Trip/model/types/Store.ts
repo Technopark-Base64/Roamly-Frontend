@@ -1,3 +1,4 @@
+import { IPlace } from 'src/entities/Place';
 import { ITrip } from './Trip';
 
 type ITripStorage = Omit<ITrip, 'startTime' | 'endTime'> & {
@@ -7,4 +8,5 @@ type ITripStorage = Omit<ITrip, 'startTime' | 'endTime'> & {
 
 export interface ICurrentTripStorage {
   trip: ITripStorage | null,
+  mapPlace: IPlace | null,
 }

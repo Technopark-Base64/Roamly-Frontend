@@ -6,6 +6,7 @@ import { ITrip } from '../../model/types/Trip';
 
 const initialState: ICurrentTripStorage = {
 	trip: null,
+	mapPlace: null,
 };
 
 const currentTripSlice = createSlice({
@@ -28,9 +29,12 @@ const currentTripSlice = createSlice({
 		clearTrip: (state) => {
 			state.trip = null;
 		},
+		setMapPlace: (state, action: {payload: IPlace | null }) => {
+			state.mapPlace = action.payload;
+		},
 	},
 });
 
-export const { setTrip, setTripPlaces, setTripEvents, clearTrip } = currentTripSlice.actions;
+export const { setTrip, setTripPlaces, setTripEvents, clearTrip, setMapPlace } = currentTripSlice.actions;
 
 export default currentTripSlice.reducer;

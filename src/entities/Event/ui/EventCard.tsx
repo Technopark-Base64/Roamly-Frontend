@@ -1,4 +1,6 @@
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getPlacePhoto } from 'src/entities/Place';
+import { useCurrentTrip } from '../../Trip';
 import { IFormattedEvent } from '../model/types';
 import cls from './style.module.scss';
 
@@ -7,12 +9,18 @@ interface IProps {
 }
 
 export const EventCard = ({ event }: IProps) => {
+	const location = useLocation();
+	const navigate = useNavigate();
+	const { setCurrentMapPlace } = useCurrentTrip();
+
 	const handleMapClick = () => {
-		window.open(
-			`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${event.place.placeId}`,
-			'_blank',
-			'noopener, noreferrer',
-		);
+		// window.open(
+		// 	`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${event.place.placeId}`,
+		// 	'_blank',
+		// 	'noopener, noreferrer',
+		// );
+		setCurrentMapPlace(event.place);
+		navigate(`${location.pathname}#map`);
 	};
 
 	return (

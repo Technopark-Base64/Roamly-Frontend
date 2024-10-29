@@ -1,8 +1,10 @@
+import { LoadScript } from '@react-google-maps/api';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { StoreProvider } from 'src/app/providers/StoreProvider';
 import App from './app/App';
+import { GOOGLE_API_KEY } from './shared/config';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +21,9 @@ if (navigator.serviceWorker) {
 root.render(
 	<BrowserRouter>
 		<StoreProvider>
-			<App />
+			<LoadScript googleMapsApiKey={GOOGLE_API_KEY ?? ''}>
+				<App />
+			</LoadScript>
 		</StoreProvider>
 	</BrowserRouter>
 );

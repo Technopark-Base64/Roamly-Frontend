@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@react-google-maps/api": "^2.20.3",
     "@reduxjs/toolkit": "^2.2.3",
     "@types/node": "^16.18.93",
     "@types/react": "^18.2.73",
