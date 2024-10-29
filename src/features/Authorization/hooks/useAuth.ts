@@ -25,7 +25,7 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 		email: 'A@A.COM',
 	};
 
-	const { data: isAuth, refetch: fetchCheckAuth, isFetching: isFetchingCheck, error: errorCheck } = useFetch<IAuthResponse>(requestCheckAuth());
+	const { refetch: fetchCheckAuth, isFetching: isFetchingCheck, error: errorCheck } = useFetch<IAuthResponse>(requestCheckAuth());
 	const { data: loginRes, refetch: fetchLogin, isFetching: isFetchingLogin, error: errorLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
 	const { data: signupRes, refetch: fetchSignup, isFetching: isFetchingSignup, error: errorSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
 	const { data: logoutRes, refetch: fetchLogout, isFetching: isFetchingLogout, error: errorLogout } = useFetch<IAuthResponse>(requestLogout());
