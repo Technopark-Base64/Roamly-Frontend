@@ -29,7 +29,7 @@ export const TripCard = ({ trip, onClick }: IProps) => {
 			}
 			<div className={cls.info}>
 				<div className={cls.name}>
-					{trip.name ?? `Поездка в ${trip.area.name}`}
+					{trip.name || `Поездка в ${trip.area.name}`}
 				</div>
 
 				<div className={cls.date}>
