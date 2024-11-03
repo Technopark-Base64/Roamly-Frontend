@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { IEvent, EventCard, makeSchedule } from 'src/entities/Event';
 import { ISchedule } from 'src/entities/Event';
-import { ITrip, useCurrentTrip } from 'src/entities/Trip';
+import { useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useAutoSchedule } from '../hooks/useAutoSchedule';
 import cls from './style.module.scss';
