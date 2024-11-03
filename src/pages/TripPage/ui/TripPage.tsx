@@ -7,7 +7,7 @@ import { PlacesList } from 'src/widgets/PlacesList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
-import { useNotificationService } from '../../../shared/services/notifications';
+import { useNotificationService } from 'src/shared/services/notifications';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
