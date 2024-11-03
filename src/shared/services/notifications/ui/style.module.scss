@@ -1,0 +1,38 @@
+.card {
+  position: relative;
+  width: 280px;
+  height: 60px;
+  padding: 10px 30px 15px 15px;
+  border-radius: 8px;
+  border: solid 3px #646e85;
+  background-color: #3e4250;
+}
+
+.errorCard {
+  border: solid 3px #ff3a3a;
+  background-color: #654c4c;
+}
+
+.messageContainer {
+  text-align: start;
+  font-size: 16px;
+}
+
+.closeBtn {
+  position: absolute;
+  inset: 6px 12px auto auto;
+  cursor: pointer;
+}
+
+.wrapper {
+  position: fixed;
+  z-index: 150;
+  inset: auto 10px 10px auto;
+}
+
+.listContainer {
+  display: flex;
+  gap: 10px;
+  flex-flow: column-reverse;
+  justify-content: flex-end;
+}

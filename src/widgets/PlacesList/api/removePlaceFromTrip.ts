@@ -6,16 +6,15 @@ interface IProps {
 	trip_id: string,
 }
 
-export const addPlaceToTrip = (req: IProps) => ({
-	url: `${BACKEND_API_URL}/trip/place/`,
+export const removePlaceFromTrip = (req: IProps) => ({
+	url: `${BACKEND_API_URL}/trip/${req.trip_id}/place/${req.place_id}`,
 	options: {
-		method: 'POST',
+		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json',
 			accept: 'application/json',
 		},
 		credentials: 'include',
-		body: JSON.stringify(req)
 	},
 	enabled: false,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any

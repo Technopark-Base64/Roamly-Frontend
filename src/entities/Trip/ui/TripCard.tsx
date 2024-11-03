@@ -29,10 +29,11 @@ export const TripCard = ({ trip, onClick }: IProps) => {
 			}
 			<div className={cls.info}>
 				<div className={cls.name}>
-					{trip.area.name}
+					{trip.name ?? `Поездка в ${trip.area.name}`}
 				</div>
 
 				<div className={cls.date}>
+					Направление: {trip.area.name} <br/>
 					{`${trip.startTime.toLocaleDateString()} - ${trip.endTime.toLocaleDateString()}`}
 				</div>
 			</div>

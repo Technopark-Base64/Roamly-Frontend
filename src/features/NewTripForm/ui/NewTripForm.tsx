@@ -1,14 +1,12 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { IPlace, searchArea } from 'src/entities/Place';
 import { ITrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
+import { useNotificationService } from 'src/shared/services/notifications';
 import { stringDateGreater } from 'src/shared/utils';
-import { deleteTrip } from '../api/deleteTrip';
-import { newTrip } from '../api/newTrip';
-import { updateTrip } from '../api/updateTrip';
-import { INewTripResponse } from '../model/types';
+import { useDeleteTrip } from '../hooks/useDeleteTrip';
+import { useUpdateCreateTrip } from '../hooks/useUpdateCreateTrip';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -16,45 +14,31 @@ interface IProps {
 }
 
 export const NewTripForm = ({ prevTrip }: IProps) => {
-	const navigate = useNavigate();
 	const [search, setSearch] = useState(prevTrip?.area.name ?? '');
 	const [selectedRegion, setSelectedRegion] = useState<IPlace | undefined>(prevTrip?.area);
 	const [startDate, setStartDate] = useState<string | undefined>(prevTrip?.startTime.toISOString().slice(0, 10));
 	const [endDate, setEndDate] = useState<string | undefined>(prevTrip?.endTime.toISOString().slice(0, 10));
+
+	const namePlaceholder = `Поездка${selectedRegion ? ` в ${selectedRegion.name}` : ''}`;
+
+	const [tripName, setTripName] = useState<string | undefined>(prevTrip?.name);
+
+	const { Notify } = useNotificationService();
+	const { DeleteTrip } = useDeleteTrip(prevTrip?.id ?? '');
+	const { UpdateTrip, CreateTrip } = useUpdateCreateTrip({
+		id: prevTrip?.id ?? '',
+		name: tripName,
+		defaultName: namePlaceholder,
+		start_time: startDate ?? '',
+		end_time: endDate ?? '',
+		area_id: selectedRegion?.placeId ?? ''
+	});
 
 	const {
 		data,
 		error,
 		refetch,
 	} = useFetch<IPlace[]>(searchArea(search));
-
-	const {
-		data: createRes,
-		refetch: createRefetch,
-	} = useFetch<INewTripResponse>(newTrip({
-		area_id: selectedRegion?.placeId ?? '',
-		start_time: startDate ?? '',
-		end_time: endDate ?? '',
-	}));
-
-	const {
-		error: updateError,
-		refetch: updateRefetch,
-	} = useFetch<unknown>(updateTrip({
-		id: prevTrip?.id ?? '',
-		area_id: selectedRegion?.placeId ?? '',
-		start_time: startDate ?? '',
-		end_time: endDate ?? '',
-	}));
-
-	const {
-		error: deleteError,
-		refetch: deleteRefetch,
-	} = useFetch<unknown>(deleteTrip(prevTrip?.id ?? ''));
-
-	useEffect(() => {
-		createRes && navigate(`/trip/${createRes.id}`);
-	}, [createRes]);
 
 	useEffect(() => {
 		search && !prevTrip && refetch();
@@ -67,6 +51,10 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 	const handleCancelSelect = (e: MouseEvent) => {
 		e.stopPropagation();
 		setSelectedRegion(undefined);
+	};
+
+	const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTripName(e.target.value);
 	};
 
 	const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,29 +83,33 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 		if (!selectedRegion || !startDate || !endDate)
 			return;
 
-		if (!prevTrip) {
-			await createRefetch();
-			return;
-		}
-		await updateRefetch();
-		if (!updateError) {
-			navigate(0);
-		}
-	};
+		let res: boolean;
 
-	const handleDelete = async () => {
-		await deleteRefetch();
-		console.log(deleteError);
-		if (!deleteError) {
-			navigate('/', { replace: true });
-			navigate(0);
-		}
+		if (!prevTrip)
+			res = await CreateTrip();
+		else
+			res = await UpdateTrip();
+
+		res && Notify({
+			error: false,
+			message: `Поездка успешно ${prevTrip ? 'обновлена' : 'создана'}`,
+		});
 	};
 
 	return (
 		<form className={cls.form} onSubmit={handleSubmit}>
 			<div className={cls.title}>
 				{prevTrip ? 'Изменить поездку' : 'Новая поездка'}
+			</div>
+
+			<div className={cls.regionContainer}>
+				<span className={cls.hintLabel}> Название поездки </span>
+				<input
+					className="shared-input"
+					placeholder={namePlaceholder}
+					value={tripName}
+					onInput={handleNameChange}
+				/>
 			</div>
 
 			<div className={cls.regionContainer}>
@@ -176,7 +168,7 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 			</div>
 
 			<button type="submit" className="shared-button"> {prevTrip ? 'Сохранить' :'Создать'} </button>
-			{ prevTrip && <button type="button" className="shared-button shared-button-red" onClick={handleDelete}> Удалить </button> }
+			{ prevTrip && <button type="button" className="shared-button shared-button-red" onClick={DeleteTrip}> Удалить </button> }
 		</form>
 	);
 };

@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ITrip, useCurrentTrip } from 'src/entities/Trip';
 import { TripCard } from 'src/entities/Trip';
-import { useFetch } from 'src/shared/hooks/useFetch';
-import { getTrips } from '../api/getTrips';
+import { useLoadTrips } from '../hooks/useLoadTrips';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -11,18 +10,9 @@ interface IProps {
 }
 
 export const TripsList = ({ showPast = false }: IProps) => {
-	const [trips, setTrips] = useState<ITrip[]>([]);
 	const { setCurrentTrip } = useCurrentTrip();
+	const { Trips } = useLoadTrips();
 	const navigate = useNavigate();
-
-	const {
-		data,
-	} = useFetch<ITrip[]>(getTrips());
-
-	useEffect(() => {
-		console.log(data);
-		data && setTrips(data);
-	}, [data]);
 	
 	const handleClick = (trip: ITrip) => {
 		setCurrentTrip(trip);
@@ -31,8 +21,10 @@ export const TripsList = ({ showPast = false }: IProps) => {
 
 	const list = useMemo(() => {
 		const now = (new Date()).getTime();
-		return trips.filter((trip) => (trip.endTime.getTime() - now < 0) === showPast);
-	}, [showPast, trips]);
+		return Trips
+			.filter((trip) => (trip.endTime.getTime() - now < 0) === showPast)
+			.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
+	}, [showPast, Trips]);
 
 	return (
 		<div className={cls.listContainer}>

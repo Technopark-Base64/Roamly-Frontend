@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { IEvent, EventCard } from 'src/entities/Event';
-import { makeSchedule } from 'src/entities/Event';
+import { IEvent, EventCard, makeSchedule } from 'src/entities/Event';
 import { ISchedule } from 'src/entities/Event';
 import { ITrip, useCurrentTrip } from 'src/entities/Trip';
+import { LoadingScreen } from 'src/shared/components/LoadingScreen';
+import { useAutoSchedule } from '../hooks/useAutoSchedule';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -11,7 +12,8 @@ interface IProps {
 }
 
 export const EventsList = ({ events }: IProps) => {
-	const { currentTrip, setCurrentTripEvents } = useCurrentTrip();
+	const { currentTrip } = useCurrentTrip();
+	const { AutoSchedule, LoadingSchedule } = useAutoSchedule();
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -20,14 +22,14 @@ export const EventsList = ({ events }: IProps) => {
 	};
 
 	const handleSchedule = () => {
-		currentTrip && setCurrentTripEvents(mockEvents(currentTrip));
+		currentTrip && AutoSchedule();
 	};
 
 	const schedule: ISchedule = useMemo(() => makeSchedule(events), [events]);
 
 	return (
 		<>
-			{!!schedule.length &&
+			{!!schedule.length && !LoadingSchedule &&
 				<div className={cls.headerButton}>
 					<button className="shared-button" onClick={handleSchedule}>
 						Спланировать
@@ -44,7 +46,9 @@ export const EventsList = ({ events }: IProps) => {
 					</div>
 				}
 
-				{!schedule.length && !!currentTrip?.places.length &&
+				{ LoadingSchedule && <LoadingScreen /> }
+
+				{!schedule.length && !!currentTrip?.places.length && !LoadingSchedule &&
 					<div className={cls.emptyLabel}>
 						Все готово для построения расписания
 						<button className="shared-button" onClick={handleSchedule}>
@@ -53,7 +57,7 @@ export const EventsList = ({ events }: IProps) => {
 					</div>
 				}
 
-				{schedule.map((item) => (
+				{!LoadingSchedule && schedule.map((item) => (
 					<>
 						<div className={cls.dayLabel}>
 							{item.day}
@@ -66,19 +70,4 @@ export const EventsList = ({ events }: IProps) => {
 			</div>
 		</>
 	);
-};
-
-
-const mockEvents = (trip: ITrip): IEvent[] => {
-	const low = trip.startTime.getTime();
-	const high = trip.endTime.getTime();
-
-	return trip.places.map((place) => {
-		const startTime = new Date(Math.floor(Math.random() * (high - low)) + low);
-		return {
-			startTime,
-			endTime: new Date(Math.floor(Math.random() * (high - startTime.getTime())) + startTime.getTime()),
-			place,
-		};
-	});
 };

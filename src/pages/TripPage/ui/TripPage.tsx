@@ -5,7 +5,9 @@ import { EventsList } from 'src/widgets/EventsList';
 import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
+import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
+import { useNotificationService } from '../../../shared/services/notifications';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
@@ -23,12 +25,20 @@ export const TripPage = () => {
 	const menu = location.hash.replace('#', '');
 
 	const { currentTrip, setCurrentTrip } = useCurrentTrip();
+	const { Notify } = useNotificationService();
 	const navigate = useNavigate();
 
 	const {
 		data,
 		error,
 	} = useFetch<ITrip>(getTrip(id ?? ''));
+
+	useEffect(() => {
+		error && Notify({
+			error: true,
+			message: error,
+		});
+	}, [error]);
 
 	useEffect(() => {
 		data && setCurrentTrip(data);
@@ -43,7 +53,7 @@ export const TripPage = () => {
 		{
 			menu: 'recoms',
 			label: 'Рекомендации',
-			element: <div> Рекомендации </div>,
+			element: <LoadingScreen />,
 		},
 		{
 			menu: 'calendar',

@@ -1,9 +1,21 @@
+import { IPlace } from '../../Place';
 import { IFormattedEvent, IEvent } from '../model/types';
+
+const NO_PLACE: IPlace = {
+	formattedAddress: '',
+	location: {
+		lat: 0,
+		lng: 0,
+	},
+	name: 'Место не выбрано',
+	photos: [],
+	placeId: '',
+};
 
 export const formatEvent = (event: IEvent): IFormattedEvent => ({
 	time: event.startTime.toLocaleTimeString().slice(0, -3),
 	duration: getDiffFormatted(event.startTime, event.endTime),
-	place: event.place,
+	place: event.place ?? NO_PLACE,
 });
 
 const getDiffFormatted = (start: Date, end: Date) => {

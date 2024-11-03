@@ -5,10 +5,12 @@ import { MainPage } from 'src/pages/MainPage';
 import { Page404 } from 'src/pages/Page404';
 import { TripPage } from 'src/pages/TripPage';
 import { Navbar } from 'src/widgets/Navbar';
-import './App.scss';
 import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
 import { Redirect } from 'src/shared/components/Redirect';
+import { Notifications } from 'src/shared/services/notifications';
+
+import './App.scss';
 
 
 const App = () => {
@@ -33,6 +35,7 @@ const App = () => {
 					</Routes>
 				</div>
 			}
+			<Notifications />
 		</div>
 	);
 };

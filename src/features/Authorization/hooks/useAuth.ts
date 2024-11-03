@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useCurrentUser } from 'src/entities/User';
+import { getUserById, IUser, useCurrentUser } from 'src/entities/User';
 import { useFetch } from 'src/shared/hooks/useFetch';
+import { useNotificationService } from 'src/shared/services/notifications';
 import { requestCheckAuth } from '../api/check';
 import { requestLogin } from '../api/login';
 import { requestLogout } from '../api/logout';
@@ -13,34 +14,55 @@ interface IProps {
 	password?: string,
 }
 
+const defaultUser = {
+	id: 1,
+	login: 'loading...',
+	email: '',
+};
+
 export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	const { setCurrentUser } = useCurrentUser();
+	const { Notify } = useNotificationService();
 
-	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+	const [userId, setUserId] = useState<number | null>(null);
 
-	const defaultUser = {
-		id: 1,
-		login: 'Default User',
-		email: 'A@A.COM',
-	};
+	const { data: fetchedUser, refetch: fetchUser, error: errorUser } = useFetch<IUser>(getUserById(userId ?? 0));
 
-	const { refetch: fetchCheckAuth, isFetching: isFetchingCheck, error: errorCheck } = useFetch<IAuthResponse>(requestCheckAuth());
-	const { data: loginRes, refetch: fetchLogin, isFetching: isFetchingLogin, error: errorLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
-	const { data: signupRes, refetch: fetchSignup, isFetching: isFetchingSignup, error: errorSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
-	const { data: logoutRes, refetch: fetchLogout, isFetching: isFetchingLogout, error: errorLogout } = useFetch<IAuthResponse>(requestLogout());
+	useEffect(() => {
+		userId && fetchUser();
+	}, [userId]);
+
+	useEffect(() => {
+		setError(errorUser);
+	}, [errorUser]);
+
+	useEffect(() => {
+		fetchedUser && setCurrentUser(fetchedUser);
+	}, [fetchedUser]);
+
+	useEffect(() => {
+		error && Notify({
+			error: true,
+			message: error,
+		});
+	}, [error]);
+
+	const { data: checkRes, refetch: fetchCheckAuth } = useFetch<IAuthResponse>(requestCheckAuth());
+	const { data: loginRes, refetch: fetchLogin, error: errorLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
+	const { data: signupRes, refetch: fetchSignup, error: errorSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
+	const { data: logoutRes, refetch: fetchLogout, error: errorLogout } = useFetch<IAuthResponse>(requestLogout());
 
 	const Login = async () => {
 		return await fetchLogin();
 	};
 
 	useEffect(() => {
-		!!loginRes && setCurrentUser(defaultUser);
+		if (loginRes) {
+			setUserId(loginRes.user_id);
+			setCurrentUser(defaultUser);
+		}
 	}, [loginRes]);
-
-	useEffect(() => {
-		setIsLoading(isFetchingLogin);
-	}, [isFetchingLogin]);
 
 	useEffect(() => {
 		setError(errorLogin);
@@ -51,12 +73,11 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	};
 
 	useEffect(() => {
-		!!signupRes && setCurrentUser(defaultUser);
+		if (signupRes) {
+			setUserId(signupRes.user_id);
+			setCurrentUser(defaultUser);
+		}
 	}, [signupRes]);
-
-	useEffect(() => {
-		setIsLoading(isFetchingSignup);
-	}, [isFetchingSignup]);
 
 	useEffect(() => {
 		setError(errorSignup);
@@ -67,30 +88,28 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	};
 
 	useEffect(() => {
-		!!logoutRes && setCurrentUser(null);
+		if (logoutRes) {
+			setCurrentUser(null);
+		}
 	}, [logoutRes]);
-
-	useEffect(() => {
-		setIsLoading(isFetchingLogout);
-	}, [isFetchingLogout]);
 
 	useEffect(() => {
 		setError(errorLogout);
 	}, [errorLogout]);
 
 	const CheckAuth = async () => {
-		const result = await fetchCheckAuth();
-		result ? setCurrentUser(defaultUser) : setCurrentUser(null);
-		return result;
+		const res = await fetchCheckAuth();
+		if (res)
+			setCurrentUser(defaultUser);
+
+		return res;
 	};
 
 	useEffect(() => {
-		setIsLoading(isFetchingCheck);
-	}, [isFetchingCheck]);
+		if (checkRes) {
+			setUserId(checkRes.user_id);
+		}
+	}, [checkRes]);
 
-	useEffect(() => {
-		setError(errorCheck);
-	}, [errorCheck]);
-
-	return { Login, Signup, Logout, CheckAuth, isLoading, error };
+	return { Login, Signup, Logout, CheckAuth, error };
 };

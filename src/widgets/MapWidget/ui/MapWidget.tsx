@@ -13,9 +13,11 @@ export const MapWidget = () => {
 	const position = currentMapPlace?.location ?? { lng: 0, lat: 0 };
 	const zoom = currentMapPlace?.placeId === currentTrip?.area.placeId ? 11 : 16;
 
+	const showPoint = currentMapPlace?.placeId !== currentTrip?.area.placeId;
+
 	return (
 		<GoogleMap mapContainerStyle={mapStyle} center={position} zoom={zoom}>
-			<Marker position={position} />
+			{ showPoint && <Marker position={position} /> }
 		</GoogleMap>
 	);
 };

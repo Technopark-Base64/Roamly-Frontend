@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { IPlace, PlaceCard, searchPlaces } from 'src/entities/Place';
-import { ITrip, useCurrentTrip } from 'src/entities/Trip';
+import { useCurrentTrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
-import { addPlaceToTrip } from '../api/addPlaceToTrip';
+import { useNotificationService } from 'src/shared/services/notifications';
+import { useAddPlaceToTrip } from '../hooks/useAddPlaceToTrip';
+import { useRemovePlaceFromTrip } from '../hooks/useRemovePlaceFromTrip';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -11,7 +13,10 @@ interface IProps {
 }
 
 export const PlacesList = ({ places }: IProps) => {
-	const { currentTrip, setCurrentTripPlaces } = useCurrentTrip();
+	const { currentTrip } = useCurrentTrip();
+	const { AddPlace } = useAddPlaceToTrip();
+	const { RemovePlace } = useRemovePlaceFromTrip();
+	const { Notify } = useNotificationService();
 	const [search, setSearch] = useState('');
 
 	const {
@@ -25,28 +30,12 @@ export const PlacesList = ({ places }: IProps) => {
 		search && refetch();
 	}, [search]);
 
-	const [placeIdToAdd, setPlaceIdToAdd] = useState('');
-	const {
-		refetch: addPlace
-	} = useFetch<ITrip>(addPlaceToTrip({
-		place_id: placeIdToAdd,
-		trip_id: currentTrip?.id ?? '',
-	}));
-
 	useEffect(() => {
-		placeIdToAdd && addPlace();
-	}, [placeIdToAdd]);
-
-	const handleAddPlace = (place: IPlace) => {
-		if (currentTrip && !currentTrip.places.find((pl) => pl.placeId === place.placeId)) {
-			setPlaceIdToAdd(place.placeId);
-		}
-	};
-
-	const handleRemovePlace = (place: IPlace) => {
-		if (currentTrip)
-			setCurrentTripPlaces(currentTrip.places.filter((pl) => pl.placeId !== place.placeId));
-	};
+		error && Notify({
+			error: true,
+			message: error,
+		});
+	}, [error]);
 
 	const list = search ? data : places;
 
@@ -88,8 +77,8 @@ export const PlacesList = ({ places }: IProps) => {
 						key={place.placeId}
 						selected={!!currentTrip?.places.find((pl) => pl.placeId === place.placeId)}
 						colorSelected={!!search}
-						onAdd={() => handleAddPlace(place)}
-						onRemove={() => handleRemovePlace(place)}
+						onAdd={() => AddPlace(place.placeId)}
+						onRemove={() => RemovePlace(place.placeId)}
 					/>
 				))}
 

@@ -44,7 +44,7 @@ export const PlaceCard = ({ place, selected, colorSelected, onAdd, onRemove }: I
 				{place.formattedAddress}
 				<div className={cls.buttonContainer}>
 					{onAdd && onRemove &&
-						<button className="shared-button" onClick={!selected ? onAdd : onRemove}>
+						<button className="shared-button" onClick={selected ? onRemove : onAdd}>
 							{selected ? 'Удалить' : 'Добавить в поездку'}
 						</button>
 					}

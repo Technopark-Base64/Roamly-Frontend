@@ -40,7 +40,9 @@ export const EventCard = ({ event }: IProps) => {
 			</div>
 
 			<div>
-				<button className="shared-button shared-button-active" onClick={handleMapClick}> На карте </button>
+				{ event.place.placeId &&
+					<button className="shared-button shared-button-active" onClick={handleMapClick}> На карте </button>
+				}
 			</div>
 		</div>
 	);
