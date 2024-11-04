@@ -36,6 +36,7 @@ export const TripCard = ({ trip, onClick }: IProps) => {
 				<div className={cls.date}>
 					Направление: {trip.area.name} <br/>
 					{`${trip.startTime.toLocaleDateString()} - ${trip.endTime.toLocaleDateString()}`}
+					{isActive && <><br/> Идет прямо сейчас! </>}
 				</div>
 			</div>
 

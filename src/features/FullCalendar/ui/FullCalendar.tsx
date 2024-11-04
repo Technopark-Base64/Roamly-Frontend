@@ -59,7 +59,7 @@ export const Calendar = ({ events, onShedule, onAdd }: IProps) => {
 				}}
 				firstDay={1}
 				locale={ruLocale}
-				height={600}
+				height={650}
 				events={calendarEvents}
 			/>
 		</div>
