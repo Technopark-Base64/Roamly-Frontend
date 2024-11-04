@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ITrip, useCurrentTrip } from 'src/entities/Trip';
 import { TripCard } from 'src/entities/Trip';
+import { LoadingScreen } from '../../../shared/components/LoadingScreen';
 import { useLoadTrips } from '../hooks/useLoadTrips';
 import cls from './style.module.scss';
 
@@ -11,7 +12,7 @@ interface IProps {
 
 export const TripsList = ({ showPast = false }: IProps) => {
 	const { setCurrentTrip } = useCurrentTrip();
-	const { Trips } = useLoadTrips();
+	const { Trips, isLoading } = useLoadTrips();
 	const navigate = useNavigate();
 	
 	const handleClick = (trip: ITrip) => {
@@ -30,7 +31,7 @@ export const TripsList = ({ showPast = false }: IProps) => {
 		<div className={cls.listContainer}>
 			{!list.length &&
 				<div className={cls.emptyLabel}>
-					Пока ничего нет
+					{isLoading ? <LoadingScreen /> : 'Пока ничего нет'}
 				</div>
 			}
 

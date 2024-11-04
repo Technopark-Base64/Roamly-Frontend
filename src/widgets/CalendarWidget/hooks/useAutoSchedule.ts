@@ -12,14 +12,15 @@ export const useAutoSchedule = () => {
 
 	const {
 		isFetching: LoadingSchedule,
-		data: eventsRes,
-		refetch: AutoSchedule,
+		refetch,
 		error,
 	} = useFetch<IEvent[]>(getSchedule(currentTrip?.id ?? ''));
 
-	useEffect(() => {
-		eventsRes && setCurrentTripEvents(eventsRes);
-	}, [eventsRes]);
+	const AutoSchedule = () => {
+		refetch().then((res) => {
+			res && setCurrentTripEvents(res);
+		});
+	};
 
 	useEffect(() => {
 		error && Notify({

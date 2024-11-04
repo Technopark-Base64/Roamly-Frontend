@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
-import { EventsList } from 'src/widgets/EventsList';
+import { CalendarWidget } from 'src/widgets/CalendarWidget';
 import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
@@ -53,12 +53,12 @@ export const TripPage = () => {
 		{
 			menu: 'recoms',
 			label: 'Рекомендации',
-			element: <LoadingScreen />,
+			element: <LoadingScreen message="Этой секции еще нет" />,
 		},
 		{
 			menu: 'calendar',
 			label: 'Календарь',
-			element: <EventsList events={currentTrip?.events ?? []} />,
+			element: <CalendarWidget events={currentTrip?.events ?? []} />,
 		},
 		{
 			menu: 'map',

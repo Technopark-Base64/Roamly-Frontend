@@ -1,13 +1,22 @@
 import cls from './style.module.scss';
 
-export const LoadingScreen = () => {
+interface IProps {
+	message?: string,
+}
+
+export const LoadingScreen = ({ message }: IProps) => {
 	return (
 		<div className={cls.fade}>
-			<div className={cls.lds_ring}>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
+			<div className={cls.content}>
+				<div className={cls.lds_ring}>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+				<div>
+					{ message }
+				</div>
 			</div>
 		</div>
 	);

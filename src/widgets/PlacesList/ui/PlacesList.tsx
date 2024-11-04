@@ -3,7 +3,6 @@ import { IPlace, PlaceCard, searchPlaces } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
-import { useNotificationService } from 'src/shared/services/notifications';
 import { useAddPlaceToTrip } from '../hooks/useAddPlaceToTrip';
 import { useRemovePlaceFromTrip } from '../hooks/useRemovePlaceFromTrip';
 import cls from './style.module.scss';
@@ -16,7 +15,6 @@ export const PlacesList = ({ places }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
-	const { Notify } = useNotificationService();
 	const [search, setSearch] = useState('');
 
 	const {
@@ -29,13 +27,6 @@ export const PlacesList = ({ places }: IProps) => {
 	useEffect(() => {
 		search && refetch();
 	}, [search]);
-
-	useEffect(() => {
-		error && Notify({
-			error: true,
-			message: error,
-		});
-	}, [error]);
 
 	const list = search ? data : places;
 

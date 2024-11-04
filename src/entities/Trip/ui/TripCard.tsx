@@ -1,6 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { NewTripForm } from 'src/features/NewTripForm';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
+import { defaultTripName } from 'src/shared/utils';
 import { getPlacePhoto } from '../../Place';
 import { isTripActive } from '../lib/tripStates';
 import { ITrip } from '../model/types/Trip';
@@ -29,7 +30,7 @@ export const TripCard = ({ trip, onClick }: IProps) => {
 			}
 			<div className={cls.info}>
 				<div className={cls.name}>
-					{trip.name || `Поездка в ${trip.area.name}`}
+					{trip.name || defaultTripName(trip.area.name)}
 				</div>
 
 				<div className={cls.date}>

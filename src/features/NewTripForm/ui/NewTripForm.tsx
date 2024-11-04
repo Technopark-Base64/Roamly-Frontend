@@ -86,9 +86,9 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 		let res: boolean;
 
 		if (!prevTrip)
-			res = await CreateTrip();
+			res = !!(await CreateTrip());
 		else
-			res = await UpdateTrip();
+			res = !!(await UpdateTrip());
 
 		res && Notify({
 			error: false,

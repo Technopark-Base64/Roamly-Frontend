@@ -1,0 +1,32 @@
+.listContainer {
+  display: flex;
+  flex-flow: column;
+  flex: 1;
+  gap: 20px;
+  width: 100%;
+}
+
+.headerButtons {
+  position: absolute;
+  inset: 72px 20px auto auto;
+  display: flex;
+  gap: 12px;
+}
+
+.emptyLabel {
+  margin: auto;
+  font-size: 18px;
+  display: flex;
+  flex-flow: column;
+  gap: 15px;
+  align-items: center;
+
+  button {
+    width: 220px;
+  }
+}
+
+.dayLabel {
+  font-size: 18px;
+  text-align: start;
+}

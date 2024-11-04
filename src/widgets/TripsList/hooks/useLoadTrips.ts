@@ -12,6 +12,7 @@ export const useLoadTrips = () => {
 	const {
 		data,
 		error,
+		isFetching,
 	} = useFetch<ITrip[]>(getTrips());
 
 	useEffect(() => {
@@ -25,5 +26,5 @@ export const useLoadTrips = () => {
 		});
 	}, [error]);
 
-	return { Trips };
+	return { Trips, isLoading: isFetching };
 };

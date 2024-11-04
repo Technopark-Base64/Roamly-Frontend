@@ -28,7 +28,7 @@ export const useUpdateCreateTrip = (props: IProps) => {
 	const {
 		refetch: updateRefetch,
 		error: updateError,
-	} = useFetch<unknown>(updateTrip(props));
+	} = useFetch<INewTripResponse>(updateTrip(props));
 
 	useEffect(() => {
 		createRes && navigate(`/trip/${createRes.id}`);
