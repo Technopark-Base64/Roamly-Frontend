@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ITrip, useCurrentTrip } from 'src/entities/Trip';
 import { TripCard } from 'src/entities/Trip';
-import { LoadingScreen } from '../../../shared/components/LoadingScreen';
+import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useLoadTrips } from '../hooks/useLoadTrips';
 import cls from './style.module.scss';
 
