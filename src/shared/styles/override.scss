@@ -4,7 +4,6 @@
   --fc-button-hover-bg-color: #646e85;
   --fc-button-active-bg-color: #646e85;
   --fc-today-bg-color: rgba(127, 190, 255, 0.6);
-  --fc-now-indicator-color: #ffae00;
 }
 
 // Make now indicator more visible
@@ -17,7 +16,8 @@
   border: none;
 }
 
-//
+// Capitalize Calendar Title
 .fc .fc-toolbar-title {
   text-transform: capitalize;
+  font-size: 26px;
 }

@@ -10,10 +10,11 @@ export interface IEvent {
 
 export interface IEventResponse {
   id: string,
-  name: string,
+  name?: string,
   start_time: string,
   end_time: string,
-  place_id: string,
+  place_id?: string,
+  trip_id: string,
 }
 
 export interface IFormattedEvent {
@@ -21,8 +22,3 @@ export interface IFormattedEvent {
   duration: string,
   place: IPlace,
 }
-
-export type ISchedule = {
-  day: string,
-  events: IFormattedEvent[],
-}[];

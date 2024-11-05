@@ -1,4 +1,4 @@
-import { mapResponseToEvents } from 'src/entities/Event';
+import { mapResponseToTrip } from 'src/entities/Trip';
 import { BACKEND_API_URL } from 'src/shared/config';
 
 export const getSchedule = (id: string) => ({
@@ -12,5 +12,5 @@ export const getSchedule = (id: string) => ({
 	},
 	enabled: false,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	mapFunction: (body: any) => mapResponseToEvents(body.trip.events, body.trip.places),
+	mapFunction: (body: any) => mapResponseToTrip(body.trip).events,
 });
