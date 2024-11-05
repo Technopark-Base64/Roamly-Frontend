@@ -1,0 +1,23 @@
+// FullCalendar Colors Vars
+:root {
+  --fc-button-bg-color: #4c5765;
+  --fc-button-hover-bg-color: #646e85;
+  --fc-button-active-bg-color: #646e85;
+  --fc-today-bg-color: rgba(127, 190, 255, 0.6);
+  --fc-now-indicator-color: #ffae00;
+}
+
+// Make now indicator more visible
+.fc .fc-timegrid-now-indicator-line {
+  border-width: 2px 0px 0px;
+}
+
+// Delete border color
+.fc .fc-button {
+  border: none;
+}
+
+//
+.fc .fc-toolbar-title {
+  text-transform: capitalize;
+}

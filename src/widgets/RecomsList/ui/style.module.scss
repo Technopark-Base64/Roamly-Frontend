@@ -7,17 +7,16 @@
   width: 100%;
 }
 
-.listReversed {
-  flex-flow: column-reverse;
-}
-
-.inputContainer {
-  width: 600px;
+.categories {
+  display: flex;
+  gap: 10px;
+  width: 100%;
 }
 
 .label {
   margin: auto;
   font-size: 18px;
+  height: 36px;
 }
 
 .errLabel {

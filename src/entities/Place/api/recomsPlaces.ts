@@ -2,8 +2,8 @@ import { BACKEND_API_URL } from 'src/shared/config';
 import { mapResponseToPlace } from '../lib/mapResponseToPlace';
 import { IPlace } from '../model/types';
 
-export const searchPlaces = (place: string, region?: IPlace, ) => ({
-	url: `${BACKEND_API_URL}/place?name=${place}&lat=${region?.location.lat}&lng=${region?.location.lng}`,
+export const recomsPlaces = (type: string, region?: IPlace, ) => ({
+	url: `${BACKEND_API_URL}/place/recomendations?types=${type}&lat=${region?.location.lat}&lng=${region?.location.lng}`,
 	options: {
 		method: 'GET',
 		headers: {
@@ -13,5 +13,5 @@ export const searchPlaces = (place: string, region?: IPlace, ) => ({
 	},
 	enabled: false,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	mapFunction: (body: any) => body.results.map(mapResponseToPlace).sort((a: IPlace, b: IPlace) => b.rating - a.rating),
+	mapFunction: (body: any) => body.map(mapResponseToPlace).sort((a: IPlace, b: IPlace) => b.rating - a.rating),
 });

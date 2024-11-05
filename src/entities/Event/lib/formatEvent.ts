@@ -10,6 +10,8 @@ const NO_PLACE: IPlace = {
 	name: 'Место не выбрано',
 	photos: [],
 	placeId: '',
+	rating: 0,
+	types: [],
 };
 
 export const formatEvent = (event: IEvent): IFormattedEvent => ({

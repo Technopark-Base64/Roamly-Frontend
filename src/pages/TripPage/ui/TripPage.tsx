@@ -4,8 +4,8 @@ import { Page404 } from 'src/pages/Page404';
 import { CalendarWidget } from 'src/widgets/CalendarWidget';
 import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
+import { RecomsList } from 'src/widgets/RecomsList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
-import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useNotificationService } from 'src/shared/services/notifications';
 import { getTrip } from '../api/getTrip';
@@ -53,7 +53,7 @@ export const TripPage = () => {
 		{
 			menu: 'recoms',
 			label: 'Рекомендации',
-			element: <LoadingScreen message="Этой секции еще нет" />,
+			element: <RecomsList />,
 		},
 		{
 			menu: 'calendar',

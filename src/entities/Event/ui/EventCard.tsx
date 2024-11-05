@@ -14,11 +14,6 @@ export const EventCard = ({ event }: IProps) => {
 	const { setCurrentMapPlace } = useCurrentTrip();
 
 	const handleMapClick = () => {
-		// window.open(
-		// 	`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${event.place.placeId}`,
-		// 	'_blank',
-		// 	'noopener, noreferrer',
-		// );
 		setCurrentMapPlace(event.place);
 		navigate(`${location.pathname}#map`);
 	};

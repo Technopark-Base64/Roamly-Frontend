@@ -1,7 +1,7 @@
 import { IPlace, IPlaceResponse } from '../model/types';
 
 export const mapResponseToPlace = (place: IPlaceResponse): IPlace => ({
-	formattedAddress: place.formatted_address,
+	formattedAddress: place.formatted_address || place.vicinity || '',
 	location: place.geometry.location,
 	name: place.name,
 	photos: place.photos?.map((p) => p.photo_reference),

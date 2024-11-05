@@ -39,7 +39,8 @@ export const PlaceCard = ({ place, selected, colorSelected, onAdd, onRemove }: I
 			}
 			<div className={cls.info}>
 				<div className={cls.name}>
-					{place.name}
+					{`${place.name.slice(0, 60)}${place.name.length >= 60 ? '...' : ''}`}
+					<b> &nbsp;&nbsp; <span className={cls.star}>★</span>&nbsp;{place.rating} </b>
 				</div>
 				{place.formattedAddress}
 				<div className={cls.buttonContainer}>

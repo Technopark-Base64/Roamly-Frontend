@@ -7,8 +7,8 @@ export interface IPlace {
   name: string,
   photos: string [],
   placeId: string,
-  rating?: number,
-  types?: string[],
+  rating: number,
+  types: string[],
 }
 
 export interface IPlaceResponse {
@@ -26,4 +26,5 @@ export interface IPlaceResponse {
   place_id: string,
   rating: number,
   types: string[],
+  vicinity?: string,
 }

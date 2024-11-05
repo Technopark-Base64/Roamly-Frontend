@@ -1,4 +1,7 @@
-export const defaultTripName = (city: string) => {
+export const defaultTripName = (city?: string) => {
+	if (!city)
+		return 'Поездка';
+
 	if (city.at(-1) === 'а')
 		city = city.slice(0, -1) + 'у';
 

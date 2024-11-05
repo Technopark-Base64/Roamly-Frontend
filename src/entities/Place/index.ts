@@ -1,4 +1,5 @@
 import { getPlacePhoto } from './api/getPlacePhoto';
+import { recomsPlaces } from './api/recomsPlaces';
 import { searchArea } from './api/searchArea';
 import { searchPlaces } from './api/searchPlaces';
 import { mapResponseToPlace } from './lib/mapResponseToPlace';
@@ -14,6 +15,7 @@ export {
 	mapResponseToPlace,
 	searchArea,
 	searchPlaces,
+	recomsPlaces,
 	getPlacePhoto,
 	PlaceCard,
 };

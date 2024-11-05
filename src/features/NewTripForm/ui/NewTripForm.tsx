@@ -4,7 +4,7 @@ import { ITrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useNotificationService } from 'src/shared/services/notifications';
-import { stringDateGreater } from 'src/shared/utils';
+import { defaultTripName, stringDateGreater } from 'src/shared/utils';
 import { useDeleteTrip } from '../hooks/useDeleteTrip';
 import { useUpdateCreateTrip } from '../hooks/useUpdateCreateTrip';
 import cls from './style.module.scss';
@@ -19,9 +19,9 @@ export const NewTripForm = ({ prevTrip }: IProps) => {
 	const [startDate, setStartDate] = useState<string | undefined>(prevTrip?.startTime.toISOString().slice(0, 10));
 	const [endDate, setEndDate] = useState<string | undefined>(prevTrip?.endTime.toISOString().slice(0, 10));
 
-	const namePlaceholder = `Поездка${selectedRegion ? ` в ${selectedRegion.name}` : ''}`;
+	const namePlaceholder = defaultTripName(selectedRegion?.name);
 
-	const [tripName, setTripName] = useState<string | undefined>(prevTrip?.name);
+	const [tripName, setTripName] = useState<string>(prevTrip?.name ?? '');
 
 	const { Notify } = useNotificationService();
 	const { DeleteTrip } = useDeleteTrip(prevTrip?.id ?? '');

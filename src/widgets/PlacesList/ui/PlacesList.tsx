@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { IPlace, PlaceCard, searchPlaces } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
+import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useAddPlaceToTrip } from '../hooks/useAddPlaceToTrip';
 import { useRemovePlaceFromTrip } from '../hooks/useRemovePlaceFromTrip';
@@ -41,21 +42,19 @@ export const PlacesList = ({ places }: IProps) => {
 				/>
 			</div>
 
-			<div className={cls.listContainer}>
+			<div className={`${cls.listContainer} ${!search && cls.listReversed}`}>
 				{!list?.length && !isFetching && !error &&
-					<div className={cls.emptyLabel}>
+					<div className={cls.label}>
 						{search ? 'Ничего не найдено' : 'Места не выбраны'}
 					</div>
 				}
 
-				{error && search &&
-					<div className={cls.emptyLabel}>
-						Загрузка...
-					</div>
+				{isFetching && search && !list &&
+					<LoadingScreen />
 				}
 
-				{isFetching && !list &&
-					<div className={cls.emptyLabel}>
+				{!isFetching && !list && error &&
+					<div className={cls.label}>
 						<span className={cls.errLabel}>
 							{ error }
 						</span>

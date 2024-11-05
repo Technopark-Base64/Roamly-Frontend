@@ -60,7 +60,6 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	useEffect(() => {
 		if (loginRes) {
 			setUserId(loginRes.user_id);
-			setCurrentUser(defaultUser);
 		}
 	}, [loginRes]);
 
@@ -75,7 +74,6 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	useEffect(() => {
 		if (signupRes) {
 			setUserId(signupRes.user_id);
-			setCurrentUser(defaultUser);
 		}
 	}, [signupRes]);
 
