@@ -1,0 +1,58 @@
+.card {
+  position: absolute;
+  inset: 80px  auto auto 30px;
+  background-color: #646e85;
+  width: 200px;
+  height: fit-content;
+  display: flex;
+  flex-flow: column;
+  gap: 25px;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.photoContainer {
+  display: flex;
+  gap: 15px;
+  align-items: end;
+  font-size: 20px;
+}
+
+.image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  background-color: #4c5765;
+}
+
+.star {
+  color: gold;
+}
+
+.closeButton {
+  position: absolute;
+  inset: 6px 15px auto auto;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.info {
+  display: flex;
+  flex-flow: column;
+  gap: 12px;
+  text-align: start;
+
+  .name {
+    font-size: 20px;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}

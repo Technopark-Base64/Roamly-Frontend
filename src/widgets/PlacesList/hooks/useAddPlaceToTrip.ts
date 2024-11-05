@@ -26,6 +26,7 @@ export const useAddPlaceToTrip = () => {
 
 	useEffect(() => {
 		addPlaceRes && setCurrentTripPlaces(addPlaceRes);
+		AddPlace('');
 	}, [addPlaceRes]);
 
 	useEffect(() => {
@@ -33,6 +34,7 @@ export const useAddPlaceToTrip = () => {
 			error: true,
 			message: error,
 		});
+		AddPlace('');
 	}, [error]);
 
 	return { AddPlace };

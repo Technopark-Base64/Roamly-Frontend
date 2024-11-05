@@ -26,6 +26,7 @@ export const useRemovePlaceFromTrip = () => {
 
 	useEffect(() => {
 		removePlaceRes && setCurrentTripPlaces(removePlaceRes);
+		RemovePlace('');
 	}, [removePlaceRes]);
 
 	useEffect(() => {
@@ -33,6 +34,7 @@ export const useRemovePlaceFromTrip = () => {
 			error: true,
 			message: error,
 		});
+		RemovePlace('');
 	}, [error]);
 
 	return { RemovePlace };

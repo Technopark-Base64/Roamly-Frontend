@@ -42,7 +42,7 @@ export const PlacesList = ({ places }: IProps) => {
 				/>
 			</div>
 
-			<div className={`${cls.listContainer} ${!search && cls.listReversed}`}>
+			<div className={`${cls.listContainer} ${!isFetching && !!list?.length && cls.listReversed}`}>
 				{!list?.length && !isFetching && !error &&
 					<div className={cls.label}>
 						{search ? 'Ничего не найдено' : 'Места не выбраны'}

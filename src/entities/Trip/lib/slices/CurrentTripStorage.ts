@@ -19,6 +19,7 @@ const currentTripSlice = createSlice({
 				startTime: action.payload.startTime.toString(),
 				endTime: action.payload.endTime.toString(),
 			};
+			state.mapPlace = null;
 		},
 		setTripPlaces: (state, action: { payload: IPlace[] }) => {
 			if (state.trip) state.trip.places = action.payload;
@@ -28,6 +29,7 @@ const currentTripSlice = createSlice({
 		},
 		clearTrip: (state) => {
 			state.trip = null;
+			state.mapPlace = null;
 		},
 		setMapPlace: (state, action: {payload: IPlace | null }) => {
 			state.mapPlace = action.payload;
