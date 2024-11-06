@@ -15,13 +15,14 @@ export interface IPlaceResponse {
   formatted_address: string,
   geometry: {
     location: {
-      lat: number,
-      lng: number,
+      lat: number | (() => number),
+      lng: number | (() => number),
     },
   },
   name: string,
   photos: {
-    photo_reference: string,
+    photo_reference?: string,
+    getUrl?: () => string,
   } [],
   place_id: string,
   rating: number,

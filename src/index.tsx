@@ -21,7 +21,7 @@ if (navigator.serviceWorker) {
 root.render(
 	<BrowserRouter>
 		<StoreProvider>
-			<LoadScript googleMapsApiKey={GOOGLE_API_KEY ?? ''}>
+			<LoadScript googleMapsApiKey={GOOGLE_API_KEY ?? ''} libraries={['places']} >
 				<App />
 			</LoadScript>
 		</StoreProvider>

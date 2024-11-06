@@ -1,16 +1,19 @@
 import { getPlacePhoto } from '../../Place';
 import { IPlace } from '../../Place';
+import { useCurrentTrip } from '../../Trip';
 import cls from './style.module.scss';
 
 interface IProps {
   place: IPlace,
-	selected?: boolean,
   onAdd?: () => void,
   onRemove?: () => void,
 	onClose?: () => void,
 }
 
-export const MapPlaceCard = ({ place, selected, onAdd, onRemove, onClose }: IProps) => {
+export const MapPlaceCard = ({ place, onAdd, onRemove, onClose }: IProps) => {
+	const { currentTrip } = useCurrentTrip();
+	const selected = !!currentTrip?.places.find((pl) => pl.placeId === place.placeId);
+
 	const handleMapClick = () => {
 		window.open(
 			`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${place.placeId}`,
@@ -19,11 +22,15 @@ export const MapPlaceCard = ({ place, selected, onAdd, onRemove, onClose }: IPro
 		);
 	};
 
+	const imageUrl = place.photos.length && place.photos[0].startsWith('https://')
+		? place.photos[0]
+		: getPlacePhoto(place.photos[0]);
+
 	return (
 		<div className={cls.card}>
 			<div className={cls.photoContainer}>
-				{place.photos?.length
-					? <img className={cls.image} src={getPlacePhoto(place.photos[0])}/>
+				{imageUrl
+					? <img className={cls.image} src={imageUrl}/>
 					: <div className={cls.image} />
 				}
 

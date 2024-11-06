@@ -1,53 +1,45 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { MapPlaceCard } from 'src/entities/MapPlaceCard';
-import { useCurrentTrip } from 'src/entities/Trip';
 import { useAddPlaceToTrip, useRemovePlaceFromTrip } from '../../PlacesList';
+import { useGoogleMap } from '../hooks/useGoogleMap';
+import { useMapHandlers } from '../hooks/useMapHandlers';
 
+const mapStyle = {
+	height: '650px',
+	width: '100%',
+};
 
 export const MapWidget = () => {
-	const { currentMapPlace, currentTrip } = useCurrentTrip();
+	const { selectedPlace, currentView, currentZoom, setPlace } = useGoogleMap();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
-	const [showCard, setShowCard] = useState(true);
 	const [map, setMap] = useState<google.maps.Map | null>(null);
+	const { handleChangeCenter, handleZoomChange, handleMapClick } = useMapHandlers(map);
 
-	const mapStyle = {
-		height: '650px',
-		width: '100%',
-	};
-
-	// TODO Complete later
-	const handleMapClick = (event: never) => {
-		console.log(event, map);
-	};
-
-	useEffect(() => {
-		map && map.addListener('click', handleMapClick);
-	}, [map]);
-
-	const position = currentMapPlace?.location ?? currentTrip?.area.location ?? { lng: 0, lat: 0 };
-	const zoom = useMemo(() => currentMapPlace ? 16 : 12, []);
+	const position = useMemo(() => selectedPlace?.location ?? currentView, [selectedPlace]);
+	const zoom = useMemo(() => selectedPlace ? 16 : currentZoom, []);
 
 	return (
 		<>
 			<GoogleMap
 				mapContainerStyle={mapStyle}
 				onLoad={(map) => setMap(map)}
+				onCenterChanged={handleChangeCenter}
+				onZoomChanged={handleZoomChange}
+				onClick={handleMapClick}
 				center={position}
 				zoom={zoom}
 			>
-				{currentMapPlace && showCard && <Marker position={position} /> }
+				{ selectedPlace && <Marker position={position} /> }
 			</GoogleMap>
 
-			{currentMapPlace && showCard &&
+			{selectedPlace &&
 				<MapPlaceCard
-					place={currentMapPlace}
-					selected={!!currentTrip?.places.find((pl) =>
-						pl.placeId === currentMapPlace.placeId)}
-					onAdd={() => AddPlace(currentMapPlace.placeId)}
-					onRemove={() => RemovePlace(currentMapPlace.placeId)}
-					onClose={() => setShowCard(false)}
+					place={selectedPlace}
+					onAdd={() => AddPlace(selectedPlace.placeId)}
+					onRemove={() => RemovePlace(selectedPlace.placeId)}
+					onClose={() => setPlace(null)}
 				/>
 			}
 		</>

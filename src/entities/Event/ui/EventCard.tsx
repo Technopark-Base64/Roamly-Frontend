@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useGoogleMap } from 'src/widgets/MapWidget';
 import { getPlacePhoto } from 'src/entities/Place';
-import { useCurrentTrip } from '../../Trip';
 import { IFormattedEvent } from '../model/types';
 import cls from './style.module.scss';
 
@@ -11,10 +11,10 @@ interface IProps {
 export const EventCard = ({ event }: IProps) => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { setCurrentMapPlace } = useCurrentTrip();
+	const { setPlace } = useGoogleMap();
 
 	const handleMapClick = () => {
-		setCurrentMapPlace(event.place);
+		setPlace(event.place);
 		navigate(`${location.pathname}#map`);
 	};
 

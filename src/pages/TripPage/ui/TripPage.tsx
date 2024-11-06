@@ -42,6 +42,8 @@ export const TripPage = () => {
 
 	useEffect(() => {
 		data && setCurrentTrip(data);
+
+		return () => setCurrentTrip(null);
 	}, [data]);
 
 	const tabs: ITab[] = [
@@ -92,7 +94,7 @@ export const TripPage = () => {
 			</div>
 
 			<div className={cls.content}>
-				{ tabs.find((item) => item.menu === menu)?.element }
+				{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
 			</div>
 
 		</div>

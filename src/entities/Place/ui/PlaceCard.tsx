@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useGoogleMap } from 'src/widgets/MapWidget';
 import { IPlace } from '../../Place';
 import { getPlacePhoto } from '../../Place';
-import { useCurrentTrip } from '../../Trip';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -16,24 +16,23 @@ interface IProps {
 export const PlaceCard = ({ place, selected, colorSelected, onAdd, onRemove }: IProps) => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { setCurrentMapPlace } = useCurrentTrip();
+	const { setPlace } = useGoogleMap();
 	
 	const handleMapClick = () => {
-		// window.open(
-		// 	`https://www.google.com/maps/search/?api=1&query=Google&query_place_id=${place.placeId}`,
-		// 	'_blank',
-		// 	'noopener, noreferrer',
-		// );
-		setCurrentMapPlace(place);
+		setPlace(place);
 		navigate(`${location.pathname}#map`);
 	};
 
+	const imageUrl = place.photos.length && place.photos[0].startsWith('https://')
+		? place.photos[0]
+		: getPlacePhoto(place.photos[0]);
+
 	return (
 		<div className={`${cls.card} ${selected && colorSelected && cls.selected}`}>
-			{place.photos?.length ?
+			{imageUrl ?
 				<img
 					className={`${cls.image} ${(!colorSelected || !selected) && cls.selected}`}
-					src={getPlacePhoto(place.photos[0])} alt=""
+					src={imageUrl} alt=""
 				/> :
 				<div className={`${cls.image} ${(!colorSelected || !selected) && cls.selected}`} />
 			}

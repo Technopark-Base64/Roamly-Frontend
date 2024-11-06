@@ -1,42 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IEvent } from '../../../Event';
 import { IPlace } from '../../../Place';
-import { ICurrentTripStorage } from '../../model/types/Store';
-import { ITrip } from '../../model/types/Trip';
+import { ICurrentTripStorage, IEventStorage, ITripStorage } from '../../model/types/Store';
 
 const initialState: ICurrentTripStorage = {
 	trip: null,
-	mapPlace: null,
 };
 
 const currentTripSlice = createSlice({
 	name: 'currentTrip',
 	initialState,
 	reducers: {
-		setTrip: (state, action: { payload: ITrip }) => {
-			state.trip = {
-				...action.payload,
-				startTime: action.payload.startTime.toString(),
-				endTime: action.payload.endTime.toString(),
-			};
-			state.mapPlace = null;
+		setTrip: (state, action: { payload: ITripStorage }) => {
+			state.trip = action.payload;
 		},
 		setTripPlaces: (state, action: { payload: IPlace[] }) => {
 			if (state.trip) state.trip.places = action.payload;
 		},
-		setTripEvents: (state, action: { payload: IEvent[] }) => {
-			if (state.trip) state.trip.events = action.payload;
+		setTripEvents: (state, action: { payload: IEventStorage[] }) => {
+			if (state.trip)
+				state.trip.events = action.payload;
 		},
 		clearTrip: (state) => {
 			state.trip = null;
-			state.mapPlace = null;
-		},
-		setMapPlace: (state, action: {payload: IPlace | null }) => {
-			state.mapPlace = action.payload;
 		},
 	},
 });
 
-export const { setTrip, setTripPlaces, setTripEvents, clearTrip, setMapPlace } = currentTripSlice.actions;
+export const { setTrip, setTripPlaces, setTripEvents, clearTrip } = currentTripSlice.actions;
 
 export default currentTripSlice.reducer;

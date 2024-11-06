@@ -1,25 +1,36 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'src/app/providers/StoreProvider';
+import { AppDispatch } from 'src/app/providers/StoreProvider';
+import { useGoogleMap } from 'src/widgets/MapWidget';
 import { IEvent } from '../../Event';
 import { IPlace } from '../../Place';
 import { ITrip } from '../index';
-import { setTrip, setTripPlaces, setTripEvents, clearTrip, setMapPlace } from '../lib/slices/CurrentTripStorage';
-import { getCurrentMapPlace } from '../model/selectors/getCurrentMap';
+import { setTrip, setTripPlaces, setTripEvents, clearTrip } from '../lib/slices/CurrentTripStorage';
 import { getCurrentTrip } from '../model/selectors/getCurrentTrip';
 
 
 export const useCurrentTrip = () => {
-	const currentTrip = useSelector((state: RootState) => getCurrentTrip(state));
-	const currentMapPlace = useSelector((state: RootState) => getCurrentMapPlace(state));
+	const currentTrip = useSelector(getCurrentTrip);
+	const { setView, clearMap } = useGoogleMap();
 	const dispatch = useDispatch<AppDispatch>();
 
 	const setCurrentTrip = (trip: ITrip | null) => {
 		if (trip) {
-			dispatch(setTrip(trip));
+			dispatch(setTrip({
+				...trip,
+				startTime: trip.startTime.toString(),
+				endTime: trip.endTime.toString(),
+				events: trip.events.map((event) => ({
+					...event,
+					startTime: event.toString(),
+					endTime: event.toString(),
+				})),
+			}));
+			setView(trip.area.location);
 			return;
 		}
 
 		dispatch(clearTrip());
+		clearMap();
 	};
 
 	const setCurrentTripPlaces = (places: IPlace[]) => {
@@ -27,12 +38,12 @@ export const useCurrentTrip = () => {
 	};
 
 	const setCurrentTripEvents = (events: IEvent[]) => {
-		dispatch(setTripEvents(events));
+		dispatch(setTripEvents(events.map((event) => ({
+			...event,
+			startTime: event.toString(),
+			endTime: event.toString(),
+		}))));
 	};
 
-	const setCurrentMapPlace = (place: IPlace | null) => {
-		dispatch(setMapPlace(place));
-	};
-
-	return { currentTrip, currentMapPlace, setCurrentTrip, setCurrentTripPlaces, setCurrentTripEvents, setCurrentMapPlace };
+	return { currentTrip, setCurrentTrip, setCurrentTripPlaces, setCurrentTripEvents };
 };

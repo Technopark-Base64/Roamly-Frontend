@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'src/app/providers/StoreProvider';
+import { AppDispatch } from 'src/app/providers/StoreProvider';
 import { removeNotification } from '../lib/slices/NotificationStorage';
 import { getNotifications } from '../model/selectors/getNotifications';
 import { NotificationCard } from './NotificationCard';
 import cls from './style.module.scss';
 
 export const Notifications = () => {
-	const notifications = useSelector((state: RootState) => getNotifications(state));
+	const notifications = useSelector(getNotifications);
 	const dispatch = useDispatch<AppDispatch>();
 
 	return (
