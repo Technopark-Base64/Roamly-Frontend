@@ -1,4 +1,4 @@
-import { EventClickArg, EventChangeArg } from '@fullcalendar/core';
+import { EventChangeArg } from '@fullcalendar/core';
 import { useEffect, useState } from 'react';
 import { IEventResponse } from 'src/entities/Event';
 import { useCurrentTrip } from 'src/entities/Trip';
@@ -18,14 +18,10 @@ export const useHandleCalendarEvent = () => {
 		event.id && UpdateEvent();
 	}, [event]);
 
-	const handleEventClick = (info: EventClickArg) => {
-		console.log(info.event.extendedProps.place?.placeId);
-	};
-
 	const handleEventChange = (info: EventChangeArg) => {
 		setEvent({
 			id: info.event.id,
-			name: info.event.title,
+			name: info.event.extendedProps.name,
 			place_id: info.event.extendedProps.place?.place_id,
 			start_time: info.event.start?.toISOString() ?? '',
 			end_time: info.event.end?.toISOString() ?? '',
@@ -36,7 +32,7 @@ export const useHandleCalendarEvent = () => {
 	const handleEventResize = (info: EventChangeArg) => {
 		setEvent({
 			id: info.event.id,
-			name: info.event.title,
+			name: info.event.extendedProps.name,
 			place_id: info.event.extendedProps.place?.place_id,
 			start_time: info.event.start?.toISOString() ?? '',
 			end_time: info.event.end?.toISOString() ?? '',
@@ -44,5 +40,5 @@ export const useHandleCalendarEvent = () => {
 		});
 	};
 
-	return { handleEventClick, handleEventChange, handleEventResize };
+	return { handleEventChange, handleEventResize };
 };

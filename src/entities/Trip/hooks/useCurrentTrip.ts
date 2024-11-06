@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from 'src/app/providers/StoreProvider';
 import { useGoogleMap } from 'src/widgets/MapWidget';
-import { DAY_MS } from 'src/shared/utils';
 import { IEvent } from '../../Event';
 import { IPlace } from '../../Place';
 import { ITrip } from '../index';

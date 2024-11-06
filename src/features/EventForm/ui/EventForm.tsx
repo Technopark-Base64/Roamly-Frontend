@@ -8,7 +8,7 @@ import { useCreateUpdateEvent } from '../hooks/useCreateUpdateEvent';
 import cls from './style.module.scss';
 
 interface IProps {
-	prevEvent?: IEvent,
+	prevEvent: IEvent | null,
 	onSuccess?: () => void,
 }
 
@@ -18,11 +18,11 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 	const tripStart = currentTrip?.endTime.toISOString().slice(0, 16) ?? '';
 	const tripEnd = currentTrip ? new Date(+currentTrip.endTime + DAY_MS).toISOString().slice(0, 16) : '';
 
-	const [name, setName] = useState('');
-	const [search, setSearch] = useState('');
-	const [isSelected, setIsSelected] = useState(false);
-	const [startTime, setStartTime] = useState<string | undefined>();
-	const [endTime, setEndTime] = useState<string | undefined>();
+	const [name, setName] = useState(prevEvent?.name ?? '');
+	const [search, setSearch] = useState(prevEvent?.place?.name ?? '');
+	const [isSelected, setIsSelected] = useState(!!prevEvent?.place);
+	const [startTime, setStartTime] = useState<string | undefined>(prevEvent?.startTime.toISOString().slice(0, 16));
+	const [endTime, setEndTime] = useState<string | undefined>(prevEvent?.endTime.toISOString().slice(0, 16));
 
 	const searchResult = useMemo(() => {
 		if (!search || !currentTrip)
@@ -34,7 +34,7 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 	const { UpdateEvent, CreateEvent } = useCreateUpdateEvent({
 		id: prevEvent?.id ?? '',
 		name,
-		place_id: searchResult?.placeId,
+		place_id: searchResult?.placeId ?? '',
 		trip_id: currentTrip?.id ?? '',
 		start_time: startTime ?? '',
 		end_time: endTime ?? '',

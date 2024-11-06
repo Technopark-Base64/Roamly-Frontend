@@ -16,12 +16,18 @@ interface IProps {
 export const CalendarWidget = ({ events }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
 	const { AutoSchedule, LoadingSchedule } = useAutoSchedule();
+	const [eventToEdit, setEventToEdit] = useState<IEvent | null>(null);
 	const [showModal, setShowModal] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const handleGoToRecoms = () => {
 		navigate(`${location.pathname}#recoms`);
+	};
+
+	const handleCloseModal = () => {
+		setShowModal(false);
+		setEventToEdit(null);
 	};
 
 	return (
@@ -38,9 +44,9 @@ export const CalendarWidget = ({ events }: IProps) => {
 
 				{ LoadingSchedule && <LoadingScreen message="Создание плана поездки..." /> }
 
-				{showModal &&
-					<ModalWrapper onClose={() => setShowModal(false)}>
-						<EventForm onSuccess={() => setShowModal(false)}/>
+				{(showModal || eventToEdit) &&
+					<ModalWrapper onClose={handleCloseModal}>
+						<EventForm prevEvent={eventToEdit} onSuccess={handleCloseModal}/>
 					</ModalWrapper>
 				}
 
@@ -48,7 +54,8 @@ export const CalendarWidget = ({ events }: IProps) => {
 					<FullCalendar
 						events={events}
 						onAdd={() => setShowModal(true)}
-						onShedule={AutoSchedule}
+						onSchedule={AutoSchedule}
+						onClickEvent={setEventToEdit}
 					/>
 				}
 			</div>

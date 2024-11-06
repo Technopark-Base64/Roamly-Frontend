@@ -1,3 +1,4 @@
+import { EventClickArg } from '@fullcalendar/core';
 import ruLocale from '@fullcalendar/core/locales/ru';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -14,12 +15,14 @@ import cls from './style.module.scss';
 interface IProps {
   events: IEvent[],
 	onAdd: () => void,
-	onShedule: () => void,
+	onSchedule: () => void,
+	// eslint-disable-next-line no-unused-vars
+	onClickEvent: (event: IEvent) => void,
 }
 
-export const Calendar = ({ events, onShedule, onAdd }: IProps) => {
+export const Calendar = ({ events, onSchedule, onAdd, onClickEvent }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
-	const { handleEventClick, handleEventChange, handleEventResize } = useHandleCalendarEvent();
+	const { handleEventChange, handleEventResize } = useHandleCalendarEvent();
 
 	const calendarEvents: ICalendarEvent[] = useMemo(() => {
 		const e: ICalendarEvent[] = events.map((event) => ({
@@ -28,6 +31,7 @@ export const Calendar = ({ events, onShedule, onAdd }: IProps) => {
 			place: event.place,
 			start: event.startTime,
 			end: event.endTime,
+			name: event.name
 		}));
 
 		currentTrip && e.push({
@@ -42,6 +46,17 @@ export const Calendar = ({ events, onShedule, onAdd }: IProps) => {
 		return e;
 	}, [events]);
 
+	const handleEventClick = (info: EventClickArg) => {
+		const event = info.event;
+		onClickEvent({
+			id: event.id,
+			name: event.extendedProps.name,
+			place: event.extendedProps.place,
+			startTime: event.start ?? new Date(),
+			endTime: event.end ?? new Date(),
+		});
+	};
+
 	return (
 		<div className={cls.wrapper}>
 			<FullCalendar
@@ -52,7 +67,7 @@ export const Calendar = ({ events, onShedule, onAdd }: IProps) => {
 				customButtons={{
 					schedule: {
 						text: 'Спланировать',
-						click: onShedule,
+						click: onSchedule,
 					},
 					add: {
 						text: '\xa0+\xa0',
