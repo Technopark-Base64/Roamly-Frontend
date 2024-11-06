@@ -1,5 +1,5 @@
 import { useState, MouseEvent } from 'react';
-import { NewTripForm } from 'src/features/NewTripForm';
+import { TripForm } from 'src/features/TripForm';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
 import { defaultTripName } from 'src/shared/utils';
 import { getPlacePhoto } from '../../Place';
@@ -48,7 +48,7 @@ export const TripCard = ({ trip, onClick }: IProps) => {
 
 			{showModal &&
 				<ModalWrapper onClose={() => setShowModal(false)} >
-					<NewTripForm prevTrip={trip} />
+					<TripForm prevTrip={trip} />
 				</ModalWrapper>
 			}
 		</div>

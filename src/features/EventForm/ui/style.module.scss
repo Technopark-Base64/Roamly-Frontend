@@ -2,11 +2,23 @@
   display: flex;
   flex-flow: column;
   gap: 20px;
-  width: 300px;
 }
 
 .title {
-  font-size: 22px;
+  font-size: 20px;
+}
+
+.mainContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.rightContainer {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  height: 140px;
+  width: 300px;
 }
 
 .hintLabel {
@@ -17,7 +29,7 @@
 }
 
 .errLabel {
-  color: red;
+  color: tomato;
 }
 
 .regionContainer {
@@ -35,8 +47,11 @@
   cursor: pointer;
 }
 
-.block {
-  cursor: not-allowed;
+.image {
+  width: 135px;
+  height: 135px;
+  object-fit: cover;
+  background-color: #4c5765;
 }
 
 .cancelBtn {
@@ -60,5 +75,16 @@
 
   input {
     height: 25px;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  flex-flow: row-reverse;
+  justify-content: space-between;
+
+  button {
+    width: 220px;
+    flex: unset;
   }
 }

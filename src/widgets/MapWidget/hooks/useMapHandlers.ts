@@ -37,7 +37,6 @@ export const useMapHandlers = (map: google.maps.Map | null) => {
 
 		service.getDetails({ placeId }, (place, status) => {
 			if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-				console.log(place, place?.photos?.[0]?.getUrl());
 				setPlace(mapResponseToPlace(place as IPlaceResponse));
 			} else {
 				console.error('Ошибка при поиске места по ID: ', status);

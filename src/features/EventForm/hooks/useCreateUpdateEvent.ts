@@ -3,6 +3,7 @@ import { IEventResponse, mapResponseToEvent } from 'src/entities/Event';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useNotificationService } from 'src/shared/services/notifications';
+import { newEvent } from '../api/newEvent';
 import { updateEvent } from '../api/updateEvent';
 
 interface IProps {
@@ -16,26 +17,55 @@ interface IProps {
 
 export const useCreateUpdateEvent = (props: IProps) => {
 	const { currentTrip, setCurrentTripEvents } = useCurrentTrip();
-	const events = currentTrip?.events ?? [];
 	const { Notify } = useNotificationService();
+	const events = currentTrip?.events ?? [];
 
 	const {
-		data: updateRes,
-		refetch: UpdateEvent,
+		refetch: updateRefetch,
 		error: updateError,
 	} = useFetch<IEventResponse>(updateEvent(props));
 
-	useEffect(() => {
+	const {
+		refetch: createRefetch,
+		error: createError,
+	} = useFetch<IEventResponse>(newEvent(props));
+
+	const UpdateEvent = async () => {
+		const updateRes = await updateRefetch();
+
 		if (!updateRes)
-			return;
+			return false;
 
 		const updatedEvent = mapResponseToEvent(updateRes, currentTrip?.places ?? []);
-		console.log(updatedEvent);
 
 		setCurrentTripEvents(events.map((event) =>
 			event.id === updatedEvent.id ? updatedEvent : event
 		));
-	}, [updateRes]);
+
+		Notify({
+			error: false,
+			message: 'Событие успешно обновлено',
+		});
+
+		return true;
+	};
+
+	const CreateEvent = async () => {
+		const createRes = await createRefetch();
+
+		if (!createRes)
+			return false;
+
+		const createdEvent = mapResponseToEvent(createRes, currentTrip?.places ?? []);
+		setCurrentTripEvents([...events, createdEvent]);
+
+		Notify({
+			error: false,
+			message: 'Событие успешно создано',
+		});
+
+		return true;
+	};
 
 	useEffect(() => {
 		updateError && Notify({
@@ -44,5 +74,12 @@ export const useCreateUpdateEvent = (props: IProps) => {
 		});
 	}, [updateError]);
 
-	return { UpdateEvent };
+	useEffect(() => {
+		createError && Notify({
+			error: true,
+			message: createError,
+		});
+	}, [createError]);
+
+	return { UpdateEvent, CreateEvent };
 };

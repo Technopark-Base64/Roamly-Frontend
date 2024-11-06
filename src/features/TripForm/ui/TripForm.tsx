@@ -13,7 +13,7 @@ interface IProps {
 	prevTrip: ITrip | null;
 }
 
-export const NewTripForm = ({ prevTrip }: IProps) => {
+export const TripForm = ({ prevTrip }: IProps) => {
 	const [search, setSearch] = useState(prevTrip?.area.name ?? '');
 	const [selectedRegion, setSelectedRegion] = useState<IPlace | undefined>(prevTrip?.area);
 	const [startDate, setStartDate] = useState<string | undefined>(prevTrip?.startTime.toISOString().slice(0, 10));

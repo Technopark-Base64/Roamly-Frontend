@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TripsList } from 'src/widgets/TripsList';
-import { NewTripForm } from 'src/features/NewTripForm';
+import { TripForm } from 'src/features/TripForm';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper/ui/ModalWrapper';
 import cls from './style.module.scss';
 
@@ -22,7 +22,7 @@ export const MainPage = () => {
 
 			{showModal &&
 				<ModalWrapper onClose={() => setShowModal(false)} >
-					<NewTripForm prevTrip={null} />
+					<TripForm prevTrip={null} />
 				</ModalWrapper>
 			}
 

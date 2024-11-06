@@ -30,7 +30,7 @@ export const MapPlaceCard = ({ place, onAdd, onRemove, onClose }: IProps) => {
 		<div className={cls.card}>
 			<div className={cls.photoContainer}>
 				{imageUrl
-					? <img className={cls.image} src={imageUrl}/>
+					? <img className={cls.image} src={imageUrl} key={imageUrl}/>
 					: <div className={cls.image} />
 				}
 

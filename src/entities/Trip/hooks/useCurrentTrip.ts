@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from 'src/app/providers/StoreProvider';
 import { useGoogleMap } from 'src/widgets/MapWidget';
+import { DAY_MS } from 'src/shared/utils';
 import { IEvent } from '../../Event';
 import { IPlace } from '../../Place';
 import { ITrip } from '../index';
@@ -21,8 +22,8 @@ export const useCurrentTrip = () => {
 				endTime: trip.endTime.toString(),
 				events: trip.events.map((event) => ({
 					...event,
-					startTime: event.toString(),
-					endTime: event.toString(),
+					startTime: event.startTime.toString(),
+					endTime: event.endTime.toString(),
 				})),
 			}));
 			setView(trip.area.location);
@@ -40,8 +41,8 @@ export const useCurrentTrip = () => {
 	const setCurrentTripEvents = (events: IEvent[]) => {
 		dispatch(setTripEvents(events.map((event) => ({
 			...event,
-			startTime: event.toString(),
-			endTime: event.toString(),
+			startTime: event.startTime.toString(),
+			endTime: event.endTime.toString(),
 		}))));
 	};
 
