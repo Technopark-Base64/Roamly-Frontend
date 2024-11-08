@@ -29,7 +29,10 @@ const mapSlice = createSlice({
 			state.currentZoom = action.payload;
 		},
 		clearMap: (state) => {
-			state = initialState;
+			state.currentZoom = initialState.currentZoom;
+			state.currentView = initialState.currentView;
+			state.markers = initialState.markers;
+			state.selectedId = initialState.selectedId;
 		}
 	},
 });

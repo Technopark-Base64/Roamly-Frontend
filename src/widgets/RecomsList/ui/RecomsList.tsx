@@ -59,7 +59,7 @@ export const RecomsList = () => {
 	}, [data]);
 
 	return (
-		<div className={cls.leftContainer}>
+		<div className={cls.wrapper}>
 			<div className={cls.label}>
 				Выберите категорию
 			</div>

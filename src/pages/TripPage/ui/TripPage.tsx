@@ -2,6 +2,7 @@ import { ReactNode, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
 import { CalendarWidget } from 'src/widgets/CalendarWidget';
+import { MainWidget } from 'src/widgets/MainWidget';
 import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
 import { RecomsList } from 'src/widgets/RecomsList';
@@ -11,7 +12,7 @@ import { useNotificationService } from 'src/shared/services/notifications';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
-type TMenu = 'places' | 'recoms' | 'calendar';
+type TMenu = 'main' | 'places' | 'recoms' | 'calendar';
 
 interface ITab {
 	menu: TMenu,
@@ -48,9 +49,9 @@ export const TripPage = () => {
 
 	const tabs: ITab[] = [
 		{
-			menu: 'places',
-			label: 'Места',
-			element: <PlacesList places={currentTrip?.places ?? []} />,
+			menu: 'main',
+			label: 'Главная',
+			element: <MainWidget />,
 		},
 		{
 			menu: 'recoms',
@@ -61,6 +62,11 @@ export const TripPage = () => {
 			menu: 'calendar',
 			label: 'Календарь',
 			element: <CalendarWidget events={currentTrip?.events ?? []} />,
+		},
+		{
+			menu: 'places',
+			label: 'Места',
+			element: <PlacesList places={currentTrip?.places ?? []} />,
 		},
 	];
 

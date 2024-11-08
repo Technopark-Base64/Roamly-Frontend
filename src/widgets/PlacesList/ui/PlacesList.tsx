@@ -43,7 +43,7 @@ export const PlacesList = ({ places }: IProps) => {
 	}, [list]);
 
 	return (
-		<div className={cls.leftContainer}>
+		<div className={cls.wrapper}>
 			<div className={cls.inputContainer}>
 				<Input
 					initValue={search}
