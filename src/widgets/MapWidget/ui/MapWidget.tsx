@@ -1,10 +1,8 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useCurrentTrip } from 'src/entities/Trip';
-import { getLength } from 'src/shared/utils';
 import { useMapHandlers } from '../hooks/useMapHandlers';
 import { useMapWidget } from '../hooks/useMapWidget';
-import { findCenterOfPoints } from '../lib/findCenterOfPoints';
 
 const mapStyle = {
 	height: '650px',
@@ -15,7 +13,7 @@ export const MapWidget = () => {
 	const { currentTrip } = useCurrentTrip();
 	const { currentView, currentZoom, markers, selectedId } = useMapWidget();
 	const [map, setMap] = useState<google.maps.Map | null>(null);
-	const { handleChangeCenter, handleZoomChange, handleMapClick } = useMapHandlers(map);
+	const { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers } = useMapHandlers(map);
 
 	useEffect(() => {
 		const location = selectedId && markers?.find((m) => m.id === selectedId)?.location;
@@ -25,20 +23,7 @@ export const MapWidget = () => {
 		}
 	}, [selectedId]);
 
-	useEffect(() => {
-		if (map) {
-			const average = findCenterOfPoints(markers);
-			const actual = {
-				lng: map.getCenter()?.lng() ?? 0,
-				lat: map.getCenter()?.lat() ?? 0,
-			};
-
-			if (getLength(average, actual) > 3) {
-				map.setCenter(average);
-			}
-			map.setZoom(12);
-		}
-	}, [markers]);
+	useEffect(handleUpdateMarkers, [markers]);
 
 	const position = useMemo(() => currentView, [currentTrip]);
 	const zoom = useMemo(() => currentZoom, []);

@@ -50,7 +50,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 					</ModalWrapper>
 				}
 
-				{!!currentTrip?.places.length && !LoadingSchedule &&
+				{(!!currentTrip?.places.length || events.length) && !LoadingSchedule &&
 					<FullCalendar
 						events={events}
 						onAdd={() => setShowModal(true)}

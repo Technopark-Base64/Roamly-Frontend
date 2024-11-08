@@ -27,7 +27,7 @@ export const Calendar = ({ events, onSchedule, onAdd, onClickEvent }: IProps) =>
 	const calendarEvents: ICalendarEvent[] = useMemo(() => {
 		const e: ICalendarEvent[] = events.map((event) => ({
 			id: event.id,
-			title: event.name || event.place?.name,
+			title: event.name || event.place?.name || 'Новое событие',
 			place: event.place,
 			start: event.startTime,
 			end: event.endTime,

@@ -1,8 +1,12 @@
 import { IPlaceResponse, mapResponseToPlace } from 'src/entities/Place';
+import { useCurrentTrip } from 'src/entities/Trip';
+import { getLength } from 'src/shared/utils';
+import { findCenterOfPoints } from '../lib/findCenterOfPoints';
 import { useMapWidget } from './useMapWidget';
 
 export const useMapHandlers = (map: google.maps.Map | null) => {
-	const { setZoom, setView } = useMapWidget();
+	const { currentTrip } = useCurrentTrip();
+	const { setZoom, setView, currentView, markers } = useMapWidget();
 
 	const handleChangeCenter= () => {
 		if (map) {
@@ -40,5 +44,23 @@ export const useMapHandlers = (map: google.maps.Map | null) => {
 
 	};
 
-	return { handleChangeCenter, handleZoomChange, handleMapClick };
+	const handleUpdateMarkers = () => {
+		if (!map)
+			return;
+
+		const average = markers.length
+			? findCenterOfPoints(markers)
+			: currentTrip?.area.location ?? currentView;
+		const actual = {
+			lng: map.getCenter()?.lng() ?? 0,
+			lat: map.getCenter()?.lat() ?? 0,
+		};
+
+		if (getLength(average, actual) > 3) {
+			map.setCenter(average);
+		}
+		map.setZoom(12);
+	};
+
+	return { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers };
 };

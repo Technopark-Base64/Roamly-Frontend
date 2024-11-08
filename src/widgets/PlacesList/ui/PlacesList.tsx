@@ -35,7 +35,7 @@ export const PlacesList = ({ places }: IProps) => {
 	const list = search ? data : places;
 
 	useEffect(() => {
-		list && setMarkers(list?.map((pl) => ({
+		list && setMarkers(list.map((pl) => ({
 			id: pl.placeId,
 			title: pl.name,
 			location: pl.location,
