@@ -1,5 +1,6 @@
 import { BACKEND_API_URL } from 'src/shared/config';
 import { mapResponseToPlace } from '../lib/mapResponseToPlace';
+import { sortPlacesByRating } from '../lib/sortPlacesByRating';
 import { IPlace } from '../model/types';
 
 export const searchPlaces = (place: string, region?: IPlace, ) => ({
@@ -13,5 +14,5 @@ export const searchPlaces = (place: string, region?: IPlace, ) => ({
 	},
 	enabled: false,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	mapFunction: (body: any) => body.results.map(mapResponseToPlace).sort((a: IPlace, b: IPlace) => b.rating - a.rating),
+	mapFunction: (body: any) => body.results.map(mapResponseToPlace).sort(sortPlacesByRating),
 });

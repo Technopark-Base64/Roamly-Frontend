@@ -25,6 +25,7 @@ export const useMapWidget = () => {
 
 	const setMarkers = (mks: IMarker[]) => {
 		dispatch(setM(mks));
+		selectPlace('');
 	};
 
 	const selectPlace = (placeId: string) => {

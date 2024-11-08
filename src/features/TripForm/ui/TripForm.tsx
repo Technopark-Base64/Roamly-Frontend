@@ -4,7 +4,7 @@ import { ITrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useNotificationService } from 'src/shared/services/notifications';
-import { defaultTripName, stringDateGreater } from 'src/shared/utils';
+import { defaultTripName, dateGreater } from 'src/shared/utils';
 import { useDeleteTrip } from '../hooks/useDeleteTrip';
 import { useUpdateCreateTrip } from '../hooks/useUpdateCreateTrip';
 import cls from './style.module.scss';
@@ -58,7 +58,7 @@ export const TripForm = ({ prevTrip }: IProps) => {
 	};
 
 	const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (endDate && stringDateGreater(e.target.value, endDate)) {
+		if (endDate && dateGreater(e.target.value, endDate)) {
 			setStartDate(endDate);
 			return;
 		}
@@ -66,12 +66,12 @@ export const TripForm = ({ prevTrip }: IProps) => {
 	};
 
 	const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (startDate && stringDateGreater(startDate, e.target.value)) {
+		if (startDate && dateGreater(startDate, e.target.value)) {
 			setEndDate(startDate);
 			return;
 		}
 		const now = new Date().toISOString().slice(0, 10);
-		if (stringDateGreater(now, e.target.value)) {
+		if (dateGreater(now, e.target.value)) {
 			setEndDate(now);
 			return;
 		}

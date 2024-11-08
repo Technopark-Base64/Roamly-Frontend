@@ -29,8 +29,10 @@
 .placeInfo {
   display: flex;
   gap: 20px;
-  align-items: center;
+  align-items: flex-start;
   text-align: start;
   font-size: 18px;
-  flex: 1;
+  flex: 1 1;
+  max-height: 46px;
+  overflow: hidden;
 }

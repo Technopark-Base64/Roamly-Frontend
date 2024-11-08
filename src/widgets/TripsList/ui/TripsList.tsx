@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { sortEventsByTime } from 'src/entities/Event';
 import { ITrip, useCurrentTrip } from 'src/entities/Trip';
 import { TripCard } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
@@ -11,12 +12,12 @@ interface IProps {
 }
 
 export const TripsList = ({ showPast = false }: IProps) => {
-	const { setCurrentTrip } = useCurrentTrip();
+	// const { setCurrentTrip } = useCurrentTrip();
 	const { Trips, isLoading } = useLoadTrips();
 	const navigate = useNavigate();
 	
 	const handleClick = (trip: ITrip) => {
-		setCurrentTrip(trip);
+		// setCurrentTrip(trip);
 		navigate(`/trip/${trip.id}`);
 	};
 
@@ -24,7 +25,7 @@ export const TripsList = ({ showPast = false }: IProps) => {
 		const now = (new Date()).getTime();
 		return Trips
 			.filter((trip) => (trip.endTime.getTime() - now < 0) === showPast)
-			.sort((a, b) => a.startTime.getTime() - b.startTime.getTime());
+			.sort(sortEventsByTime);
 	}, [showPast, Trips]);
 
 	return (

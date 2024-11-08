@@ -3,7 +3,7 @@ import { IEvent } from 'src/entities/Event';
 import { getPlacePhoto } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
-import { DAY_MS, stringDateGreater } from 'src/shared/utils';
+import { DAY_MS, dateGreater } from 'src/shared/utils';
 import { useCreateUpdateEvent } from '../hooks/useCreateUpdateEvent';
 import cls from './style.module.scss';
 
@@ -47,11 +47,11 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 
 	const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const start = e.target.value;
-		if (stringDateGreater(start, tripEnd) || stringDateGreater(tripStart, start)) {
+		if (dateGreater(start, tripEnd) || dateGreater(tripStart, start)) {
 			setStartTime(tripStart);
 			return;
 		}
-		if (endTime && stringDateGreater(start, endTime)) {
+		if (endTime && dateGreater(start, endTime)) {
 			setStartTime(endTime);
 			return;
 		}
@@ -60,11 +60,11 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 
 	const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const end = e.target.value;
-		if (stringDateGreater(end, tripEnd) || stringDateGreater(tripStart, end)) {
+		if (dateGreater(end, tripEnd) || dateGreater(tripStart, end)) {
 			setEndTime(tripEnd);
 			return;
 		}
-		if (startTime && stringDateGreater(startTime, end)) {
+		if (startTime && dateGreater(startTime, end)) {
 			setEndTime(startTime);
 			return;
 		}

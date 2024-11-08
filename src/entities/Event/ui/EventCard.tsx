@@ -10,8 +10,6 @@ interface IProps {
 export const EventCard = ({ calendarEvent }: IProps) => {
 	const event = formatEvent(calendarEvent);
 
-	console.log(calendarEvent);
-
 	return (
 		<div className={cls.card}>
 			<div className={cls.timeInfo}>

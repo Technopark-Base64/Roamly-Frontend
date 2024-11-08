@@ -29,7 +29,6 @@ export const PlacesList = ({ places }: IProps) => {
 
 	useEffect(() => {
 		search && refetch();
-		selectPlace('');
 	}, [search]);
 
 	const list = search ? data : places;

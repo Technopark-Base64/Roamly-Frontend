@@ -8,9 +8,9 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { useMemo } from 'react';
 import { IEvent } from 'src/entities/Event';
 import { useCurrentTrip } from 'src/entities/Trip';
-import { DAY_MS } from 'src/shared/utils';
 import { useHandleCalendarEvent } from '../hooks/useHandleCalendarEvent';
 import { calculateInitialDate } from '../lib/calculateInitialDate';
+import { createDayEvents } from '../lib/createDayEvents';
 import { ICalendarEvent } from '../model/types';
 import cls from './style.module.scss';
 
@@ -22,11 +22,13 @@ interface IProps {
 	onSchedule?: () => void,
 	// eslint-disable-next-line no-unused-vars
 	onClickEvent: (event: IEvent) => void,
+	// eslint-disable-next-line no-unused-vars
+	onVisibleEventsChange?: (events: IEvent[]) => void,
 }
 
-export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEvent }: IProps) => {
+export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEvent, onVisibleEventsChange }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
-	const { handleEventChange, handleEventResize } = useHandleCalendarEvent();
+	const { handleEventChange, handleEventResize, handleDatesSet } = useHandleCalendarEvent({ onVisibleEventsChange });
 
 	const calendarEvents: ICalendarEvent[] = useMemo(() => {
 		const e: ICalendarEvent[] = events.map((event) => ({
@@ -38,20 +40,16 @@ export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEven
 			name: event.name
 		}));
 
-		currentTrip && e.push({
-			id: 'entire-trip',
-			start: currentTrip.startTime,
-			end: new Date(+currentTrip.endTime + DAY_MS),
-			allDay: true,
-			display: 'background',
-			backgroundColor: '#7fbeff',
-		});
+		const dayEvents = currentTrip ? createDayEvents(currentTrip.startTime, currentTrip.endTime) : [];
 
-		return e;
+		return [...e, ...dayEvents];
 	}, [events]);
 
 	const handleEventClick = (info: EventClickArg) => {
 		const event = info.event;
+		if (event.allDay)
+			return;
+
 		onClickEvent({
 			id: event.id,
 			name: event.extendedProps.name,
@@ -95,6 +93,7 @@ export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEven
 				eventClick={handleEventClick}
 				eventDrop={handleEventChange}
 				eventResize={handleEventResize}
+				datesSet={handleDatesSet}
 			/>
 		</div>
 	);

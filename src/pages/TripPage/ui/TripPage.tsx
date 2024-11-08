@@ -32,7 +32,10 @@ export const TripPage = () => {
 	const {
 		data,
 		error,
+		isFetching,
 	} = useFetch<ITrip>(getTrip(id ?? ''));
+
+	console.log(isFetching);
 
 	useEffect(() => {
 		error && Notify({
@@ -80,7 +83,7 @@ export const TripPage = () => {
 
 	return (
 		<div className={cls.page}>
-			{ currentTrip && <TripCard trip={currentTrip} /> }
+			<TripCard trip={currentTrip} />
 
 			<div className={cls.buttonContainer}>
 				{tabs.map((tab) => (
@@ -94,12 +97,14 @@ export const TripPage = () => {
 				))}
 			</div>
 
-			<div className={cls.content}>
-				<div className={cls.wrapper}>
-					{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
-					{ menu !== 'calendar' && <MapWidget /> }
+			{!isFetching &&
+				<div className={cls.content}>
+					<div className={cls.wrapper}>
+						{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
+						{ menu !== 'calendar' && <MapWidget /> }
+					</div>
 				</div>
-			</div>
+			}
 
 		</div>
 	);

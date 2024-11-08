@@ -1,10 +1,15 @@
-import { EventChangeArg } from '@fullcalendar/core';
+import { DatesSetArg, EventChangeArg } from '@fullcalendar/core';
 import { useEffect, useState } from 'react';
-import { IEventResponse } from 'src/entities/Event';
+import { IEvent, IEventResponse } from 'src/entities/Event';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useCreateUpdateEvent } from '../../EventForm';
 
-export const useHandleCalendarEvent = () => {
+interface IProps {
+	// eslint-disable-next-line no-unused-vars
+	onVisibleEventsChange?: (events: IEvent[]) => void,
+}
+
+export const useHandleCalendarEvent = ({ onVisibleEventsChange }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
 	const [event, setEvent] = useState<IEventResponse>({
 		id: '',
@@ -40,5 +45,17 @@ export const useHandleCalendarEvent = () => {
 		});
 	};
 
-	return { handleEventChange, handleEventResize };
+	const handleDatesSet = (info: DatesSetArg) => {
+		if (!currentTrip || !onVisibleEventsChange)
+			return;
+
+		const visibleEvents = currentTrip.events.filter((event) =>
+			info.start <= event.startTime && event.startTime <= info.end ||
+			info.start <= event.endTime && event.endTime <= info.end
+		);
+
+		onVisibleEventsChange(visibleEvents);
+	};
+
+	return { handleEventChange, handleEventResize, handleDatesSet };
 };

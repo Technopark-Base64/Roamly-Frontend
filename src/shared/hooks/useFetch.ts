@@ -27,7 +27,7 @@ export const useFetch = <T>(props: IUseFetchProps<T>) => {
 	} = props;
 
 	const [data, setData] = useState<T | null>(null);
-	const [isFetching, setIsFetching] = useState<boolean>(false);
+	const [isFetching, setIsFetching] = useState<boolean>(enabled);
 	const [error, setError] = useState<string | null>(null);
 
 	const refetch = async () => {
