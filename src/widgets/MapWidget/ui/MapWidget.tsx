@@ -1,9 +1,10 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
-import React, { useMemo, useState } from 'react';
-import { MapPlaceCard } from 'src/entities/MapPlaceCard';
-import { useAddPlaceToTrip, useRemovePlaceFromTrip } from '../../PlacesList';
-import { useGoogleMap } from '../hooks/useGoogleMap';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useCurrentTrip } from 'src/entities/Trip';
+import { getLength } from 'src/shared/utils';
 import { useMapHandlers } from '../hooks/useMapHandlers';
+import { useMapWidget } from '../hooks/useMapWidget';
+import { findCenterOfPoints } from '../lib/findCenterOfPoints';
 
 const mapStyle = {
 	height: '650px',
@@ -11,14 +12,36 @@ const mapStyle = {
 };
 
 export const MapWidget = () => {
-	const { selectedPlace, currentView, currentZoom, setPlace } = useGoogleMap();
-	const { AddPlace } = useAddPlaceToTrip();
-	const { RemovePlace } = useRemovePlaceFromTrip();
+	const { currentTrip } = useCurrentTrip();
+	const { currentView, currentZoom, markers, selectedId } = useMapWidget();
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	const { handleChangeCenter, handleZoomChange, handleMapClick } = useMapHandlers(map);
 
-	const position = useMemo(() => selectedPlace?.location ?? currentView, [selectedPlace]);
-	const zoom = useMemo(() => selectedPlace ? 16 : currentZoom, []);
+	useEffect(() => {
+		const location = selectedId && markers?.find((m) => m.id === selectedId)?.location;
+		if (location && map) {
+			map.setCenter(location);
+			map.setZoom(16);
+		}
+	}, [selectedId]);
+
+	useEffect(() => {
+		if (map) {
+			const average = findCenterOfPoints(markers);
+			const actual = {
+				lng: map.getCenter()?.lng() ?? 0,
+				lat: map.getCenter()?.lat() ?? 0,
+			};
+
+			if (getLength(average, actual) > 3) {
+				map.setCenter(average);
+			}
+			map.setZoom(12);
+		}
+	}, [markers]);
+
+	const position = useMemo(() => currentView, [currentTrip]);
+	const zoom = useMemo(() => currentZoom, []);
 
 	return (
 		<>
@@ -31,17 +54,22 @@ export const MapWidget = () => {
 				center={position}
 				zoom={zoom}
 			>
-				{ selectedPlace && <Marker position={position} /> }
+				{markers && markers.map((mark) => (
+					<Marker
+						position={mark.location}
+						title={mark.title}
+						key={mark.id}
+						icon={{
+							path: window.google.maps.SymbolPath.CIRCLE,
+							scale: 10,
+							fillColor: selectedId === mark.id ? 'red' : 'blue',
+							fillOpacity: 1,
+							strokeColor: 'white',
+							strokeWeight: 3,
+						}}
+					/>
+				))}
 			</GoogleMap>
-
-			{selectedPlace &&
-				<MapPlaceCard
-					place={selectedPlace}
-					onAdd={() => AddPlace(selectedPlace.placeId)}
-					onRemove={() => RemovePlace(selectedPlace.placeId)}
-					onClose={() => setPlace(null)}
-				/>
-			}
 		</>
 	);
 };

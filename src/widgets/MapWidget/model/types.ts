@@ -1,7 +1,18 @@
-import { IPlace } from 'src/entities/Place';
+export interface IMarker {
+  id: string,
+  title?: string,
+  location: {
+    lat: number,
+    lng: number,
+  },
+}
 
 export interface IMapStorage {
-  selectedPlace: IPlace | null,
-  currentView: IPlace['location'],
+  markers: IMarker[],
+  selectedId: string,
+  currentView: {
+    lat: number,
+    lng: number,
+  },
   currentZoom: number,
 }

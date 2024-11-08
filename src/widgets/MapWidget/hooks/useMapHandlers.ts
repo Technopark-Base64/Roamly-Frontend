@@ -1,14 +1,8 @@
-import { useEffect } from 'react';
 import { IPlaceResponse, mapResponseToPlace } from 'src/entities/Place';
-import { useGoogleMap } from './useGoogleMap';
+import { useMapWidget } from './useMapWidget';
 
 export const useMapHandlers = (map: google.maps.Map | null) => {
-	const { setZoom, setView, setPlace } = useGoogleMap();
-
-	// Удаляем метку при выходе с карты
-	useEffect(() => {
-		return () => setPlace(null);
-	}, []);
+	const { setZoom, setView } = useMapWidget();
 
 	const handleChangeCenter= () => {
 		if (map) {
@@ -37,7 +31,8 @@ export const useMapHandlers = (map: google.maps.Map | null) => {
 
 		service.getDetails({ placeId }, (place, status) => {
 			if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-				setPlace(mapResponseToPlace(place as IPlaceResponse));
+				// TODO add logic
+				return mapResponseToPlace(place as IPlaceResponse);
 			} else {
 				console.error('Ошибка при поиске места по ID: ', status);
 			}

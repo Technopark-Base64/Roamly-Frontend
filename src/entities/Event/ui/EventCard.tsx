@@ -1,22 +1,13 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useGoogleMap } from 'src/widgets/MapWidget';
 import { getPlacePhoto } from 'src/entities/Place';
 import { IFormattedEvent } from '../model/types';
 import cls from './style.module.scss';
 
 interface IProps {
   event: IFormattedEvent,
+	onMapClick?: () => void,
 }
 
-export const EventCard = ({ event }: IProps) => {
-	const location = useLocation();
-	const navigate = useNavigate();
-	const { setPlace } = useGoogleMap();
-
-	const handleMapClick = () => {
-		setPlace(event.place);
-		navigate(`${location.pathname}#map`);
-	};
+export const EventCard = ({ event, onMapClick }: IProps) => {
 
 	return (
 		<div className={cls.card}>
@@ -36,7 +27,7 @@ export const EventCard = ({ event }: IProps) => {
 
 			<div>
 				{ event.place.placeId &&
-					<button className="shared-button shared-button-active" onClick={handleMapClick}> На карте </button>
+					<button className="shared-button shared-button-active" onClick={onMapClick}> На карте </button>
 				}
 			</div>
 		</div>

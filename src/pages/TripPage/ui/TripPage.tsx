@@ -11,7 +11,7 @@ import { useNotificationService } from 'src/shared/services/notifications';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
-type TMenu = 'places' | 'recoms' | 'calendar' | 'map';
+type TMenu = 'places' | 'recoms' | 'calendar';
 
 interface ITab {
 	menu: TMenu,
@@ -62,11 +62,6 @@ export const TripPage = () => {
 			label: 'Календарь',
 			element: <CalendarWidget events={currentTrip?.events ?? []} />,
 		},
-		{
-			menu: 'map',
-			label: 'Карта',
-			element: <MapWidget />,
-		},
 	];
 
 	useEffect(() => {
@@ -94,7 +89,10 @@ export const TripPage = () => {
 			</div>
 
 			<div className={cls.content}>
-				{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
+				<div className={cls.wrapper}>
+					{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
+					{ menu !== 'calendar' && <MapWidget /> }
+				</div>
 			</div>
 
 		</div>

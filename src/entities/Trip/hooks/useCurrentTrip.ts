@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from 'src/app/providers/StoreProvider';
-import { useGoogleMap } from 'src/widgets/MapWidget';
+import { useMapWidget } from 'src/widgets/MapWidget';
 import { IEvent } from '../../Event';
 import { IPlace } from '../../Place';
 import { ITrip } from '../index';
@@ -10,7 +10,7 @@ import { getCurrentTrip } from '../model/selectors/getCurrentTrip';
 
 export const useCurrentTrip = () => {
 	const currentTrip = useSelector(getCurrentTrip);
-	const { setView, clearMap } = useGoogleMap();
+	const { setView, clearMap } = useMapWidget();
 	const dispatch = useDispatch<AppDispatch>();
 
 	const setCurrentTrip = (trip: ITrip | null) => {

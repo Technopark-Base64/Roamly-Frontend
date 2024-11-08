@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useMapWidget } from 'src/widgets/MapWidget';
 import { IPlace, PlaceCard, recomsPlaces } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
@@ -14,9 +15,10 @@ type TCategory = {
 
 export const RecomsList = () => {
 	const { currentTrip } = useCurrentTrip();
+	const { setMarkers, selectPlace } = useMapWidget();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
-	const [category, setCategory] = useState<TCategory['name']>('museum');
+	const [category, setCategory] = useState<TCategory['name']>('tourist_attraction');
 
 	const categories: TCategory[] = [
 		{
@@ -25,7 +27,7 @@ export const RecomsList = () => {
 		},
 		{
 			name: 'tourist_attraction',
-			label: 'Знаковые места'
+			label: 'Достоп.'
 		},
 		{
 			name: 'art_gallery',
@@ -34,10 +36,6 @@ export const RecomsList = () => {
 		{
 			name: 'church',
 			label: 'Храмы'
-		},
-		{
-			name: 'park',
-			label: 'Парки'
 		},
 	];
 
@@ -52,8 +50,16 @@ export const RecomsList = () => {
 		currentTrip && refetch();
 	}, [category]);
 
+	useEffect(() => {
+		data && setMarkers(data?.map((pl) => ({
+			id: pl.placeId,
+			title: pl.name,
+			location: pl.location,
+		})));
+	}, [data]);
+
 	return (
-		<>
+		<div className={cls.leftContainer}>
 			<div className={cls.label}>
 				Выберите категорию
 			</div>
@@ -92,10 +98,11 @@ export const RecomsList = () => {
 						colorSelected={true}
 						onAdd={() => AddPlace(place.placeId)}
 						onRemove={() => RemovePlace(place.placeId)}
+						onMapClick={() => selectPlace(place.placeId)}
 					/>
 				))}
 
 			</div>
-		</>
+		</div>
 	);
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useMapWidget } from 'src/widgets/MapWidget';
 import { IPlace, PlaceCard, searchPlaces } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
@@ -14,6 +15,7 @@ interface IProps {
 
 export const PlacesList = ({ places }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
+	const { setMarkers, selectPlace } = useMapWidget();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
 	const [search, setSearch] = useState('');
@@ -27,12 +29,21 @@ export const PlacesList = ({ places }: IProps) => {
 
 	useEffect(() => {
 		search && refetch();
+		selectPlace('');
 	}, [search]);
 
 	const list = search ? data : places;
 
+	useEffect(() => {
+		list && setMarkers(list?.map((pl) => ({
+			id: pl.placeId,
+			title: pl.name,
+			location: pl.location,
+		})));
+	}, [list]);
+
 	return (
-		<>
+		<div className={cls.leftContainer}>
 			<div className={cls.inputContainer}>
 				<Input
 					initValue={search}
@@ -42,7 +53,7 @@ export const PlacesList = ({ places }: IProps) => {
 				/>
 			</div>
 
-			<div className={`${cls.listContainer} ${!isFetching && !!list?.length && cls.listReversed}`}>
+			<div className={cls.listContainer}>
 				{!list?.length && !isFetching && !error &&
 					<div className={cls.label}>
 						{search ? 'Ничего не найдено' : 'Места не выбраны'}
@@ -69,10 +80,11 @@ export const PlacesList = ({ places }: IProps) => {
 						colorSelected={!!search}
 						onAdd={() => AddPlace(place.placeId)}
 						onRemove={() => RemovePlace(place.placeId)}
+						onMapClick={() => selectPlace(place.placeId)}
 					/>
 				))}
 
 			</div>
-		</>
+		</div>
 	);
 };

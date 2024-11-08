@@ -1,6 +1,4 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useGoogleMap } from 'src/widgets/MapWidget';
 import { IPlace } from '../../Place';
 import { getPlacePhoto } from '../../Place';
 import cls from './style.module.scss';
@@ -10,22 +8,15 @@ interface IProps {
 	selected?: boolean;
 	colorSelected?: boolean;
   onAdd?: () => void;
-	onRemove?: () => void
+	onRemove?: () => void;
+	onMapClick?: () => void;
 }
 
-export const PlaceCard = ({ place, selected, colorSelected, onAdd, onRemove }: IProps) => {
-	const location = useLocation();
-	const navigate = useNavigate();
-	const { setPlace } = useGoogleMap();
-	
-	const handleMapClick = () => {
-		setPlace(place);
-		navigate(`${location.pathname}#map`);
-	};
+export const PlaceCard = ({ place, selected, colorSelected, onAdd, onRemove, onMapClick }: IProps) => {
 
-	const imageUrl = place.photos.length && place.photos[0].startsWith('https://')
+	const imageUrl = place.photos?.length && (place.photos[0].startsWith('https://')
 		? place.photos[0]
-		: getPlacePhoto(place.photos[0]);
+		: getPlacePhoto(place.photos[0]));
 
 	return (
 		<div className={`${cls.card} ${selected && colorSelected && cls.selected}`}>
@@ -38,18 +29,17 @@ export const PlaceCard = ({ place, selected, colorSelected, onAdd, onRemove }: I
 			}
 			<div className={cls.info}>
 				<div className={cls.name}>
-					{`${place.name.slice(0, 60)}${place.name.length >= 60 ? '...' : ''}`}
+					{`${place.name.slice(0, 20)}${place.name.length >= 20 ? '...' : ''}`}
 					<b> &nbsp;&nbsp; <span className={cls.star}>★</span>&nbsp;{place.rating} </b>
 				</div>
-				{place.formattedAddress}
 				<div className={cls.buttonContainer}>
 					{onAdd && onRemove &&
 						<button className="shared-button" onClick={selected ? onRemove : onAdd}>
-							{selected ? 'Удалить' : 'Добавить в поездку'}
+							{selected ? 'Удалить' : 'Добавить'}
 						</button>
 					}
-					<button className="shared-button" onClick={handleMapClick}>
-						Посмотреть на карте
+					<button className="shared-button" onClick={onMapClick}>
+						На карте
 					</button>
 				</div>
 			</div>

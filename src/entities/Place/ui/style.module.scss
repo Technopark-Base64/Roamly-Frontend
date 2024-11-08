@@ -4,7 +4,6 @@
   width: calc(100% - 40px);
   display: flex;
   gap: 30px;
-  height: 120px;
   padding: 20px;
   border-radius: 8px;
 }
@@ -14,8 +13,8 @@
 }
 
 .image {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   object-fit: cover;
   background-color: #4c5765;
 }
@@ -34,7 +33,7 @@
   text-wrap: nowrap;
 
   .name {
-    font-size: 20px;
+    font-size: 18px;
     height: 24px;
   }
 
@@ -46,6 +45,6 @@
 .buttonContainer {
   display: flex;
   gap: 10px;
-  width: 450px;
+  width: 270px;
   margin-top: 12px;
 }

@@ -9,7 +9,7 @@ export const store = configureStore({
 	reducer: {
 		currentUserReducer,
 		currentTripReducer,
-		mapReducer,
 		notificationReducer,
+		mapReducer,
 	}
 });

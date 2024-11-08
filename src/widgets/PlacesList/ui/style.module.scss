@@ -1,10 +1,23 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}
+
+.leftContainer {
+  min-width: 440px;
+  display: flex;
+  flex-flow: column;
+  height: 650px;
+}
+
 .listContainer {
   display: flex;
   flex-flow: column;
   flex: 1;
   gap: 20px;
   margin-top: 20px;
-  width: 100%;
+  overflow-y: scroll;
 }
 
 .listReversed {
@@ -13,7 +26,6 @@
 }
 
 .inputContainer {
-  width: 600px;
 }
 
 .label {

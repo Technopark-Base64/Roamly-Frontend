@@ -1,7 +1,8 @@
 import mapReducer from './lib/slices/MapStorage';
 
 export { MapWidget } from './ui/MapWidget';
-export { useGoogleMap } from './hooks/useGoogleMap';
+export { useMapWidget } from './hooks/useMapWidget';
+export { type IMarker } from './model/types';
 
 export {
 	mapReducer,
