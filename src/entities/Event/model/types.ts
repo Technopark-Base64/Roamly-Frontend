@@ -20,5 +20,6 @@ export interface IEventResponse {
 export interface IFormattedEvent {
   time: string,
   duration: string,
-  place: IPlace,
+  photo?: string,
+  name: string,
 }

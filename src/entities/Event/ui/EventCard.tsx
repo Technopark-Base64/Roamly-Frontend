@@ -1,13 +1,16 @@
 import { getPlacePhoto } from 'src/entities/Place';
-import { IFormattedEvent } from '../model/types';
+import { formatEvent } from '../lib/formatEvent';
+import { IEvent } from '../model/types';
 import cls from './style.module.scss';
 
 interface IProps {
-  event: IFormattedEvent,
-	onMapClick?: () => void,
+  calendarEvent: IEvent,
 }
 
-export const EventCard = ({ event, onMapClick }: IProps) => {
+export const EventCard = ({ calendarEvent }: IProps) => {
+	const event = formatEvent(calendarEvent);
+
+	console.log(calendarEvent);
 
 	return (
 		<div className={cls.card}>
@@ -19,16 +22,10 @@ export const EventCard = ({ event, onMapClick }: IProps) => {
 			</div>
 
 			<div className={cls.placeInfo}>
-				{event.place.photos?.length &&
-					<img className={cls.image} src={getPlacePhoto(event.place.photos[0])} alt=""/>
+				{event.photo &&
+					<img className={cls.image} src={getPlacePhoto(event.photo)} alt=""/>
 				}
-				{event.place.name}
-			</div>
-
-			<div>
-				{ event.place.placeId &&
-					<button className="shared-button shared-button-active" onClick={onMapClick}> На карте </button>
-				}
+				{event.name}
 			</div>
 		</div>
 	);

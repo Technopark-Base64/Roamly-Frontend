@@ -21,6 +21,8 @@ export const MapWidget = () => {
 			map.setCenter(location);
 			map.setZoom(16);
 		}
+		if (!selectedId && map)
+			map.setZoom(12);
 	}, [selectedId]);
 
 	useEffect(handleUpdateMarkers, [markers]);

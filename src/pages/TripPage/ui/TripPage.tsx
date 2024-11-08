@@ -72,7 +72,7 @@ export const TripPage = () => {
 
 	useEffect(() => {
 		if (!tabs.find((item) => item.menu === menu))
-			navigate(`${location.pathname}#places`, { replace: true });
+			navigate(`${location.pathname}#main`, { replace: true });
 	}, [menu]);
 
 	if (error)

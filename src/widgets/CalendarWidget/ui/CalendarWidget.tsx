@@ -50,9 +50,10 @@ export const CalendarWidget = ({ events }: IProps) => {
 					</ModalWrapper>
 				}
 
-				{(!!currentTrip?.places.length || events.length) && !LoadingSchedule &&
+				{(!!currentTrip?.places.length || !!events.length) && !LoadingSchedule &&
 					<FullCalendar
 						events={events}
+						views={['timeGridWeek', 'dayGridMonth', 'timeGridDay']}
 						onAdd={() => setShowModal(true)}
 						onSchedule={AutoSchedule}
 						onClickEvent={setEventToEdit}
