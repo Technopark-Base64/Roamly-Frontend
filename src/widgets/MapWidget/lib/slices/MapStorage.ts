@@ -11,14 +11,7 @@ const initialState: IMapStorage = {
 		lat: 0,
 		lng: 0,
 	},
-	enableCircle: false,
-	circle: {
-		center: {
-			lat: 0,
-			lng: 0,
-		},
-		radius: 0,
-	}
+	circle: null,
 };
 
 const mapSlice = createSlice({
@@ -38,9 +31,6 @@ const mapSlice = createSlice({
 		setZoom: (state, action: { payload: number }) => {
 			state.currentZoom = action.payload;
 		},
-		setEnableCircle: (state, action: { payload: boolean }) => {
-			state.enableCircle = action.payload;
-		},
 		setCircle: (state, action: { payload: TCircle | null }) => {
 			state.circle = action.payload;
 		},
@@ -50,12 +40,11 @@ const mapSlice = createSlice({
 			state.markers = initialState.markers;
 			state.isRoute = initialState.isRoute;
 			state.selectedId = initialState.selectedId;
-			state.enableCircle = initialState.enableCircle;
 			state.circle = initialState.circle;
 		}
 	},
 });
 
-export const { setView, clearMap, setZoom, setMarkers, setSelectedId, setEnableCircle, setCircle } = mapSlice.actions;
+export const { setView, clearMap, setZoom, setMarkers, setSelectedId, setCircle } = mapSlice.actions;
 
 export default mapSlice.reducer;

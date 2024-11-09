@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { IPlaceResponse, mapResponseToPlace } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { getLength } from 'src/shared/utils';
@@ -7,10 +6,10 @@ import { useMapWidget } from './useMapWidget';
 
 export const useMapHandlers = (map: google.maps.Map | null) => {
 	const { currentTrip } = useCurrentTrip();
-	const { setZoom, setView, currentView, markers, enableCircle, setCircle } = useMapWidget();
+	const { setZoom, setView, currentView, markers, setCircle, circle } = useMapWidget();
 
-	useEffect(() => {
-		if (!enableCircle) {
+	const handleToggleCircle = () => {
+		if (circle) {
 			setCircle(null);
 			return;
 		}
@@ -29,11 +28,10 @@ export const useMapHandlers = (map: google.maps.Map | null) => {
 			lng: bound.lng(),
 			lat: bound.lat(),
 		};
-
 		const radius = getLength(center, corner) * 0.6;
 
 		setCircle({ center, radius });
-	}, [enableCircle]);
+	};
 
 	const handleChangeCenter= () => {
 		console.log(map);
@@ -90,5 +88,5 @@ export const useMapHandlers = (map: google.maps.Map | null) => {
 		map.setZoom(12);
 	};
 
-	return { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers };
+	return { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers, handleToggleCircle };
 };

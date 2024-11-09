@@ -12,7 +12,7 @@ import { useNotificationService } from 'src/shared/services/notifications';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
-type TMenu = 'main' | 'places' | 'recoms' | 'calendar';
+type TMenu = 'main' | 'recoms' | 'calendar' |'places';
 
 interface ITab {
 	menu: TMenu,
@@ -99,7 +99,7 @@ export const TripPage = () => {
 				<div className={cls.content}>
 					<div className={cls.wrapper}>
 						{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
-						{ menu !== 'calendar' && <MapWidget /> }
+						{ menu !== 'calendar' && <MapWidget showCircle={menu !== 'main'} /> }
 					</div>
 				</div>
 			}

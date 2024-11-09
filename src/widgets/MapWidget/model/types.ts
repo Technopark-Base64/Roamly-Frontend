@@ -24,6 +24,5 @@ export interface IMapStorage {
     lng: number,
   },
   currentZoom: number,
-  enableCircle: boolean,
   circle: TCircle | null,
 }

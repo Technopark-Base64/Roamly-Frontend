@@ -3,18 +3,23 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useMapHandlers } from '../hooks/useMapHandlers';
 import { useMapWidget } from '../hooks/useMapWidget';
+import cls from './style.module.scss';
 
 const mapStyle = {
 	height: '650px',
 	width: '100%',
 };
 
-export const MapWidget = () => {
+interface IProps {
+	showCircle?: boolean,
+}
+
+export const MapWidget = ({ showCircle = true }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
 	const { currentView, currentZoom, markers, isRoute, selectedId, circle } = useMapWidget();
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	const [directionsResponse, setDirectionsResponse] = useState<google.maps.DirectionsResult | null>(null);
-	const { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers } = useMapHandlers(map);
+	const { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers, handleToggleCircle } = useMapHandlers(map);
 
 	useEffect(() => {
 		const location = selectedId && markers?.find((m) => m.id === selectedId)?.location;
@@ -87,7 +92,7 @@ export const MapWidget = () => {
 
 				{ directionsResponse && <DirectionsRenderer directions={directionsResponse} /> }
 
-				{circle &&
+				{circle && showCircle &&
 					<Circle
 						center={circle.center}
 						radius={circle.radius}
@@ -102,6 +107,12 @@ export const MapWidget = () => {
 				}
 
 			</GoogleMap>
+
+			{showCircle &&
+				<button className={`shared-button ${cls.circleButton}`} onClick={handleToggleCircle}>
+					{ circle ? 'Снять выделение' : 'Искать в этом радиусе'}
+				</button>
+			}
 		</>
 	);
 };
