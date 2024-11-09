@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sortEventsByTime } from 'src/entities/Event';
-import { ITrip, useCurrentTrip } from 'src/entities/Trip';
+import { ITrip } from 'src/entities/Trip';
 import { TripCard } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useLoadTrips } from '../hooks/useLoadTrips';
@@ -12,12 +12,10 @@ interface IProps {
 }
 
 export const TripsList = ({ showPast = false }: IProps) => {
-	// const { setCurrentTrip } = useCurrentTrip();
 	const { Trips, isLoading } = useLoadTrips();
 	const navigate = useNavigate();
 	
 	const handleClick = (trip: ITrip) => {
-		// setCurrentTrip(trip);
 		navigate(`/trip/${trip.id}`);
 	};
 

@@ -22,10 +22,6 @@ export const RecomsList = () => {
 	const [openedIndex, setOpenedIndex] = useState(-1);
 	const listRef = useRef<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-		listRef.current?.scrollTo(0, openedIndex * COLLAPSED_PLACECARD_HEIGHT);
-	}, [openedIndex]);
-
 	const categories: TCategory[] = [
 		{
 			name: 'museum',
@@ -65,6 +61,11 @@ export const RecomsList = () => {
 
 		setOpenedIndex(-1);
 	}, [data]);
+
+	useEffect(() => {
+		selectPlace(data?.[openedIndex]?.placeId ?? '');
+		listRef.current?.scrollTo(0, openedIndex * COLLAPSED_PLACECARD_HEIGHT);
+	}, [openedIndex]);
 
 	return (
 		<div className={cls.wrapper}>

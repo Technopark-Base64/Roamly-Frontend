@@ -22,10 +22,6 @@ export const PlacesList = ({ places }: IProps) => {
 	const [openedIndex, setOpenedIndex] = useState(-1);
 	const listRef = useRef<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-		listRef.current?.scrollTo(0, openedIndex * COLLAPSED_PLACECARD_HEIGHT);
-	}, [openedIndex]);
-
 	const {
 		data,
 		error,
@@ -48,6 +44,11 @@ export const PlacesList = ({ places }: IProps) => {
 
 		setOpenedIndex(-1);
 	}, [list]);
+
+	useEffect(() => {
+		selectPlace(list?.[openedIndex]?.placeId ?? '');
+		listRef.current?.scrollTo(0, openedIndex * COLLAPSED_PLACECARD_HEIGHT);
+	}, [openedIndex]);
 
 	return (
 		<div className={cls.wrapper}>
