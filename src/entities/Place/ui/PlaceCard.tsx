@@ -88,7 +88,7 @@ export const PlaceCard = ({
 
 			<div className={cls.info}>
 				<div>
-					Дефолтное описание. Музей с предметами старины, скульптурой и живописью, а также временными экспозициями. Памятник классицизма.
+					{ place.description || 'Памятник культуры'}
 				</div>
 				<div>
 					📍&nbsp; {place.formattedAddress}
@@ -100,21 +100,21 @@ export const PlaceCard = ({
 
 			<div className={cls.buttonContainer}>
 				<button
-					className={`shared-button ${!onClickPrev && cls.hidden}`}
+					className={`shared-button shared-button-active ${!onClickPrev && cls.hidden}`}
 					onClick={onClickPrev}
 				>
 					Предыдущее
 				</button>
 
 				<button
-					className={`shared-button ${(!onAdd || !onRemove) && cls.hidden}`}
+					className={`shared-button shared-button-${selected ? 'red' : 'active'} ${(!onAdd || !onRemove) && cls.hidden}`}
 					onClick={selected ? onRemove : onAdd}
 				>
 					{selected ? 'Удалить' : 'Добавить'}
 				</button>
 
 				<button
-					className={`shared-button ${!onClickNext && cls.hidden}`}
+					className={`shared-button shared-button-active ${!onClickNext && cls.hidden}`}
 					onClick={onClickNext}
 				>
 					Следующее

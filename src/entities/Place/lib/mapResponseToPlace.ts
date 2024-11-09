@@ -11,6 +11,7 @@ export const mapResponseToPlace = (place: IPlaceResponse): IPlace => ({
 			: place.geometry.location.lng,
 	},
 	name: place.name,
+	description: place.editorial_summary ?? '',
 	photos: place.photos?.map((p) => {
 		if (p.photo_reference)
 			return p.photo_reference;

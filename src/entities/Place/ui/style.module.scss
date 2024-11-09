@@ -94,6 +94,11 @@
 .buttonContainer {
   display: flex;
   margin: 12px;
+  gap: 10px;
+
+  button {
+    padding: 5px 15px;
+  }
 }
 
 .hidden {

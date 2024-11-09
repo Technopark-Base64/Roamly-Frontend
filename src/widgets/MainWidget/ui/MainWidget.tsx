@@ -63,7 +63,7 @@ export const MainWidget = () => {
 				</button>
 			}
 
-			{ selectedEvent && <EventCard calendarEvent={selectedEvent} /> }
+			{ selectedEvent && <EventCard event={selectedEvent} /> }
 		</div>
 	);
 };

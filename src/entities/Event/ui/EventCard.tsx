@@ -1,25 +1,23 @@
 import { getPlacePhoto } from 'src/entities/Place';
-import { formatEvent } from '../lib/formatEvent';
 import { IEvent } from '../model/types';
 import cls from './style.module.scss';
 
 interface IProps {
-  calendarEvent: IEvent,
+  event: IEvent,
 }
 
-export const EventCard = ({ calendarEvent }: IProps) => {
-	const event = formatEvent(calendarEvent);
+export const EventCard = ({ event }: IProps) => {
 
 	return (
 		<div className={cls.card}>
-			{event.photo
-				? <img className={cls.image} src={getPlacePhoto(event.photo)} alt=""/>
+			{event.place?.photos[0]
+				? <img className={cls.image} src={getPlacePhoto(event.place.photos[0])} alt=""/>
 				: <div className={cls.image} />
 			}
 			<div className={cls.info}>
-				{event.name}
+				{ event.name || event.place?.name || 'Новое событие'}
 				<div className={cls.timeInfo}>
-					{event.time} – {event.duration}
+					{event.startTime.toLocaleTimeString().slice(0, -3)} – {event.endTime.toLocaleTimeString().slice(0, -3)}
 				</div>
 			</div>
 		</div>
