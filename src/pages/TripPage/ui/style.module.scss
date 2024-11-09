@@ -5,7 +5,14 @@
   flex: 1;
 }
 
+.autoButton {
+  position: absolute;
+  inset: 120px 20px auto auto;
+  z-index: 100;
+}
+
 .page {
+  position: relative;
   display: flex;
   flex-flow: column;
   min-height: calc(100dvh - 70px);

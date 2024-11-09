@@ -34,7 +34,6 @@ export const useMapHandlers = (map: google.maps.Map | null) => {
 	};
 
 	const handleChangeCenter= () => {
-		console.log(map);
 		if (map) {
 			setView({
 				lat: map.getCenter()?.lat() ?? 0,

@@ -7,8 +7,10 @@ import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
 import { RecomsList } from 'src/widgets/RecomsList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
+import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useNotificationService } from 'src/shared/services/notifications';
+import { autoSchedule } from '../api/autoSchedule';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
@@ -48,6 +50,29 @@ export const TripPage = () => {
 		return () => setCurrentTrip(null);
 	}, [data]);
 
+	const {
+		data: scheduleData,
+		error: scheduleError,
+		isFetching: scheduleLoading,
+		refetch: scheduleRefetch,
+	} = useFetch<ITrip>(autoSchedule(currentTrip?.id ?? ''));
+
+	useEffect(() => {
+		scheduleError && Notify({
+			error: true,
+			message: scheduleError,
+		});
+	}, [scheduleError]);
+
+	useEffect(() => {
+		scheduleData && setCurrentTrip(scheduleData);
+		navigate(`${location.pathname}#main`, { replace: true });
+	}, [scheduleData]);
+
+	const handleAutoSchedule = () => {
+		scheduleRefetch();
+	};
+
 	const tabs: ITab[] = [
 		{
 			menu: 'main',
@@ -83,6 +108,10 @@ export const TripPage = () => {
 		<div className={cls.page}>
 			<TripCard trip={currentTrip} />
 
+			<button className={`shared-button shared-button-active ${cls.autoButton}`} onClick={handleAutoSchedule}>
+				Спланировать мою поездку
+			</button>
+
 			<div className={cls.buttonContainer}>
 				{tabs.map((tab) => (
 					<button
@@ -95,7 +124,7 @@ export const TripPage = () => {
 				))}
 			</div>
 
-			{!isFetching &&
+			{!isFetching && !scheduleLoading &&
 				<div className={cls.content}>
 					<div className={cls.wrapper}>
 						{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
@@ -103,7 +132,9 @@ export const TripPage = () => {
 					</div>
 				</div>
 			}
-
+			{scheduleLoading &&
+				<LoadingScreen message="Ваша поездка готовится, пожалуйста, подождите" />
+			}
 		</div>
 	);
 };
