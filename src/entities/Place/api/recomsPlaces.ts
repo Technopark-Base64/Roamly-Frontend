@@ -1,10 +1,14 @@
+import { TCircle } from 'src/widgets/MapWidget';
 import { BACKEND_API_URL } from 'src/shared/config';
 import { mapResponseToPlace } from '../lib/mapResponseToPlace';
 import { sortPlacesByRating } from '../lib/sortPlacesByRating';
-import { IPlace } from '../model/types';
 
-export const recomsPlaces = (type: string, region?: IPlace, ) => ({
-	url: `${BACKEND_API_URL}/place/recomendations?types=${type}&lat=${region?.location.lat}&lng=${region?.location.lng}`,
+const RECOMS_CHUNK_SIZE = 25;
+
+export const recomsPlaces = (types: string[], circle: TCircle) => ({
+	url: `${BACKEND_API_URL}/place/recomendations
+	?types=${types.join(',')}&lat=${circle.center.lat}&lng=${circle.center.lng}
+	&radius=${circle.radius}&max_places=${RECOMS_CHUNK_SIZE}`,
 	options: {
 		method: 'GET',
 		headers: {

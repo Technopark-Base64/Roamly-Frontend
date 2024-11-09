@@ -15,7 +15,7 @@ type TCategory = {
 
 export const RecomsList = () => {
 	const { currentTrip } = useCurrentTrip();
-	const { setMarkers, selectPlace } = useMapWidget();
+	const { setMarkers, selectPlace, circle } = useMapWidget();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
 	const [category, setCategory] = useState<TCategory['name']>('tourist_attraction');
@@ -46,11 +46,15 @@ export const RecomsList = () => {
 		error,
 		refetch,
 		isFetching,
-	} = useFetch<IPlace[]>(recomsPlaces(category, currentTrip?.area));
+	} = useFetch<IPlace[]>(recomsPlaces([category], circle
+		?? {
+			center: currentTrip?.area.location ?? { lat: 0, lng: 0 },
+			radius: 20000,
+		}));
 
 	useEffect(() => {
 		currentTrip && refetch();
-	}, [category]);
+	}, [category, circle]);
 
 	useEffect(() => {
 		data && setMarkers(data?.map((pl) => ({

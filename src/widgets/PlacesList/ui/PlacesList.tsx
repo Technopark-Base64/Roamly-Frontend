@@ -15,7 +15,7 @@ interface IProps {
 
 export const PlacesList = ({ places }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
-	const { setMarkers, selectPlace } = useMapWidget();
+	const { setMarkers, selectPlace, circle } = useMapWidget();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
 	const [search, setSearch] = useState('');
@@ -27,11 +27,15 @@ export const PlacesList = ({ places }: IProps) => {
 		error,
 		refetch,
 		isFetching,
-	} = useFetch<IPlace[]>(searchPlaces(search, currentTrip?.area));
+	} = useFetch<IPlace[]>(searchPlaces(search, circle
+		?? {
+			center: currentTrip?.area.location ?? { lat: 0, lng: 0 },
+			radius: 20000,
+		}));
 
 	useEffect(() => {
 		search && refetch();
-	}, [search]);
+	}, [search, circle]);
 
 	const list = search ? data : places;
 
