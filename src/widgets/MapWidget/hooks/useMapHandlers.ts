@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { IPlaceResponse, mapResponseToPlace } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { getLength } from 'src/shared/utils';
@@ -6,9 +7,36 @@ import { useMapWidget } from './useMapWidget';
 
 export const useMapHandlers = (map: google.maps.Map | null) => {
 	const { currentTrip } = useCurrentTrip();
-	const { setZoom, setView, currentView, markers } = useMapWidget();
+	const { setZoom, setView, currentView, markers, enableCircle, setCircle } = useMapWidget();
+
+	useEffect(() => {
+		if (!enableCircle) {
+			setCircle(null);
+			return;
+		}
+
+		const bound = map?.getBounds()?.getNorthEast();
+		const mapCenter = map?.getCenter();
+
+		if (!mapCenter || !bound)
+			return;
+
+		const center = {
+			lng: mapCenter.lng(),
+			lat: mapCenter.lat(),
+		};
+		const corner = {
+			lng: bound.lng(),
+			lat: bound.lat(),
+		};
+
+		const radius = getLength(center, corner) * 0.6;
+
+		setCircle({ center, radius });
+	}, [enableCircle]);
 
 	const handleChangeCenter= () => {
+		console.log(map);
 		if (map) {
 			setView({
 				lat: map.getCenter()?.lat() ?? 0,
@@ -56,7 +84,7 @@ export const useMapHandlers = (map: google.maps.Map | null) => {
 			lat: map.getCenter()?.lat() ?? 0,
 		};
 
-		if (getLength(average, actual) > 3) {
+		if (getLength(average, actual) > 3000) {
 			map.setCenter(average);
 		}
 		map.setZoom(12);

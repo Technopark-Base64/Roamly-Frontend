@@ -7,6 +7,14 @@ export interface IMarker {
   },
 }
 
+export type TCircle = {
+  center: {
+    lat: number,
+    lng: number,
+  },
+  radius: number,
+}
+
 export interface IMapStorage {
   markers: IMarker[],
   isRoute: boolean,
@@ -16,4 +24,6 @@ export interface IMapStorage {
     lng: number,
   },
   currentZoom: number,
+  enableCircle: boolean,
+  circle: TCircle | null,
 }

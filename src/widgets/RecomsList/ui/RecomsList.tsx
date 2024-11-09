@@ -15,7 +15,7 @@ type TCategory = {
 
 export const RecomsList = () => {
 	const { currentTrip } = useCurrentTrip();
-	const { setMarkers, selectPlace } = useMapWidget();
+	const { setMarkers, selectPlace, enableCircle, setEnableCircle } = useMapWidget();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
 	const [category, setCategory] = useState<TCategory['name']>('tourist_attraction');
@@ -67,8 +67,16 @@ export const RecomsList = () => {
 		listRef.current?.scrollTo(0, openedIndex * COLLAPSED_PLACECARD_HEIGHT);
 	}, [openedIndex]);
 
+	// Disable search circle once you exit recom page
+	useEffect(() => () => setEnableCircle(false), []);
+
+	const handleEnableCircle = () => {
+		setEnableCircle(!enableCircle);
+	};
+
 	return (
 		<div className={cls.wrapper}>
+
 			<div className={cls.label}>
 				Выберите категорию
 			</div>
@@ -83,6 +91,10 @@ export const RecomsList = () => {
 					</button>
 				)}
 			</div>
+
+			<button className={`shared-button ${cls.circleButton}`} onClick={handleEnableCircle}>
+				{ enableCircle ? 'Снять выделение' : 'Искать в этом радиусе'}
+			</button>
 
 			<div className={cls.listContainer} ref={listRef}>
 				{!data?.length && !error &&

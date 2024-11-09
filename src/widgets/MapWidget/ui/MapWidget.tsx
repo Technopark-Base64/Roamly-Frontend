@@ -1,4 +1,4 @@
-import { DirectionsRenderer, GoogleMap, Marker } from '@react-google-maps/api';
+import { Circle, DirectionsRenderer, GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useMapHandlers } from '../hooks/useMapHandlers';
@@ -11,7 +11,7 @@ const mapStyle = {
 
 export const MapWidget = () => {
 	const { currentTrip } = useCurrentTrip();
-	const { currentView, currentZoom, markers, isRoute, selectedId } = useMapWidget();
+	const { currentView, currentZoom, markers, isRoute, selectedId, circle } = useMapWidget();
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	const [directionsResponse, setDirectionsResponse] = useState<google.maps.DirectionsResult | null>(null);
 	const { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers } = useMapHandlers(map);
@@ -86,6 +86,20 @@ export const MapWidget = () => {
 				))}
 
 				{ directionsResponse && <DirectionsRenderer directions={directionsResponse} /> }
+
+				{circle &&
+					<Circle
+						center={circle.center}
+						radius={circle.radius}
+						options={{
+							fillColor: 'rgba(127,190,255)',
+							fillOpacity: 0.3,
+							strokeColor: 'rgba(127,190,255)',
+							strokeOpacity: 0.8,
+							strokeWeight: 2,
+						}}
+					/>
+				}
 
 			</GoogleMap>
 		</>

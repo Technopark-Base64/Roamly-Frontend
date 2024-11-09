@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IPlace } from 'src/entities/Place';
-import { IMapStorage, IMarker } from '../../model/types';
+import { IMapStorage, IMarker, TCircle } from '../../model/types';
 
 const initialState: IMapStorage = {
 	markers: [],
@@ -11,6 +11,14 @@ const initialState: IMapStorage = {
 		lat: 0,
 		lng: 0,
 	},
+	enableCircle: false,
+	circle: {
+		center: {
+			lat: 0,
+			lng: 0,
+		},
+		radius: 0,
+	}
 };
 
 const mapSlice = createSlice({
@@ -30,16 +38,24 @@ const mapSlice = createSlice({
 		setZoom: (state, action: { payload: number }) => {
 			state.currentZoom = action.payload;
 		},
+		setEnableCircle: (state, action: { payload: boolean }) => {
+			state.enableCircle = action.payload;
+		},
+		setCircle: (state, action: { payload: TCircle | null }) => {
+			state.circle = action.payload;
+		},
 		clearMap: (state) => {
 			state.currentZoom = initialState.currentZoom;
 			state.currentView = initialState.currentView;
 			state.markers = initialState.markers;
 			state.isRoute = initialState.isRoute;
 			state.selectedId = initialState.selectedId;
+			state.enableCircle = initialState.enableCircle;
+			state.circle = initialState.circle;
 		}
 	},
 });
 
-export const { setView, clearMap, setZoom, setMarkers, setSelectedId } = mapSlice.actions;
+export const { setView, clearMap, setZoom, setMarkers, setSelectedId, setEnableCircle, setCircle } = mapSlice.actions;
 
 export default mapSlice.reducer;

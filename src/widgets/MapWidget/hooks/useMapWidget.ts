@@ -7,12 +7,14 @@ import {
 	setZoom as setZ,
 	setMarkers as setM,
 	setSelectedId as setS,
+	setEnableCircle as setE,
+	setCircle as setC,
 } from '../lib/slices/MapStorage';
 import { getMapProps } from '../model/selectors/getMapProps';
-import { IMarker } from '../model/types';
+import { IMarker, TCircle } from '../model/types';
 
 export const useMapWidget = () => {
-	const { currentView, currentZoom, markers, isRoute, selectedId } = useSelector(getMapProps);
+	const MapProps = useSelector(getMapProps);
 	const dispatch = useDispatch<AppDispatch>();
 
 	const setView = (location: IPlace['location']) => {
@@ -35,10 +37,17 @@ export const useMapWidget = () => {
 		dispatch(setS(placeId));
 	};
 
+	const setEnableCircle = (ena: boolean) => {
+		dispatch(setE(ena));
+	};
+
+	const setCircle = (circle: TCircle | null) => {
+		dispatch(setC(circle));
+	};
+
 	const clearMap = () => {
 		dispatch(clearM());
 	};
 
-	return { currentView, currentZoom, markers, isRoute, selectedId,
-		setView, setZoom, setMarkers, selectPlace, clearMap };
+	return { ...MapProps, setView, setZoom, setMarkers, selectPlace, clearMap, setEnableCircle, setCircle };
 };
