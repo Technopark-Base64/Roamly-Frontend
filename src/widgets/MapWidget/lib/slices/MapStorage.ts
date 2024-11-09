@@ -4,6 +4,7 @@ import { IMapStorage, IMarker } from '../../model/types';
 
 const initialState: IMapStorage = {
 	markers: [],
+	isRoute: false,
 	selectedId: '',
 	currentZoom: 12,
 	currentView: {
@@ -19,8 +20,9 @@ const mapSlice = createSlice({
 		setSelectedId: (state, action: { payload: string }) => {
 			state.selectedId = action.payload;
 		},
-		setMarkers: (state, action: { payload: IMarker[] }) => {
-			state.markers = action.payload;
+		setMarkers: (state, action: { payload: { markers: IMarker[], isRoute: boolean } }) => {
+			state.markers = action.payload.markers;
+			state.isRoute = action.payload.isRoute;
 		},
 		setView: (state, action: { payload: IPlace['location'] }) => {
 			state.currentView = action.payload;
@@ -32,6 +34,7 @@ const mapSlice = createSlice({
 			state.currentZoom = initialState.currentZoom;
 			state.currentView = initialState.currentView;
 			state.markers = initialState.markers;
+			state.isRoute = initialState.isRoute;
 			state.selectedId = initialState.selectedId;
 		}
 	},

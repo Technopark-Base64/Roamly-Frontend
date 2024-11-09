@@ -12,7 +12,7 @@ import { getMapProps } from '../model/selectors/getMapProps';
 import { IMarker } from '../model/types';
 
 export const useMapWidget = () => {
-	const { currentView, currentZoom, markers, selectedId } = useSelector(getMapProps);
+	const { currentView, currentZoom, markers, isRoute, selectedId } = useSelector(getMapProps);
 	const dispatch = useDispatch<AppDispatch>();
 
 	const setView = (location: IPlace['location']) => {
@@ -23,8 +23,11 @@ export const useMapWidget = () => {
 		dispatch(setZ(zoom));
 	};
 
-	const setMarkers = (mks: IMarker[]) => {
-		dispatch(setM(mks));
+	const setMarkers = (markers: IMarker[], isRoute = false) => {
+		dispatch(setM({
+			markers,
+			isRoute,
+		}));
 		selectPlace('');
 	};
 
@@ -36,6 +39,6 @@ export const useMapWidget = () => {
 		dispatch(clearM());
 	};
 
-	return { currentView, currentZoom, markers, selectedId,
+	return { currentView, currentZoom, markers, isRoute, selectedId,
 		setView, setZoom, setMarkers, selectPlace, clearMap };
 };

@@ -11,8 +11,12 @@ export const MainWidget = () => {
 	const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null);
 
 	const handleDayChange = (currentDayEvents: IEvent[]) => {
-		if (!currentDayEvents)
+		if (!currentDayEvents) {
+			setSelectedEvent(null);
 			return;
+		}
+
+		setSelectedEvent(currentDayEvents[0]);
 
 		setMarkers(currentDayEvents
 			.sort(sortEventsByTime)
@@ -20,7 +24,7 @@ export const MainWidget = () => {
 				id: event.place.placeId,
 				title: event.place.name,
 				location: event.place.location,
-			}] : []));
+			}] : []), true);
 	};
 
 	const handleSelectEvent = (event: IEvent) => {

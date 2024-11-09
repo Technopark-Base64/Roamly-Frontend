@@ -35,8 +35,6 @@ export const TripPage = () => {
 		isFetching,
 	} = useFetch<ITrip>(getTrip(id ?? ''));
 
-	console.log(isFetching);
-
 	useEffect(() => {
 		error && Notify({
 			error: true,

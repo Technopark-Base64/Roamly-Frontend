@@ -9,6 +9,7 @@ export interface IMarker {
 
 export interface IMapStorage {
   markers: IMarker[],
+  isRoute: boolean,
   selectedId: string,
   currentView: {
     lat: number,

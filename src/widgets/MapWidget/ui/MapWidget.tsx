@@ -1,4 +1,4 @@
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import { DirectionsRenderer, GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useMapHandlers } from '../hooks/useMapHandlers';
@@ -11,8 +11,9 @@ const mapStyle = {
 
 export const MapWidget = () => {
 	const { currentTrip } = useCurrentTrip();
-	const { currentView, currentZoom, markers, selectedId } = useMapWidget();
+	const { currentView, currentZoom, markers, isRoute, selectedId } = useMapWidget();
 	const [map, setMap] = useState<google.maps.Map | null>(null);
+	const [directionsResponse, setDirectionsResponse] = useState<google.maps.DirectionsResult | null>(null);
 	const { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers } = useMapHandlers(map);
 
 	useEffect(() => {
@@ -26,6 +27,31 @@ export const MapWidget = () => {
 	}, [selectedId]);
 
 	useEffect(handleUpdateMarkers, [markers]);
+
+	useEffect(() => {
+		if (markers.length < 2 || !isRoute) {
+			setDirectionsResponse(null);
+			return;
+		}
+
+		const directionsService = new google.maps.DirectionsService();
+
+		directionsService.route(
+			{
+				origin: markers[0].location,
+				destination: markers[markers.length - 1].location,
+				waypoints: markers.slice(1, -1).map((m) => ({ location: m.location })),
+				travelMode: google.maps.TravelMode.WALKING
+			},
+			(result, status) => {
+				if (status === google.maps.DirectionsStatus.OK) {
+					setDirectionsResponse(result);
+				} else {
+					console.error('error fetching directions', result, status);
+				}
+			}
+		);
+	}, [markers]);
 
 	const position = useMemo(() => currentView, [currentTrip]);
 	const zoom = useMemo(() => currentZoom, []);
@@ -46,16 +72,21 @@ export const MapWidget = () => {
 						position={mark.location}
 						title={mark.title}
 						key={mark.id}
-						icon={{
-							path: window.google.maps.SymbolPath.CIRCLE,
+						icon={!isRoute || markers.length !== 1 ? {
+							path: !isRoute
+								? window.google.maps.SymbolPath.CIRCLE
+								: '',
 							scale: 10,
 							fillColor: selectedId === mark.id ? 'red' : 'blue',
 							fillOpacity: 1,
 							strokeColor: 'white',
 							strokeWeight: 3,
-						}}
+						} : undefined}
 					/>
 				))}
+
+				{ directionsResponse && <DirectionsRenderer directions={directionsResponse} /> }
+
 			</GoogleMap>
 		</>
 	);
