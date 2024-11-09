@@ -5,6 +5,7 @@ import { useCurrentTrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { DAY_MS, dateGreater } from 'src/shared/utils';
 import { useCreateUpdateEvent } from '../hooks/useCreateUpdateEvent';
+import { useDeleteEvent } from '../hooks/useDeleteEvent';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -31,6 +32,7 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 		return currentTrip.places.find((pl) => pl.name.toLowerCase().includes(search.trim().toLowerCase()));
 	}, [search]);
 
+	const { Delete } = useDeleteEvent({ onSuccess });
 	const { UpdateEvent, CreateEvent } = useCreateUpdateEvent({
 		id: prevEvent?.id ?? '',
 		name,
@@ -159,7 +161,11 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 
 			<div className={cls.buttonContainer}>
 				<button type="submit" className="shared-button"> {prevEvent ? 'Сохранить' :'Создать'} </button>
-				{ prevEvent && <button type="button" className="shared-button shared-button-red"> Удалить </button> }
+				{ prevEvent &&
+					<button type="button" className="shared-button shared-button-red" onClick={() => Delete(prevEvent.id)}>
+						Удалить
+					</button>
+				}
 			</div>
 		</form>
 	);
