@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useMapWidget } from 'src/widgets/MapWidget';
 import { COLLAPSED_PLACECARD_HEIGHT, IPlace, PlaceCard, recomsPlaces } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
+import { FiltersPopup } from 'src/shared/components/FiltersPopup';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useAddPlaceToTrip } from '../../PlacesList';
@@ -38,6 +39,10 @@ export const RecomsList = () => {
 		{
 			name: 'church',
 			label: 'Храмы'
+		},
+		{
+			name: 'park',
+			label: 'Парки'
 		},
 	];
 
@@ -88,6 +93,8 @@ export const RecomsList = () => {
 					</button>
 				)}
 			</div>
+
+			{/*<FiltersPopup filters={categories} />*/}
 
 			<div className={cls.listContainer} ref={listRef}>
 				{!data?.length && !error &&

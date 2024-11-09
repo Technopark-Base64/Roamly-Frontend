@@ -3,7 +3,7 @@ import { BACKEND_API_URL } from 'src/shared/config';
 import { mapResponseToPlace } from '../lib/mapResponseToPlace';
 import { sortPlacesByRating } from '../lib/sortPlacesByRating';
 
-const RECOMS_CHUNK_SIZE = 25;
+const RECOMS_CHUNK_SIZE = 20;
 
 export const recomsPlaces = (types: string[], circle: TCircle) => ({
 	url: `${BACKEND_API_URL}/place/recomendations

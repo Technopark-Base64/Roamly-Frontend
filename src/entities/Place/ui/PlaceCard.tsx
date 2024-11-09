@@ -24,7 +24,7 @@ export const PlaceCard = ({
 
 	const imageUrl = place.photos?.[photoIndex] && (place.photos[photoIndex].startsWith('https://')
 		? place.photos[photoIndex]
-		: getPlacePhoto(place.photos[photoIndex], isOpened ? 450 : 100));
+		: getPlacePhoto(place.photos[photoIndex].slice(place.photos[photoIndex].startsWith('places/') ? 42 : 0), isOpened ? 450 : 100));
 
 	const ratingBlock = (
 		<div className={cls.rating}>
