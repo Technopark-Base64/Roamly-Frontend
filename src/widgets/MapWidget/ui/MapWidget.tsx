@@ -20,7 +20,7 @@ export const MapWidget = () => {
 		const location = selectedId && markers?.find((m) => m.id === selectedId)?.location;
 		if (location && map) {
 			map.setCenter(location);
-			map.setZoom(16);
+			map.setZoom(15);
 		}
 		if (!selectedId && map)
 			map.setZoom(12);

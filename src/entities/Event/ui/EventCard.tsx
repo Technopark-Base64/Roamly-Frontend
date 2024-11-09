@@ -12,18 +12,15 @@ export const EventCard = ({ calendarEvent }: IProps) => {
 
 	return (
 		<div className={cls.card}>
-			<div className={cls.timeInfo}>
-				<div className={cls.startTime}>
-					{event.time}
-				</div>
-				{event.duration}
-			</div>
-
-			<div className={cls.placeInfo}>
-				{event.photo &&
-					<img className={cls.image} src={getPlacePhoto(event.photo)} alt=""/>
-				}
+			{event.photo
+				? <img className={cls.image} src={getPlacePhoto(event.photo)} alt=""/>
+				: <div className={cls.image} />
+			}
+			<div className={cls.info}>
 				{event.name}
+				<div className={cls.timeInfo}>
+					{event.time} – {event.duration}
+				</div>
 			</div>
 		</div>
 	);

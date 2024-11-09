@@ -1,5 +1,8 @@
-import { BACKEND_API_URL } from 'src/shared/config';
+import { GOOGLE_API_KEY } from 'src/shared/config';
 
-export const getPlacePhoto = (photoRef: string) => {
-	return `${BACKEND_API_URL}/place/photo?reference=${photoRef}`;
+export const getPlacePhoto = (photoUrl: string, width = 200) => {
+	return `https://maps.googleapis.com/maps/api/place/photo
+	?maxwidth=${width}
+	&photo_reference=${photoUrl}
+	&key=${GOOGLE_API_KEY}`;
 };

@@ -1,7 +1,14 @@
 .wrapper {
+  position: relative;
   min-width: 440px;
   display: flex;
   flex-flow: column;
   gap: 20px;
   height: 650px;
+}
+
+.hintBtn {
+  position: absolute;
+  width: 255px;
+  inset: 380px 94px auto auto;
 }

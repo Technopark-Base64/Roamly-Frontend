@@ -29,3 +29,13 @@
 .fc-list-event {
   cursor: pointer;
 }
+
+// Disable Google Map style buttons
+.gm-style-mtc-bbw {
+  display: none;
+}
+
+// Disable Google Map info popup
+.gm-style-iw, .gm-style-iw-tc {
+  visibility: hidden;
+}

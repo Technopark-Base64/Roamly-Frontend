@@ -4,7 +4,7 @@ import { searchArea } from './api/searchArea';
 import { searchPlaces } from './api/searchPlaces';
 import { mapResponseToPlace } from './lib/mapResponseToPlace';
 import { IPlace, IPlaceResponse } from './model/types';
-import { PlaceCard } from './ui/PlaceCard';
+import { PlaceCard, COLLAPSED_PLACECARD_HEIGHT } from './ui/PlaceCard';
 
 export type {
 	IPlace,
@@ -18,4 +18,6 @@ export {
 	recomsPlaces,
 	getPlacePhoto,
 	PlaceCard,
+
+	COLLAPSED_PLACECARD_HEIGHT
 };

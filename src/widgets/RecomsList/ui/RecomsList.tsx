@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMapWidget } from 'src/widgets/MapWidget';
-import { IPlace, PlaceCard, recomsPlaces } from 'src/entities/Place';
+import { COLLAPSED_PLACECARD_HEIGHT, IPlace, PlaceCard, recomsPlaces } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
@@ -19,6 +19,12 @@ export const RecomsList = () => {
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
 	const [category, setCategory] = useState<TCategory['name']>('tourist_attraction');
+	const [openedIndex, setOpenedIndex] = useState(-1);
+	const listRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		listRef.current?.scrollTo(0, openedIndex * COLLAPSED_PLACECARD_HEIGHT);
+	}, [openedIndex]);
 
 	const categories: TCategory[] = [
 		{
@@ -56,6 +62,8 @@ export const RecomsList = () => {
 			title: pl.name,
 			location: pl.location,
 		})));
+
+		setOpenedIndex(-1);
 	}, [data]);
 
 	return (
@@ -75,7 +83,7 @@ export const RecomsList = () => {
 				)}
 			</div>
 
-			<div className={cls.listContainer}>
+			<div className={cls.listContainer} ref={listRef}>
 				{!data?.length && !error &&
 					<div className={cls.label}>
 						{isFetching ? <LoadingScreen /> : 'Ничего не найдено'}
@@ -90,15 +98,20 @@ export const RecomsList = () => {
 					</div>
 				}
 
-				{data?.map((place) => (
+				{data?.map((place, index) => (
 					<PlaceCard
 						place={place}
 						key={place.placeId}
 						selected={!!currentTrip?.places.find((pl) => pl.placeId === place.placeId)}
-						colorSelected={true}
+						isOpened={index === openedIndex}
 						onAdd={() => AddPlace(place.placeId)}
 						onRemove={() => RemovePlace(place.placeId)}
-						onMapClick={() => selectPlace(place.placeId)}
+						onOpen={() => {
+							setOpenedIndex(index);
+							selectPlace(place.placeId);
+						}}
+						onClickNext={index < data.length - 1 ? () => setOpenedIndex(index + 1) : undefined}
+						onClickPrev={index > 0 ? () => setOpenedIndex(index - 1) : undefined}
 					/>
 				))}
 
