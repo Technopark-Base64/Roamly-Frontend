@@ -1,7 +1,8 @@
 import { MouseEvent, useState } from 'react';
 import { TripForm } from 'src/features/TripForm';
+import { UsersList } from 'src/features/UsersList';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
-import { defaultTripName, formatMembersNumber } from 'src/shared/utils';
+import { defaultTripName, formatMembersNumber } from 'src/shared/lang';
 import { getPlacePhoto } from '../../Place';
 import { useCurrentUser, UserRole } from '../../User';
 import { isTripActive } from '../lib/tripStates';
@@ -14,25 +15,29 @@ interface IProps {
   onClick?: () => void;
 }
 
+type TModal = 'edit' | 'members' | 'share';
+
 export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 	const { currentUser } = useCurrentUser();
 	const myRole = (currentUser && trip && trip.users.find((u) => u.id === currentUser.id)?.role) ?? UserRole.Owner;
 
-	const [showModal, setShowModal] = useState(false);
+	const [modalType, setModalType] = useState<TModal | null>(null);
 
 	const isActive = !!trip && isTripActive(trip);
 
 	const handleClickEdit = (e: MouseEvent) => {
 		e.stopPropagation();
-		setShowModal(true);
+		setModalType('edit');
 	};
 
 	const handleClickMembers = (e: MouseEvent) => {
 		e.stopPropagation();
+		setModalType('members');
 	};
 
 	const handleClickShare = (e: MouseEvent) => {
 		e.stopPropagation();
+		setModalType('share');
 	};
 
 	return (
@@ -73,9 +78,14 @@ export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 				</div>
 			}
 
-			{showModal && trip && myRole === UserRole.Owner &&
-				<ModalWrapper onClose={() => setShowModal(false)} >
+			{modalType === 'edit' && trip && myRole === UserRole.Owner &&
+				<ModalWrapper onClose={() => setModalType(null)} >
 					<TripForm prevTrip={trip} />
+				</ModalWrapper>
+			}
+			{modalType === 'members' &&
+				<ModalWrapper onClose={() => setModalType(null)} >
+					<UsersList users={trip?.users ?? []} />
 				</ModalWrapper>
 			}
 		</div>

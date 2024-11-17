@@ -15,8 +15,8 @@ interface IProps {
 }
 
 const defaultUser = {
-	id: 1,
-	login: 'loading...',
+	id: 0,
+	login: '',
 	email: '',
 };
 

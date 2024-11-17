@@ -1,0 +1,17 @@
+.container {
+  width: 550px;
+  height: 500px;
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+
+.title {
+  font-size: 22px;
+}
+
+.listContainer {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+}
