@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { IPlace } from '../../Place';
 import { getPlacePhoto } from '../../Place';
+import { useCurrentTrip } from '../../Trip';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -20,6 +21,7 @@ export const PlaceCard = ({
 	place, selected, isOpened, onAdd, onRemove,
 	onOpen, onClickNext, onClickPrev
 }: IProps) => {
+	const { isReadonly } = useCurrentTrip();
 	const [photoIndex, setPhotoIndex] = useState(0);
 
 	const imageUrl = place.photos?.[photoIndex] && (place.photos[photoIndex].startsWith('https://')
@@ -88,7 +90,7 @@ export const PlaceCard = ({
 
 			<div className={cls.info}>
 				<div>
-					{ place.description || 'Памятник культуры'}
+					{ String(place.description) || 'Памятник культуры'}
 				</div>
 				<div>
 					📍&nbsp; {place.formattedAddress}
@@ -107,7 +109,7 @@ export const PlaceCard = ({
 				</button>
 
 				<button
-					className={`shared-button shared-button-${selected ? 'red' : 'active'} ${(!onAdd || !onRemove) && cls.hidden}`}
+					className={`shared-button shared-button-${selected ? 'red' : 'active'} ${(!onAdd || !onRemove || isReadonly) && cls.hidden}`}
 					onClick={selected ? onRemove : onAdd}
 				>
 					{selected ? 'Удалить' : 'Добавить'}

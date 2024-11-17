@@ -1,11 +1,12 @@
 import { IEventResponse, IEvent } from '../../../Event';
 import { IPlace, IPlaceResponse } from '../../../Place';
-import { IUser } from '../../../User';
+import { IUser, UserRole } from '../../../User';
 
 export interface ITrip {
   id: string,
   name: string,
   users: IUser[],
+  myRole: UserRole,
   startTime: Date,
   endTime: Date,
   area: IPlace,

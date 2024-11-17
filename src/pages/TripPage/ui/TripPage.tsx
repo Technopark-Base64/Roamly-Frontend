@@ -27,7 +27,7 @@ export const TripPage = () => {
 	const { id } = useParams();
 	const menu = location.hash.replace('#', '');
 
-	const { currentTrip, setCurrentTrip } = useCurrentTrip();
+	const { currentTrip, isOwner, setCurrentTrip } = useCurrentTrip();
 	const { Notify } = useNotificationService();
 	const navigate = useNavigate();
 
@@ -65,12 +65,14 @@ export const TripPage = () => {
 	}, [scheduleError]);
 
 	useEffect(() => {
-		scheduleData && setCurrentTrip(scheduleData);
-		navigate(`${location.pathname}#main`, { replace: true });
+		if (scheduleData) {
+			setCurrentTrip(scheduleData);
+			navigate(`${location.pathname}#main`, { replace: true });
+		}
 	}, [scheduleData]);
 
 	const handleAutoSchedule = () => {
-		scheduleRefetch();
+		isOwner && scheduleRefetch();
 	};
 
 	const tabs: ITab[] = [
@@ -108,9 +110,11 @@ export const TripPage = () => {
 		<div className={cls.page}>
 			<TripCard trip={currentTrip} />
 
-			<button className={`shared-button shared-button-active ${cls.autoButton}`} onClick={handleAutoSchedule}>
-				Спланировать мою поездку
-			</button>
+			{isOwner &&
+				<button className={`shared-button shared-button-active ${cls.autoButton}`} onClick={handleAutoSchedule}>
+					Спланировать мою поездку
+				</button>
+			}
 
 			<div className={cls.buttonContainer}>
 				{tabs.map((tab) => (

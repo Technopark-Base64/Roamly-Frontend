@@ -27,7 +27,7 @@ interface IProps {
 }
 
 export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEvent, onVisibleEventsChange }: IProps) => {
-	const { currentTrip } = useCurrentTrip();
+	const { currentTrip, isReadonly } = useCurrentTrip();
 	const { handleEventChange, handleEventResize, handleDatesSet } = useHandleCalendarEvent({ onVisibleEventsChange });
 
 	const calendarEvents: ICalendarEvent[] = useMemo(() => {
@@ -61,6 +61,14 @@ export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEven
 
 	const initialDate = currentTrip?.startTime && calculateInitialDate(currentTrip.startTime, currentTrip.endTime);
 
+	const leftButtons = views.length > 1
+		? `${views.join(',')}${!isReadonly ? ' today' : ''}`
+		: 'today';
+
+	const rightButtons = !isReadonly
+		? `${onSchedule ? 'schedule ' : ''}prev,next${onAdd ? ' add' : ''}`
+		: `${views.length > 1 ? 'today ' : ''}prev,next`;
+
 	return (
 		<div className={cls.wrapper}>
 			<FullCalendar
@@ -79,13 +87,13 @@ export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEven
 					},
 				}}
 				headerToolbar={{
-					left: `${views.length > 1 ? views.join(',') + ' ' : ''}today`,
+					left: leftButtons,
 					center: 'title',
-					right: `${onSchedule ? 'schedule ' : ''}prev,next${onAdd ? ' add' : ''}`
+					right: rightButtons
 				}}
 				nowIndicator={true}
 				navLinks={!views.includes('listDay')}
-				editable={true}
+				editable={!isReadonly}
 				firstDay={1}
 				locale={ruLocale}
 				height={height ?? 650}

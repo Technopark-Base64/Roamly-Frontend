@@ -33,7 +33,7 @@ export const RecomsList = () => {
 		},
 		{
 			name: 'art_gallery',
-			label: 'Галлереи'
+			label: 'Галереи'
 		},
 		{
 			name: 'church',

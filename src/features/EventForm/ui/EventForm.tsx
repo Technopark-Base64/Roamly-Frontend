@@ -14,7 +14,7 @@ interface IProps {
 }
 
 export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
-	const { currentTrip } = useCurrentTrip();
+	const { currentTrip, isReadonly } = useCurrentTrip();
 
 	const tripStart = currentTrip?.endTime.toISOString().slice(0, 16) ?? '';
 	const tripEnd = currentTrip ? new Date(+currentTrip.endTime + DAY_MS).toISOString().slice(0, 16) : '';
@@ -101,8 +101,9 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 						<span className={cls.hintLabel}> Название события </span>
 						<Input
 							initValue={name}
-							placeholder="Название"
+							placeholder={isReadonly ? 'Событие без названия' : 'Введите название'}
 							delay={0}
+							readonly={isReadonly}
 							onChange={setName}
 						/>
 					</div>
@@ -113,20 +114,21 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 						{!isSelected &&
 						<Input
 							initValue={search}
-							placeholder="Выберите место"
+							placeholder={isReadonly ? 'Место не выбрано' : 'Выберите место'}
 							delay={300}
+							readonly={isReadonly}
 							onChange={setSearch}
 						/>
 						}
 
 						{searchResult && search &&
 							<div
-								className={`${cls.regionShow} ${!isSelected && cls.pointer}`}
+								className={`${cls.regionShow} ${!isSelected && !isReadonly && cls.pointer}`}
 								onClick={() => setIsSelected(true)}
 							>
 								{ searchResult.name }
 
-								{isSelected &&
+								{isSelected && !isReadonly &&
 									<div className={cls.cancelBtn} onClick={handleCanselSelect}>
 										x
 									</div>
@@ -150,23 +152,25 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 			<div className={cls.dateContainer}>
 				<div className={cls.dateForm}>
 					Начало
-					<input type="datetime-local" value={startTime} onChange={handleStartTimeChange}/>
+					<input type="datetime-local" disabled={isReadonly} value={startTime} onChange={handleStartTimeChange}/>
 				</div>
 
 				<div className={cls.dateForm}>
 					Конец
-					<input type="datetime-local" value={endTime} onChange={handleEndTimeChange} />
+					<input type="datetime-local" disabled={isReadonly} value={endTime} onChange={handleEndTimeChange} />
 				</div>
 			</div>
 
-			<div className={cls.buttonContainer}>
-				<button type="submit" className="shared-button"> {prevEvent ? 'Сохранить' :'Создать'} </button>
-				{ prevEvent &&
-					<button type="button" className="shared-button shared-button-red" onClick={() => Delete(prevEvent.id)}>
-						Удалить
-					</button>
-				}
-			</div>
+			{!isReadonly &&
+				<div className={cls.buttonContainer}>
+					<button type="submit" className="shared-button"> {prevEvent ? 'Сохранить' :'Создать'} </button>
+					{ prevEvent &&
+						<button type="button" className="shared-button shared-button-red" onClick={() => Delete(prevEvent.id)}>
+							Удалить
+						</button>
+					}
+				</div>
+			}
 		</form>
 	);
 };

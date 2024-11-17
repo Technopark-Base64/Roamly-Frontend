@@ -5,11 +5,12 @@ interface IProps {
 	initValue: string,
   placeholder?: string,
   delay?: number,
+	readonly?: boolean,
 	// eslint-disable-next-line no-unused-vars
   onChange?: ((input: string) => void) | (() => void),
 }
 
-export const Input = ({ placeholder = '', initValue = '', delay = 0, onChange }: IProps) => {
+export const Input = ({ placeholder = '', initValue = '', readonly, delay = 0, onChange }: IProps) => {
 	const timerRef = useRef<NodeJS.Timeout>();
 	const [value, setValue] = useState(initValue);
 
@@ -34,11 +35,14 @@ export const Input = ({ placeholder = '', initValue = '', delay = 0, onChange }:
 				type="text"
 				value={value}
 				placeholder={placeholder}
+				disabled={readonly}
 				onChange={handleLoginInput}
 			/>
-			<div className={cls.clearBtn} onClick={handleClear}>
-				x
-			</div>
+			{!readonly &&
+				<div className={cls.clearBtn} onClick={handleClear}>
+					x
+				</div>
+			}
 		</div>
 	);
 };

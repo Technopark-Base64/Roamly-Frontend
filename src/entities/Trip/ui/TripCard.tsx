@@ -1,8 +1,9 @@
-import { useState, MouseEvent } from 'react';
+import { MouseEvent, useState } from 'react';
 import { TripForm } from 'src/features/TripForm';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
 import { defaultTripName } from 'src/shared/utils';
 import { getPlacePhoto } from '../../Place';
+import { useCurrentUser, UserRole } from '../../User';
 import { isTripActive } from '../lib/tripStates';
 import { ITrip } from '../model/types/Trip';
 import cls from './style.module.scss';
@@ -13,6 +14,9 @@ interface IProps {
 }
 
 export const TripCard = ({ trip, onClick }: IProps) => {
+	const { currentUser } = useCurrentUser();
+	const myRole = (currentUser && trip && trip.users.find((u) => u.id === currentUser.id)?.role) ?? UserRole.Readonly;
+
 	const [showModal, setShowModal] = useState(false);
 
 	const isActive = !!trip && isTripActive(trip);
@@ -43,14 +47,14 @@ export const TripCard = ({ trip, onClick }: IProps) => {
 			</div>
 
 			<div>
-				{trip &&
+				{trip && myRole === UserRole.Owner &&
 					<button className="shared-button shared-button-active" onClick={handleClickEdit}>
 						Ред.
 					</button>
 				}
 			</div>
 
-			{showModal && trip &&
+			{showModal && trip && myRole === UserRole.Owner &&
 				<ModalWrapper onClose={() => setShowModal(false)} >
 					<TripForm prevTrip={trip} />
 				</ModalWrapper>
