@@ -22,12 +22,12 @@ export const MainWidget = () => {
 	};
 
 	const handleDayChange = (currentDayEvents: IEvent[]) => {
-		if (!currentDayEvents) {
+		if (!currentDayEvents || !currentDayEvents.length) {
 			setSelectedEvent(null);
 			return;
 		}
 
-		setSelectedEvent(currentDayEvents[0]);
+		setSelectedEvent(currentDayEvents.sort(sortEventsByTime)[0]);
 
 		setMarkers(currentDayEvents
 			.sort(sortEventsByTime)

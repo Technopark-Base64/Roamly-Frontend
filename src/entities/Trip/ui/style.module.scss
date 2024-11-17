@@ -3,7 +3,7 @@
   width: calc(100% - 40px);
   display: flex;
   gap: 30px;
-  height: 120px;
+  height: 135px;
   padding: 20px;
   border-radius: 8px;
 }
@@ -17,8 +17,8 @@
 }
 
 .image {
-  width: 120px;
-  height: 120px;
+  width: 135px;
+  height: 135px;
   object-fit: cover;
   background-color: #646e85;
 }
@@ -32,10 +32,28 @@
   text-align: start;
 
   .name {
+    display: flex;
     font-size: 20px;
+    align-items: center;
   }
 
   .date {
     line-height: 22px;
+  }
+
+  .editBtn {
+    margin-left: 15px;
+    font-size: 14px;
+    flex: 0;
+  }
+}
+
+
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+
+  button {
+    max-width: 250px;
   }
 }

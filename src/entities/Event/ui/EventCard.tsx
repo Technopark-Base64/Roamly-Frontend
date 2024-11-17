@@ -11,7 +11,7 @@ export const EventCard = ({ event }: IProps) => {
 	return (
 		<div className={cls.card}>
 			{event.place?.photos[0]
-				? <img className={cls.image} src={getPlacePhoto(event.place.photos[0])} alt=""/>
+				? <img className={cls.image} key={event.place?.photos[0]} src={getPlacePhoto(event.place.photos[0])} alt=""/>
 				: <div className={cls.image} />
 			}
 			<div className={cls.info}>

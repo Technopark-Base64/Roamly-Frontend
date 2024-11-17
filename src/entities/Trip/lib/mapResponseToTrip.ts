@@ -12,7 +12,8 @@ export const mapResponseToTrip = (res: ITripResponse): ITrip => {
 		id: res.id,
 		name: res.name,
 		users: res.users,
-		myRole: res.users.find((u) => u.id === myId)?.role ?? UserRole.Readonly,
+		// TODO delete hard owner declaration
+		myRole: res.users.find((u) => u.id === myId)?.role ?? UserRole.Owner,
 		startTime: new Date(res.start_time),
 		endTime: new Date(res.end_time),
 		area: mapResponseToPlace(res.area),

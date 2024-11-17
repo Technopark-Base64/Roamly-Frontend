@@ -1,3 +1,3 @@
 export * from './date';
-export * from './names';
+export * from './lang';
 export * from './points';

@@ -108,9 +108,9 @@ export const TripPage = () => {
 
 	return (
 		<div className={cls.page}>
-			<TripCard trip={currentTrip} />
+			<TripCard trip={currentTrip} isTripPage={true} />
 
-			{isOwner &&
+			{isOwner && false &&
 				<button className={`shared-button shared-button-active ${cls.autoButton}`} onClick={handleAutoSchedule}>
 					Спланировать мою поездку
 				</button>
