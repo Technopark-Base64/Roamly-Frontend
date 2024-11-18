@@ -3,14 +3,19 @@ import { AppDispatch } from 'src/app/providers/StoreProvider';
 import { useMapWidget } from 'src/widgets/MapWidget';
 import { IEvent } from '../../Event';
 import { IPlace } from '../../Place';
-import { UserRole } from '../../User';
+import { IUser, UserRole } from '../../User';
 import { ITrip } from '../index';
-import { setTrip, setTripPlaces, setTripEvents, clearTrip } from '../lib/slices/CurrentTripStorage';
+import { setTrip, setTripPlaces, setTripEvents, clearTrip, setTripUsers, setTripTokens } from '../lib/slices/CurrentTripStorage';
 import { getCurrentTrip } from '../model/selectors/getCurrentTrip';
+import { ITokens } from '../model/types/Trip';
 
 
 export const useCurrentTrip = () => {
 	const currentTrip = useSelector(getCurrentTrip);
+	const inviteTokens: ITokens = currentTrip ? currentTrip.inviteTokens : {
+		readonly: '',
+		editor: '',
+	};
 	const { setView, clearMap } = useMapWidget();
 	const dispatch = useDispatch<AppDispatch>();
 
@@ -50,5 +55,14 @@ export const useCurrentTrip = () => {
 		}))));
 	};
 
-	return { currentTrip, isOwner, isEditor, isReadonly, setCurrentTrip, setCurrentTripPlaces, setCurrentTripEvents };
+	const setCurrentTripUsers = (users: IUser[]) => {
+		dispatch(setTripUsers(users));
+	};
+
+	const setCurrentTripTokens = (tokens: ITokens) => {
+		dispatch(setTripTokens(tokens));
+	};
+
+	return { currentTrip, inviteTokens, isOwner, isEditor, isReadonly,
+		setCurrentTrip, setCurrentTripPlaces, setCurrentTripEvents, setCurrentTripUsers, setCurrentTripTokens };
 };

@@ -1,4 +1,5 @@
 import { MouseEvent, useState } from 'react';
+import { ShareForm } from 'src/features/ShareForm';
 import { TripForm } from 'src/features/TripForm';
 import { UsersList } from 'src/features/UsersList';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
@@ -63,18 +64,18 @@ export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 						{isActive && <><br/> Идет прямо сейчас! </>}
 					</div>
 
-					<div className={cls.buttonContainer}>
-						{isTripPage &&
+					{isTripPage &&
+						<div className={cls.buttonContainer}>
 							<button className="shared-button shared-button-active" onClick={handleClickMembers}>
 								{formatMembersNumber(trip.users.length)}
 							</button>
-						}
-						{myRole === UserRole.Owner &&
-							<button className="shared-button shared-button-active" onClick={handleClickShare}>
-								Ссылка приглашение
-							</button>
-						}
-					</div>
+							{myRole === UserRole.Owner &&
+								<button className="shared-button shared-button-active" onClick={handleClickShare}>
+									Ссылка приглашение
+								</button>
+							}
+						</div>
+					}
 				</div>
 			}
 
@@ -86,6 +87,11 @@ export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 			{modalType === 'members' &&
 				<ModalWrapper onClose={() => setModalType(null)} >
 					<UsersList users={trip?.users ?? []} />
+				</ModalWrapper>
+			}
+			{modalType === 'share' &&
+				<ModalWrapper onClose={() => setModalType(null)} >
+					<ShareForm />
 				</ModalWrapper>
 			}
 		</div>

@@ -7,11 +7,17 @@ export interface ITrip {
   name: string,
   users: IUser[],
   myRole: UserRole,
+  inviteTokens: ITokens,
   startTime: Date,
   endTime: Date,
   area: IPlace,
   places: IPlace[],
   events: IEvent[],
+}
+
+export interface ITokens {
+  readonly: string | null,
+  editor: string | null,
 }
 
 export interface ITripResponse {

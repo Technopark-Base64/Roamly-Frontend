@@ -1,0 +1,32 @@
+.container {
+  width: 350px;
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+
+.title {
+  font-size: 22px;
+}
+
+.switchContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+}
+
+.inputContainer {
+  margin-top: 10px;
+  display: flex;
+
+  input {
+    flex: 1;
+  }
+
+  .copyBtn {
+    background-color: #646e85;
+    padding: 5px 15px;
+    cursor: pointer;
+  }
+}

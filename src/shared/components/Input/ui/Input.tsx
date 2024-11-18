@@ -20,7 +20,7 @@ export const Input = ({ placeholder = '', initValue = '', readonly, delay = 0, o
 		return () => clearTimeout(timerRef.current);
 	}, [value]);
 
-	const handleLoginInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(event.target.value);
 	};
 
@@ -36,7 +36,7 @@ export const Input = ({ placeholder = '', initValue = '', readonly, delay = 0, o
 				value={value}
 				placeholder={placeholder}
 				disabled={readonly}
-				onChange={handleLoginInput}
+				onChange={handleInput}
 			/>
 			{!readonly &&
 				<div className={cls.clearBtn} onClick={handleClear}>

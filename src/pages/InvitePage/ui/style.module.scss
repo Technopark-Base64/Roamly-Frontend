@@ -1,0 +1,18 @@
+.page {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100dvh - 50px);
+  gap: 30px;
+  width: 650px;
+  margin: 0 auto;
+
+  button {
+    width: 512px;
+  }
+}
+
+.title {
+  font-size: 36px;
+}

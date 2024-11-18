@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { InvitePage } from 'src/pages/InvitePage';
 import { LoginPage } from 'src/pages/LoginPage';
 import { MainPage } from 'src/pages/MainPage';
 import { Page404 } from 'src/pages/Page404';
@@ -31,6 +32,7 @@ const App = () => {
 						<Route path="/login" element={!currentUser ? <LoginPage/> : <Redirect url="/" replace={true} />}/>
 						<Route path="/" element={currentUser ? <MainPage/> : <Redirect url="/login" replace={true} />}/>
 						<Route path="/trip/:id" element={currentUser ? <TripPage/> : <Redirect url="/login" replace={true} />}/>
+						<Route path="/invite/:token" element={currentUser ? <InvitePage/> : <Redirect url="/login" replace={true} />}/>
 						<Route path="*" element={<Page404/>}/>
 					</Routes>
 				</div>
