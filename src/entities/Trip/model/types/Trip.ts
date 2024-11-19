@@ -16,7 +16,7 @@ export interface ITrip {
 }
 
 export interface ITokens {
-  readonly: string | null,
+  reader: string | null,
   editor: string | null,
 }
 

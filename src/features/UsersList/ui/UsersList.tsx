@@ -31,7 +31,7 @@ export const UsersList = ({ users } :IProps) => {
 						key={user.id}
 						onChangeRole={isOwner && user.id !== currentUser?.id
 							? ((newRole: string) => handleChangeRole(user.id, newRole)) : undefined}
-						onDeleteUser={isOwner && user.id !== currentUser?.id
+						onDeleteUser={(isOwner && user.id !== currentUser?.id) || (!isOwner && user.id === currentUser?.id)
 							? (() => handleDeleteUser(user.id)) : undefined}
 					/>
 				)}

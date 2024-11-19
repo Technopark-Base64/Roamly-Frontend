@@ -1,20 +1,21 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useFetch } from 'src/shared/hooks/useFetch';
-import { checkInvite } from '../api/checkInvite';
+import { joinTrip } from '../api/joinTrip';
+import { IJoinTripResponse } from '../model/types';
 import cls from './style.module.scss';
 
-export const InvitePage = () => {
+export const JoinPage = () => {
 	const navigate = useNavigate();
 	const { token } = useParams();
 
 	const {
 		data,
 		error,
-	} = useFetch(checkInvite(token ?? ''));
+	} = useFetch<IJoinTripResponse>(joinTrip(token ?? ''));
 
 	useEffect(() => {
-		data && navigate(`/trip/${token}`);
+		data && navigate(`/trip/${data.trip_id}`);
 	}, [data]);
 
 	const handleNavigate = () => {

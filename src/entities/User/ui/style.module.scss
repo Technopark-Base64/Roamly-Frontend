@@ -42,6 +42,14 @@
   }
 }
 
+.noPointer {
+  cursor: unset;
+}
+
+.deleteBtnEmpty {
+  width: 40px;
+}
+
 .changeMenu {
   position: absolute;
   top: 30px;

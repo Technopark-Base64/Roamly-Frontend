@@ -15,7 +15,7 @@ export const mapResponseToTrip = (res: ITripResponse): ITrip => {
 		// TODO delete hard owner declaration
 		myRole: res.users.find((u) => u.id === myId)?.role ?? UserRole.Owner,
 		inviteTokens: {
-			readonly: res.id,
+			reader: res.id,
 			editor: null,
 		},
 		startTime: new Date(res.start_time),

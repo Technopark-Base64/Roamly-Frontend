@@ -21,7 +21,7 @@ export const PlaceCard = ({
 	place, selected, isOpened, onAdd, onRemove,
 	onOpen, onClickNext, onClickPrev
 }: IProps) => {
-	const { isReadonly } = useCurrentTrip();
+	const { isReader } = useCurrentTrip();
 	const [photoIndex, setPhotoIndex] = useState(0);
 
 	const imageUrl = place.photos?.[photoIndex] && (place.photos[photoIndex].startsWith('https://')
@@ -109,7 +109,7 @@ export const PlaceCard = ({
 				</button>
 
 				<button
-					className={`shared-button shared-button-${selected ? 'red' : 'active'} ${(!onAdd || !onRemove || isReadonly) && cls.hidden}`}
+					className={`shared-button shared-button-${selected ? 'red' : 'active'} ${(!onAdd || !onRemove || isReader) && cls.hidden}`}
 					onClick={selected ? onRemove : onAdd}
 				>
 					{selected ? 'Удалить' : 'Добавить'}

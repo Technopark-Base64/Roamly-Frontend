@@ -4,7 +4,7 @@ export enum UserRole {
   // eslint-disable-next-line no-unused-vars
   Editor = 'editor',
   // eslint-disable-next-line no-unused-vars
-  Readonly = 'readonly',
+  Reader = 'reader',
 }
 
 export interface IUser {

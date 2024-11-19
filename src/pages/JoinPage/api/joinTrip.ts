@@ -1,9 +1,9 @@
 import { BACKEND_API_URL } from 'src/shared/config';
 
-export const checkInvite = (token: string) => ({
-	url: `${BACKEND_API_URL}/trip/${token}`,
+export const joinTrip = (token: string) => ({
+	url: `${BACKEND_API_URL}/trip/join/${token}`,
 	options: {
-		method: 'GET',
+		method: 'POST',
 		headers: {
 			accept: 'application/json',
 		},

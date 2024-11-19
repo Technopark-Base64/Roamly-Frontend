@@ -1,24 +1,16 @@
-import { useEffect, useState } from 'react';
-import { useCurrentTrip } from 'src/entities/Trip';
+import { useState } from 'react';
 import { Switch } from 'src/shared/components/Switch';
-import { INVITE_LINK_BASE } from 'src/shared/config';
 import { useNotificationService } from 'src/shared/services/notifications';
 import { copyTextToClipboard } from 'src/shared/utils';
+import { useShareForm } from '../hooks/useShareForm';
 import cls from './style.module.scss';
 
 export const ShareForm = () => {
-	const { inviteTokens } = useCurrentTrip();
 	const { Notify } = useNotificationService();
 	const [isEditor, setIsEditor] = useState(false);
-	const [enabled, setEnabled] = useState(!!inviteTokens.readonly);
+	const [enabled, setEnabled] = useState(false);
 
-	useEffect(() => {
-		setEnabled(!!inviteTokens[isEditor ? 'editor' : 'readonly']);
-	}, [isEditor, inviteTokens]);
-
-	const inviteLink = enabled
-		? `${INVITE_LINK_BASE}${inviteTokens[isEditor ? 'editor' : 'readonly']}`
-		: '';
+	const { inviteLink, CreateToken, DeleteToken } = useShareForm({ isEditor, setEnabled });
 
 	const handleCopyLink = async () => {
 		const result = await copyTextToClipboard(inviteLink);
@@ -27,6 +19,14 @@ export const ShareForm = () => {
 			error: !result,
 			message: result ? 'Успешно скопировано' : 'Ошибка при копировании',
 		});
+	};
+
+	const handleSwitchEnable = async (ena: boolean) => {
+		if (ena) {
+			await CreateToken();
+		} else {
+			await DeleteToken();
+		}
 	};
 	
 	return (
@@ -42,14 +42,14 @@ export const ShareForm = () => {
 
 			<div className={cls.switchContainer}>
 				Включить ссылку
-				<Switch value={enabled} onChange={setEnabled} />
+				<Switch value={enabled} onChange={handleSwitchEnable} />
 			</div>
 
 			<div className={cls.inputContainer}>
 				<input
 					className="shared-input"
 					placeholder="Ссылка отключена"
-					value={inviteLink}
+					value={enabled ? inviteLink : ''}
 					readOnly={true}
 				/>
 				{enabled &&

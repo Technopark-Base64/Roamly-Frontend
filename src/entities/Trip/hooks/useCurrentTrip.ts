@@ -13,7 +13,7 @@ import { ITokens } from '../model/types/Trip';
 export const useCurrentTrip = () => {
 	const currentTrip = useSelector(getCurrentTrip);
 	const inviteTokens: ITokens = currentTrip ? currentTrip.inviteTokens : {
-		readonly: '',
+		reader: '',
 		editor: '',
 	};
 	const { setView, clearMap } = useMapWidget();
@@ -21,7 +21,7 @@ export const useCurrentTrip = () => {
 
 	const isOwner = !!currentTrip && currentTrip.myRole === UserRole.Owner;
 	const isEditor = !!currentTrip && currentTrip.myRole === UserRole.Editor;
-	const isReadonly = currentTrip ? currentTrip.myRole === UserRole.Readonly : true;
+	const isReader = currentTrip ? currentTrip.myRole === UserRole.Reader : true;
 
 	const setCurrentTrip = (trip: ITrip | null) => {
 		if (trip) {
@@ -63,6 +63,6 @@ export const useCurrentTrip = () => {
 		dispatch(setTripTokens(tokens));
 	};
 
-	return { currentTrip, inviteTokens, isOwner, isEditor, isReadonly,
+	return { currentTrip, inviteTokens, isOwner, isEditor, isReader,
 		setCurrentTrip, setCurrentTripPlaces, setCurrentTripEvents, setCurrentTripUsers, setCurrentTripTokens };
 };

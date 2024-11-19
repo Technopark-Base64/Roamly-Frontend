@@ -35,19 +35,20 @@ export const UserCard = ({ user, onDeleteUser, onChangeRole }: IProps) => {
 			</div>
 
 			<div className={cls.buttonContainer}>
-				<button className="shared-button" onClick={onChangeRole && handleOpenMenu}>
+				<button className={`shared-button ${!onChangeRole && cls.noPointer}`} onClick={onChangeRole && handleOpenMenu}>
 					Роль: {user.role && UserRoleLabel[user.role]}
 				</button>
-				{onDeleteUser &&
+				{onDeleteUser ?
 					<div className={`shared-button-red ${cls.deleteBtn}`} onClick={onDeleteUser}>
 						Уд
 					</div>
+					: <div className={cls.deleteBtnEmpty} />
 				}
 
 				{showChangeMenu &&
 					<div className={cls.changeMenu}>
-						<div className={cls.menuItem} onClick={() => onChangeRole?.(UserRole.Readonly)}>
-							{UserRoleLabel[UserRole.Readonly]} {user.role === UserRole.Readonly && <div>V</div>}
+						<div className={cls.menuItem} onClick={() => onChangeRole?.(UserRole.Reader)}>
+							{UserRoleLabel[UserRole.Reader]} {user.role === UserRole.Reader && <div>V</div>}
 						</div>
 						<div className={cls.menuItem} onClickCapture={() => onChangeRole?.(UserRole.Editor)}>
 							{UserRoleLabel[UserRole.Editor]} {user.role === UserRole.Editor && <div>V</div>}

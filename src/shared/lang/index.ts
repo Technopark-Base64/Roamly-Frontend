@@ -1,7 +1,7 @@
 import { UserRole } from 'src/entities/User';
 
 export const UserRoleLabel: Record<UserRole, string> = {
-	'readonly': 'Только чтение',
+	'reader': 'Только чтение',
 	'editor': 'Редактор',
 	'owner': 'Создатель',
 };
