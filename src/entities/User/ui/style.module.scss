@@ -40,10 +40,10 @@
     width: 30px;
     padding: 5px;
   }
-}
 
-.noPointer {
-  cursor: unset;
+  .noPointer {
+    cursor: default;
+  }
 }
 
 .deleteBtnEmpty {
