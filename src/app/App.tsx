@@ -9,7 +9,9 @@ import { Navbar } from 'src/widgets/Navbar';
 import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
 import { Redirect } from 'src/shared/components/Redirect';
+import { BACKEND_URL } from 'src/shared/config';
 import { Notifications } from 'src/shared/services/notifications';
+import { WebSocket } from 'src/shared/services/websocket';
 
 import './App.scss';
 
@@ -22,6 +24,14 @@ const App = () => {
 	useEffect(() => {
 		CheckAuth().then(() => setIsLoading(false));
 	}, []);
+
+	useEffect(() => {
+		if (currentUser) {
+			!WebSocket.isOpened && WebSocket.init(`${BACKEND_URL}/notifications`);
+		} else {
+			WebSocket.isOpened && WebSocket.close();
+		}
+	}, [currentUser]);
 
 	return (
 		<div className="App">

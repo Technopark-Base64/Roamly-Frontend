@@ -15,7 +15,7 @@ export const UsersList = ({ users } :IProps) => {
 	};
 
 	const handleDeleteUser = (userId: number) => {
-		console.log(`Deleted ${userId}`);
+		console.warn(`Deleted ${userId}`);
 	};
 
 	return (

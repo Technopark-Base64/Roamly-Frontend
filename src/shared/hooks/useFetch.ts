@@ -53,7 +53,7 @@ export const useFetch = <T>(props: IUseFetchProps<T>) => {
 
 				return response.ok && mapFunction(data);
 			} catch (err: unknown) {
-				console.log(err);
+				console.error(err);
 				currentError = 'Fetch Error';
 			}
 

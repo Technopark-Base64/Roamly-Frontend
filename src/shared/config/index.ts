@@ -1,5 +1,6 @@
 export const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
-export const BACKEND_API_URL = process.env.REACT_APP_BACKEND_URL;
+export const BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL;
+export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const BASE_ORIGIN = window.origin;
 

@@ -7,10 +7,11 @@ import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
 import { RecomsList } from 'src/widgets/RecomsList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
-import { LoadingScreen } from 'src/shared/components/LoadingScreen';
+import { useCurrentUser } from 'src/entities/User';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useNotificationService } from 'src/shared/services/notifications';
-import { autoSchedule } from '../api/autoSchedule';
+import { WebSocket } from 'src/shared/services/websocket';
+import { IWebSocketMessage, WSActions } from 'src/shared/services/websocket/model/types';
 import { getTrip } from '../api/getTrip';
 import cls from './style.module.scss';
 
@@ -27,13 +28,15 @@ export const TripPage = () => {
 	const { id } = useParams();
 	const menu = location.hash.replace('#', '');
 
-	const { currentTrip, isOwner, setCurrentTrip } = useCurrentTrip();
+	const { currentTrip, setCurrentTrip } = useCurrentTrip();
+	const { currentUser } = useCurrentUser();
 	const { Notify } = useNotificationService();
 	const navigate = useNavigate();
 
 	const {
 		data,
 		error,
+		refetch,
 		isFetching,
 	} = useFetch<ITrip>(getTrip(id ?? ''));
 
@@ -50,30 +53,25 @@ export const TripPage = () => {
 		return () => setCurrentTrip(null);
 	}, [data]);
 
-	const {
-		data: scheduleData,
-		error: scheduleError,
-		isFetching: scheduleLoading,
-		refetch: scheduleRefetch,
-	} = useFetch<ITrip>(autoSchedule(currentTrip?.id ?? ''));
+	const handleWebsocket = (message: IWebSocketMessage) => {
+		const actions = [WSActions.TripUpdate, WSActions.PlacesUpdate, WSActions.EventsUpdate, WSActions.UsersUpdate];
+		if (message.trip_id !== id)
+			return;
 
-	useEffect(() => {
-		scheduleError && Notify({
-			error: true,
-			message: scheduleError,
-		});
-	}, [scheduleError]);
-
-	useEffect(() => {
-		if (scheduleData) {
-			setCurrentTrip(scheduleData);
-			navigate(`${location.pathname}#main`, { replace: true });
+		if (message.action in actions && message.author !== currentUser?.id) {
+			refetch();
+			Notify({
+				error: false,
+				message: message.message,
+			});
 		}
-	}, [scheduleData]);
-
-	const handleAutoSchedule = () => {
-		isOwner && scheduleRefetch();
 	};
+
+	useEffect(() => {
+		WebSocket.subscribe(handleWebsocket);
+
+		return () => WebSocket.unsubscribe(handleWebsocket);
+	}, []);
 
 	const tabs: ITab[] = [
 		{
@@ -110,12 +108,6 @@ export const TripPage = () => {
 		<div className={cls.page}>
 			<TripCard trip={currentTrip} isTripPage={true} />
 
-			{isOwner && false &&
-				<button className={`shared-button shared-button-active ${cls.autoButton}`} onClick={handleAutoSchedule}>
-					Спланировать мою поездку
-				</button>
-			}
-
 			<div className={cls.buttonContainer}>
 				{tabs.map((tab) => (
 					<button
@@ -128,16 +120,13 @@ export const TripPage = () => {
 				))}
 			</div>
 
-			{!isFetching && !scheduleLoading &&
+			{!isFetching &&
 				<div className={cls.content}>
 					<div className={cls.wrapper}>
 						{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
 						{ menu !== 'calendar' && <MapWidget showCircle={menu !== 'main'} /> }
 					</div>
 				</div>
-			}
-			{scheduleLoading &&
-				<LoadingScreen message="Ваша поездка готовится, пожалуйста, подождите" />
 			}
 		</div>
 	);
