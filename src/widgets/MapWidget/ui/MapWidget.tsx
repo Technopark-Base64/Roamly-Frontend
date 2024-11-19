@@ -16,7 +16,7 @@ interface IProps {
 
 export const MapWidget = ({ showCircle = true }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
-	const { currentView, currentZoom, markers, isRoute, selectedId, circle } = useMapWidget();
+	const { currentView, currentZoom, markers, isRoute, selectedId, selectPlace, circle } = useMapWidget();
 	const [map, setMap] = useState<google.maps.Map | null>(null);
 	const [directionsResponse, setDirectionsResponse] = useState<google.maps.DirectionsResult | null>(null);
 	const { handleChangeCenter, handleZoomChange, handleMapClick, handleUpdateMarkers, handleToggleCircle } = useMapHandlers(map);
@@ -87,6 +87,7 @@ export const MapWidget = ({ showCircle = true }: IProps) => {
 							strokeColor: 'white',
 							strokeWeight: 3,
 						} : undefined}
+						onClick={() => selectPlace(mark.id)}
 					/>
 				))}
 

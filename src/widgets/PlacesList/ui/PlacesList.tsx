@@ -15,11 +15,10 @@ interface IProps {
 
 export const PlacesList = ({ places }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
-	const { setMarkers, selectPlace, circle } = useMapWidget();
+	const { setMarkers, selectPlace, selectedId, circle } = useMapWidget();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
 	const [search, setSearch] = useState('');
-	const [openedIndex, setOpenedIndex] = useState(-1);
 	const listRef = useRef<HTMLDivElement | null>(null);
 
 	const {
@@ -46,13 +45,12 @@ export const PlacesList = ({ places }: IProps) => {
 			location: pl.location,
 		})));
 
-		setOpenedIndex(-1);
+		selectPlace('');
 	}, [list]);
 
 	useEffect(() => {
-		selectPlace(list?.[openedIndex]?.placeId ?? '');
-		listRef.current?.scrollTo(0, openedIndex * COLLAPSED_PLACECARD_HEIGHT);
-	}, [openedIndex]);
+		listRef.current?.scrollTo(0, (list?.findIndex((pl) => pl.placeId === selectedId) ?? 0) * COLLAPSED_PLACECARD_HEIGHT);
+	}, [selectedId]);
 
 	return (
 		<div className={cls.wrapper}>
@@ -89,15 +87,12 @@ export const PlacesList = ({ places }: IProps) => {
 						place={place}
 						key={place.placeId}
 						selected={!!currentTrip?.places.find((pl) => pl.placeId === place.placeId)}
-						isOpened={index === openedIndex}
+						isOpened={place.placeId === selectedId}
 						onAdd={() => AddPlace(place.placeId)}
 						onRemove={() => RemovePlace(place.placeId)}
-						onOpen={() => {
-							setOpenedIndex(index);
-							selectPlace(place.placeId);
-						}}
-						onClickNext={index < list.length - 1 ? () => setOpenedIndex(index + 1) : undefined}
-						onClickPrev={index > 0 ? () => setOpenedIndex(index - 1) : undefined}
+						onOpen={() => selectPlace(place.placeId)}
+						onClickNext={index < list.length - 1 ? () => selectPlace(list[index + 1].placeId) : undefined}
+						onClickPrev={index > 0 ? () => selectPlace(list[index - 1].placeId) : undefined}
 					/>
 				))}
 
