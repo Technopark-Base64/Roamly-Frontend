@@ -42,18 +42,18 @@
   }
 
   .editBtn {
+    background-color: #646e85;
     margin-left: 15px;
-    font-size: 14px;
-    flex: 0;
+    width: 30px;
+    height: 26px;
   }
 }
-
 
 .buttonContainer {
   display: flex;
   gap: 10px;
 
   button {
-    max-width: 250px;
+    max-width: 260px;
   }
 }

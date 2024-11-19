@@ -1,3 +1,7 @@
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
+import RecommendOutlinedIcon from '@mui/icons-material/RecommendOutlined';
 import { ReactNode, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
@@ -19,6 +23,7 @@ type TMenu = 'main' | 'recoms' | 'calendar' |'places';
 
 interface ITab {
 	menu: TMenu,
+	icon?: ReactNode,
 	label: string,
 	element: ReactNode,
 }
@@ -76,21 +81,25 @@ export const TripPage = () => {
 	const tabs: ITab[] = [
 		{
 			menu: 'main',
+			icon: <HomeOutlinedIcon className={cls.icon} />,
 			label: 'Главная',
 			element: <MainWidget />,
 		},
 		{
 			menu: 'recoms',
+			icon: <RecommendOutlinedIcon className={cls.icon} />,
 			label: 'Рекомендации',
 			element: <RecomsList />,
 		},
 		{
 			menu: 'calendar',
+			icon: <CalendarMonthOutlinedIcon className={cls.icon} />,
 			label: 'Календарь',
 			element: <CalendarWidget events={currentTrip?.events ?? []} />,
 		},
 		{
 			menu: 'places',
+			icon: <PlaceOutlinedIcon className={cls.icon} />,
 			label: 'Места',
 			element: <PlacesList places={currentTrip?.places ?? []} />,
 		},
@@ -115,7 +124,7 @@ export const TripPage = () => {
 						onClick={() => navigate(`${location.pathname}#${tab.menu}`)}
 						key={tab.menu}
 					>
-						{tab.label}
+						{tab.icon}{tab.label}
 					</button>
 				))}
 			</div>

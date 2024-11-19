@@ -38,6 +38,10 @@
   flex: 1;
 }
 
+.icon {
+  height: 20px;
+}
+
 .tab {
   flex: 1;
   background-color: #4f5467;
@@ -46,6 +50,10 @@
   font-size: 16px;
   border: none;
   cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: #646e85;

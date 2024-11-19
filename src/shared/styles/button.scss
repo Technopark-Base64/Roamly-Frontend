@@ -7,6 +7,10 @@
   flex: 1;
   max-height: 32px;
   cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: #646e85;
@@ -24,4 +28,16 @@
 
 .shared-button-active {
   background-color: #646e85;
+}
+
+.shared-icon-button {
+  width: 40px;
+  height: 35px;
+  background-color: #4c5765;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -11,8 +11,16 @@
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 24px;
   cursor: pointer;
+}
+
+.logoIcon {
+  height: 30px;
+  width: 30px;
 }
 
 .user {

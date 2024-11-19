@@ -1,3 +1,6 @@
+import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import { MouseEvent, useState } from 'react';
 import { ShareForm } from 'src/features/ShareForm';
 import { TripForm } from 'src/features/TripForm';
@@ -52,8 +55,8 @@ export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 					<div className={cls.name}>
 						{defaultTripName(trip?.area.name)}
 						{myRole === UserRole.Owner &&
-							<button className={`shared-button shared-button-active ${cls.editBtn}`} onClick={handleClickEdit}>
-								Ред.
+							<button className={`shared-icon-button ${cls.editBtn}`} onClick={handleClickEdit}>
+								<EditNoteOutlinedIcon />
 							</button>
 						}
 					</div>
@@ -67,11 +70,11 @@ export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 					{isTripPage &&
 						<div className={cls.buttonContainer}>
 							<button className="shared-button shared-button-active" onClick={handleClickMembers}>
-								{formatMembersNumber(trip.users.length)}
+								{formatMembersNumber(trip.users.length)} <PeopleOutlinedIcon />
 							</button>
 							{myRole === UserRole.Owner &&
 								<button className="shared-button shared-button-active" onClick={handleClickShare}>
-									Ссылка приглашение
+									Ссылка приглашение <PersonAddAltOutlinedIcon />
 								</button>
 							}
 						</div>

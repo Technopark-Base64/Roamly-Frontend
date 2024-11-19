@@ -1,3 +1,5 @@
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
@@ -24,7 +26,8 @@ export const Navbar = () => {
 	return (
 		<div className={cls.navbar}>
 			<div className={cls.logo} onClick={handleLogoClick}>
-        Roamly
+				<MapOutlinedIcon className={cls.logoIcon} />
+				Roamly
 			</div>
 
 			{!!currentUser?.id &&
@@ -34,8 +37,8 @@ export const Navbar = () => {
 						<div className={cls.avatar} style={avatarStyle} />
 					}
 					<div>{currentUser.login}</div>
-					<button className="shared-button" onClick={handleLogout}>
-						Выход
+					<button className="shared-icon-button" onClick={handleLogout}>
+						<LogoutOutlinedIcon />
 					</button>
 				</div>
 			}

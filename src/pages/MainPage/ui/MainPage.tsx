@@ -1,3 +1,4 @@
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { TripsList } from 'src/widgets/TripsList';
@@ -51,7 +52,7 @@ export const MainPage = () => {
 
 					<div>
 						<button className="shared-button" onClick={() => setShowModal(true)} >
-							Новая
+							<LibraryAddOutlinedIcon /> Новая
 						</button>
 					</div>
 				</div>

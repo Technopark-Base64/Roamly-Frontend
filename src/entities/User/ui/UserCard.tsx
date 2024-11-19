@@ -1,3 +1,4 @@
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useState } from 'react';
 import { UserRoleLabel } from 'src/shared/lang';
 import { getUserAvatarColor } from '../lib/getUserAvatarColor';
@@ -40,7 +41,7 @@ export const UserCard = ({ user, onDeleteUser, onChangeRole }: IProps) => {
 				</button>
 				{onDeleteUser ?
 					<div className={`shared-button-red ${cls.deleteBtn}`} onClick={onDeleteUser}>
-						Уд
+						<DeleteOutlineOutlinedIcon className={cls.icon} />
 					</div>
 					: <div className={cls.deleteBtnEmpty} />
 				}

@@ -1,3 +1,4 @@
+import ContentPasteOutlinedIcon from '@mui/icons-material/ContentPasteOutlined';
 import { useState } from 'react';
 import { Switch } from 'src/shared/components/Switch';
 import { useNotificationService } from 'src/shared/services/notifications';
@@ -54,7 +55,7 @@ export const ShareForm = () => {
 				/>
 				{enabled &&
 					<div className={cls.copyBtn} onClick={handleCopyLink}>
-						K
+						<ContentPasteOutlinedIcon />
 					</div>
 				}
 			</div>

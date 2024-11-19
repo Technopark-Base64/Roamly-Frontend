@@ -21,7 +21,7 @@
 
 .buttonContainer {
   display: flex;
-  gap: 5px;
+  gap: 10px;
   position: relative;
 
   button {
@@ -38,7 +38,13 @@
     font-size: 15px;
     border: none;
     width: 30px;
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon {
+    height: 20px;
   }
 
   .noPointer {
@@ -47,7 +53,7 @@
 }
 
 .deleteBtnEmpty {
-  width: 40px;
+  width: 30px;
 }
 
 .changeMenu {
