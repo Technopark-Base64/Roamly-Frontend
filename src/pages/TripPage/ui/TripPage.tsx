@@ -58,7 +58,7 @@ export const TripPage = () => {
 		if (message.trip_id !== id)
 			return;
 
-		if (message.action in actions && message.author !== currentUser?.id) {
+		if (actions.includes(message.action) && message.author !== currentUser?.id) {
 			refetch();
 			Notify({
 				error: false,

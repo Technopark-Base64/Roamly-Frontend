@@ -5,6 +5,8 @@ import { TripForm } from 'src/features/TripForm';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper/ui/ModalWrapper';
 import cls from './style.module.scss';
 
+const SCREENS = ['', 'passed', 'mine', 'shared'];
+
 export const MainPage = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
@@ -13,9 +15,24 @@ export const MainPage = () => {
 	const [showModal, setShowModal] = useState(false);
 
 	useEffect(() => {
-		if (menu !== 'passed')
+		if (!SCREENS.includes(menu))
 			navigate(`${location.pathname}`, { replace: true });
 	}, [menu]);
+
+	let menuLabel;
+	switch (menu) {
+	case 'passed':
+		menuLabel = 'Прошедшие поездки';
+		break;
+	case 'mine':
+		menuLabel = 'Мои поездки';
+		break;
+	case 'shared':
+		menuLabel = 'Поездки по приглашению';
+		break;
+	default:
+		menuLabel = 'Активные поездки';
+	}
 
 	return (
 		<div className={cls.page}>
@@ -29,7 +46,7 @@ export const MainPage = () => {
 			<div className={cls.content}>
 				<div className={cls.titleContainer}>
 					<div className={cls.title}>
-						{menu === 'passed' ? 'Прошедшие' : 'Активные'} поездки
+						{ menuLabel }
 					</div>
 
 					<div>
@@ -39,12 +56,36 @@ export const MainPage = () => {
 					</div>
 				</div>
 
-				<TripsList showPast={menu === 'passed'} />
+				<TripsList filter={menu} />
 			</div>
 
 			<div className={cls.menu}>
-				<button className="shared-button" onClick={() => navigate(`${location.pathname}`)}> Активные </button>
-				<button className="shared-button" onClick={() => navigate(`${location.pathname}#passed`)}> Прошедшие </button>
+				По времени
+				<button
+					className={`shared-button ${menu === '' && 'shared-button-active'}`}
+					onClick={() => navigate(`${location.pathname}`)}
+				>
+					Активные
+				</button>
+				<button
+					className={`shared-button ${menu === 'passed' && 'shared-button-active'}`}
+					onClick={() => navigate(`${location.pathname}#passed`)}
+				>
+					Прошедшие
+				</button>
+				По авторству
+				<button
+					className={`shared-button ${menu === 'mine' && 'shared-button-active'}`}
+					onClick={() => navigate(`${location.pathname}#mine`)}
+				>
+					Созданные мной
+				</button>
+				<button
+					className={`shared-button ${menu === 'shared' && 'shared-button-active'}`}
+					onClick={() => navigate(`${location.pathname}#shared`)}
+				>
+					По приглашению
+				</button>
 			</div>
 
 		</div>
