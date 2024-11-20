@@ -42,7 +42,6 @@ export const TripPage = () => {
 		data,
 		error,
 		refetch,
-		isFetching,
 	} = useFetch<ITrip>(getTrip(id ?? ''));
 
 	useEffect(() => {
@@ -59,11 +58,12 @@ export const TripPage = () => {
 	}, [data]);
 
 	const handleWebsocket = (message: IWebSocketMessage) => {
-		const actions = [WSActions.TripUpdate, WSActions.PlacesUpdate, WSActions.EventsUpdate, WSActions.UsersUpdate];
+		const actions = [WSActions.PlacesUpdate, WSActions.EventsUpdate, WSActions.UsersUpdate];
 		if (message.trip_id !== id)
 			return;
 
-		if (actions.includes(message.action) && message.author !== currentUser?.id) {
+		if (actions.includes(message.action) && message.author !== currentUser?.id
+				|| message.action === WSActions.TripUpdate) {
 			refetch();
 			Notify({
 				error: false,
@@ -129,14 +129,12 @@ export const TripPage = () => {
 				))}
 			</div>
 
-			{!isFetching &&
-				<div className={cls.content}>
-					<div className={cls.wrapper}>
-						{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
-						{ menu !== 'calendar' && <MapWidget showCircle={menu !== 'main'} /> }
-					</div>
+			<div className={cls.content}>
+				<div className={cls.wrapper}>
+					{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
+					{ menu !== 'calendar' && <MapWidget showCircle={menu !== 'main'} /> }
 				</div>
-			}
+			</div>
 		</div>
 	);
 };

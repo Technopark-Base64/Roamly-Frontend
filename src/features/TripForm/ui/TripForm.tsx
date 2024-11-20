@@ -12,9 +12,10 @@ import cls from './style.module.scss';
 
 interface IProps {
 	prevTrip: ITrip | null;
+	onSuccess?: VoidFunction;
 }
 
-export const TripForm = ({ prevTrip }: IProps) => {
+export const TripForm = ({ prevTrip, onSuccess }: IProps) => {
 	const [search, setSearch] = useState(prevTrip?.area.name ?? '');
 	const [selectedRegion, setSelectedRegion] = useState<IPlace | undefined>(prevTrip?.area);
 	const [startDate, setStartDate] = useState<string | undefined>(prevTrip?.startTime.toISOString().slice(0, 10));
@@ -91,10 +92,13 @@ export const TripForm = ({ prevTrip }: IProps) => {
 		else
 			res = !!(await UpdateTrip());
 
-		res && Notify({
-			error: false,
-			message: `Поездка успешно ${prevTrip ? 'обновлена' : 'создана'}`,
-		});
+		if (res) {
+			!prevTrip && Notify({
+				error: false,
+				message: 'Поездка успешно создана',
+			});
+			onSuccess?.();
+		}
 	};
 
 	return (

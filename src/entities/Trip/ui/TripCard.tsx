@@ -84,7 +84,7 @@ export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 
 			{modalType === 'edit' && trip && myRole === UserRole.Owner &&
 				<ModalWrapper onClose={() => setModalType(null)} >
-					<TripForm prevTrip={trip} />
+					<TripForm prevTrip={trip} onSuccess={() => setModalType(null)} />
 				</ModalWrapper>
 			}
 			{modalType === 'members' &&

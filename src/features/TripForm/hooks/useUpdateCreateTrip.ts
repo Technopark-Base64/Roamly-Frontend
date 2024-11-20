@@ -26,7 +26,7 @@ export const useUpdateCreateTrip = (props: IProps) => {
 	} = useFetch<INewTripResponse>(newTrip(props));
 
 	const {
-		refetch: updateRefetch,
+		refetch: UpdateTrip,
 		error: updateError,
 	} = useFetch<INewTripResponse>(updateTrip(props));
 
@@ -47,15 +47,6 @@ export const useUpdateCreateTrip = (props: IProps) => {
 			message: updateError,
 		});
 	}, [updateError]);
-
-	const UpdateTrip = async () => {
-		const res = await updateRefetch();
-		if (res) {
-			navigate(0);
-		}
-
-		return res;
-	};
 
 	return { UpdateTrip, CreateTrip };
 };
