@@ -53,7 +53,7 @@ export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 			{trip &&
 				<div className={cls.info}>
 					<div className={cls.name}>
-						{defaultTripName(trip?.area.name)}
+						{ trip.name ?? defaultTripName(trip.area.name) }
 						{myRole === UserRole.Owner &&
 							<button className={`shared-icon-button ${cls.editBtn}`} onClick={handleClickEdit}>
 								<EditNoteOutlinedIcon />
