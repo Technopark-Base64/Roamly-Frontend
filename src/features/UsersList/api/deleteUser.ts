@@ -6,7 +6,7 @@ interface IProps {
 }
 
 export const deleteUser = (props: IProps) => ({
-	url: `${BACKEND_API_URL}/trip/member`,
+	url: `${BACKEND_API_URL}/trip/member/`,
 	options: {
 		method: 'DELETE',
 		headers: {

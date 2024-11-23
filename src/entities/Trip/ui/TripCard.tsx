@@ -85,7 +85,7 @@ export const TripCard = ({ trip, isTripPage, onClick, onAutoScheduleClick }: IPr
 
 			{trip && onAutoScheduleClick &&
 				<div className={cls.asContainer}>
-					<button className="shared-button shared-button-active" onClick={onAutoScheduleClick}> Спланировать автоматически </button>
+					<button className="shared-button shared-button-active" onClick={onAutoScheduleClick}> Экспресс планирование </button>
 				</div>
 			}
 

@@ -8,9 +8,9 @@ interface IProps {
 }
 
 export const changeUserRole = (props: IProps) => ({
-	url: `${BACKEND_API_URL}/trip/event/`,
+	url: `${BACKEND_API_URL}/trip/member/`,
 	options: {
-		method: 'PUT',
+		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 			accept: 'application/json',
