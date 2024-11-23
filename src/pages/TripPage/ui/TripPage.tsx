@@ -12,11 +12,13 @@ import { PlacesList } from 'src/widgets/PlacesList';
 import { RecomsList } from 'src/widgets/RecomsList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
 import { useCurrentUser } from 'src/entities/User';
+import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useNotificationService } from 'src/shared/services/notifications';
 import { WebSocket } from 'src/shared/services/websocket';
 import { IWebSocketMessage, WSActions } from 'src/shared/services/websocket/model/types';
 import { getTrip } from '../api/getTrip';
+import { useAutoSchedule } from '../hooks/useAutoShedule';
 import cls from './style.module.scss';
 
 type TMenu = 'main' | 'recoms' | 'calendar' |'places';
@@ -33,23 +35,17 @@ export const TripPage = () => {
 	const { id } = useParams();
 	const menu = location.hash.replace('#', '');
 
-	const { currentTrip, setCurrentTrip } = useCurrentTrip();
+	const { currentTrip, setCurrentTrip, isOwner } = useCurrentTrip();
 	const { currentUser } = useCurrentUser();
 	const { Notify } = useNotificationService();
 	const navigate = useNavigate();
+	const { scheduleLoading, AutoSchedule } = useAutoSchedule();
 
 	const {
 		data,
 		error,
 		refetch,
 	} = useFetch<ITrip>(getTrip(id ?? ''));
-
-	useEffect(() => {
-		error && Notify({
-			error: true,
-			message: error,
-		});
-	}, [error]);
 
 	useEffect(() => {
 		data && setCurrentTrip(data);
@@ -115,7 +111,7 @@ export const TripPage = () => {
 
 	return (
 		<div className={cls.page}>
-			<TripCard trip={currentTrip} isTripPage={true} />
+			<TripCard trip={currentTrip} isTripPage={true} onAutoScheduleClick={isOwner ? AutoSchedule : undefined} />
 
 			<div className={cls.buttonContainer}>
 				{tabs.map((tab) => (
@@ -129,12 +125,18 @@ export const TripPage = () => {
 				))}
 			</div>
 
-			<div className={cls.content}>
-				<div className={cls.wrapper}>
-					{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
-					{ menu !== 'calendar' && <MapWidget showCircle={menu !== 'main'} /> }
+			{!scheduleLoading &&
+				<div className={cls.content}>
+					<div className={cls.wrapper}>
+						{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
+						{ menu !== 'calendar' && <MapWidget showCircle={menu !== 'main'} /> }
+					</div>
 				</div>
-			</div>
+			}
+
+			{scheduleLoading &&
+				<LoadingScreen message="Ваша поездка готовится, пожалуйста, подождите" />
+			}
 		</div>
 	);
 };

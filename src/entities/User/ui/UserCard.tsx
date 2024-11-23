@@ -8,7 +8,7 @@ import cls from './style.module.scss';
 interface IProps {
   user: IUser,
 	// eslint-disable-next-line no-unused-vars
-	onChangeRole?: (newRole: string) => void,
+	onChangeRole?: (newRole: UserRole) => void,
 	onDeleteUser?: () => void,
 }
 

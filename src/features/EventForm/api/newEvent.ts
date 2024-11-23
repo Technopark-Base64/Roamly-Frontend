@@ -20,6 +20,7 @@ export const newEvent = (eventForm: IProps) => ({
 		body: JSON.stringify(eventForm),
 	},
 	enabled: false,
+	notifyOnError: true,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	mapFunction: (body: any) => body.event,
 });

@@ -16,7 +16,6 @@ export const useDeleteEvent = ({ onSuccess }: IProps) => {
 
 	const {
 		refetch,
-		error,
 	} = useFetch(deleteEvent(idToDelete));
 
 	useEffect(() => {
@@ -37,13 +36,6 @@ export const useDeleteEvent = ({ onSuccess }: IProps) => {
 			onSuccess?.();
 		});
 	}, [idToDelete]);
-
-	useEffect(() => {
-		error && Notify({
-			error: true,
-			message: error,
-		});
-	}, [error]);
 
 	return { Delete };
 };

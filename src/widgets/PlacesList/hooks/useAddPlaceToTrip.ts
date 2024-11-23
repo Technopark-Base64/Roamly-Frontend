@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import { IPlace } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useFetch } from 'src/shared/hooks/useFetch';
-import { useNotificationService } from 'src/shared/services/notifications';
 import { addPlaceToTrip } from '../api/addPlaceToTrip';
 
 
 export const useAddPlaceToTrip = () => {
 	const { currentTrip, setCurrentTripPlaces } = useCurrentTrip();
-	const { Notify } = useNotificationService();
 
 	const [placeIdToAdd, AddPlace] = useState('');
 	const {
@@ -30,10 +28,6 @@ export const useAddPlaceToTrip = () => {
 	}, [addPlaceRes]);
 
 	useEffect(() => {
-		error && Notify({
-			error: true,
-			message: error,
-		});
 		AddPlace('');
 	}, [error]);
 

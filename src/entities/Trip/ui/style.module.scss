@@ -54,6 +54,13 @@
   gap: 10px;
 
   button {
-    max-width: 260px;
+    // max-width: 260px;
+    flex: 0;
   }
+}
+
+.asContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: end;
 }

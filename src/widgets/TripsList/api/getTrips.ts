@@ -11,6 +11,7 @@ export const getTrips = () => ({
 		credentials: 'include',
 	},
 	enabled: true,
+	notifyOnError: true,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	mapFunction: (body: any) => body.trips.map(mapResponseToTrip),
 });

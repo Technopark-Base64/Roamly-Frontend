@@ -1,7 +1,12 @@
 import { BACKEND_API_URL } from 'src/shared/config';
 
-export const deleteEvent = (id: string) => ({
-	url: `${BACKEND_API_URL}/trip/event/?event_id=${id}`,
+interface IProps {
+	member_id: number,
+	trip_id: string,
+}
+
+export const deleteUser = (props: IProps) => ({
+	url: `${BACKEND_API_URL}/trip/member`,
 	options: {
 		method: 'DELETE',
 		headers: {
@@ -9,6 +14,7 @@ export const deleteEvent = (id: string) => ({
 			accept: 'application/json',
 		},
 		credentials: 'include',
+		body: JSON.stringify(props),
 	},
 	enabled: false,
 	notifyOnError: true,

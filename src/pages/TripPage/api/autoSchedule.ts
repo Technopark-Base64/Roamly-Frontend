@@ -11,6 +11,7 @@ export const autoSchedule = (id: string) => ({
 		credentials: 'include',
 	},
 	enabled: false,
+	notifyOnError: true,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	mapFunction: (body: any) => mapResponseToTrip(body.trip),
 });

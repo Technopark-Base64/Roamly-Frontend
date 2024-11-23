@@ -24,4 +24,5 @@ export const updateTrip = (tripForm: IProps) => ({
 		})
 	},
 	enabled: false,
+	notifyOnError: true,
 });

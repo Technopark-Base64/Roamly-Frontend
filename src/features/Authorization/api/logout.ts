@@ -10,4 +10,5 @@ export const requestLogout = () => ({
 		credentials: 'include',
 	},
 	enabled: false,
+	notifyOnError: true,
 });

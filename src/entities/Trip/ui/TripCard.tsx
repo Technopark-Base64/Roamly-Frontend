@@ -17,11 +17,12 @@ interface IProps {
   trip: ITrip | null;
 	isTripPage?: boolean;
   onClick?: () => void;
+	onAutoScheduleClick?: () => void;
 }
 
 type TModal = 'edit' | 'members' | 'share';
 
-export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
+export const TripCard = ({ trip, isTripPage, onClick, onAutoScheduleClick }: IProps) => {
 	const { currentUser } = useCurrentUser();
 	const myRole = (currentUser && trip && trip.users.find((u) => u.id === currentUser.id)?.role) ?? UserRole.Owner;
 
@@ -74,11 +75,17 @@ export const TripCard = ({ trip, isTripPage, onClick }: IProps) => {
 							</button>
 							{myRole === UserRole.Owner &&
 								<button className="shared-button shared-button-active" onClick={handleClickShare}>
-									Ссылка приглашение <PersonAddAltOutlinedIcon />
+									<PersonAddAltOutlinedIcon />
 								</button>
 							}
 						</div>
 					}
+				</div>
+			}
+
+			{trip && onAutoScheduleClick &&
+				<div className={cls.asContainer}>
+					<button className="shared-button shared-button-active" onClick={onAutoScheduleClick}> Спланировать автоматически </button>
 				</div>
 			}
 

@@ -18,6 +18,7 @@ export const addPlaceToTrip = (req: IProps) => ({
 		body: JSON.stringify(req)
 	},
 	enabled: false,
+	notifyOnError: true,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	mapFunction: (body: any) => body.trip.places.map(mapResponseToPlace),
 });

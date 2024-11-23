@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react';
 import { IPlace } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useFetch } from 'src/shared/hooks/useFetch';
-import { useNotificationService } from 'src/shared/services/notifications';
 import { removePlaceFromTrip } from '../api/removePlaceFromTrip';
 
 
 export const useRemovePlaceFromTrip = () => {
 	const { currentTrip, setCurrentTripPlaces } = useCurrentTrip();
-	const { Notify } = useNotificationService();
 
 	const [placeIdToRemove, RemovePlace] = useState('');
 	const {
@@ -30,10 +28,6 @@ export const useRemovePlaceFromTrip = () => {
 	}, [removePlaceRes]);
 
 	useEffect(() => {
-		error && Notify({
-			error: true,
-			message: error,
-		});
 		RemovePlace('');
 	}, [error]);
 

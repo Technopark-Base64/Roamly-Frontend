@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUserById, IUser, useCurrentUser } from 'src/entities/User';
 import { useFetch } from 'src/shared/hooks/useFetch';
-import { useNotificationService } from 'src/shared/services/notifications';
 import { requestCheckAuth } from '../api/check';
 import { requestLogin } from '../api/login';
 import { requestLogout } from '../api/logout';
@@ -22,36 +21,23 @@ const defaultUser = {
 
 export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 	const { setCurrentUser } = useCurrentUser();
-	const { Notify } = useNotificationService();
 
-	const [error, setError] = useState<string | null>(null);
 	const [userId, setUserId] = useState<number | null>(null);
 
-	const { data: fetchedUser, refetch: fetchUser, error: errorUser } = useFetch<IUser>(getUserById(userId ?? 0));
+	const { data: fetchedUser, refetch: fetchUser } = useFetch<IUser>(getUserById(userId ?? 0));
 
 	useEffect(() => {
 		userId && fetchUser();
 	}, [userId]);
 
 	useEffect(() => {
-		setError(errorUser);
-	}, [errorUser]);
-
-	useEffect(() => {
 		fetchedUser && setCurrentUser(fetchedUser);
 	}, [fetchedUser]);
 
-	useEffect(() => {
-		error && Notify({
-			error: true,
-			message: error,
-		});
-	}, [error]);
-
 	const { data: checkRes, refetch: fetchCheckAuth } = useFetch<IAuthResponse>(requestCheckAuth());
-	const { data: loginRes, refetch: fetchLogin, error: errorLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
-	const { data: signupRes, refetch: fetchSignup, error: errorSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
-	const { data: logoutRes, refetch: fetchLogout, error: errorLogout } = useFetch<IAuthResponse>(requestLogout());
+	const { data: loginRes, refetch: fetchLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
+	const { data: signupRes, refetch: fetchSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
+	const { data: logoutRes, refetch: fetchLogout } = useFetch<IAuthResponse>(requestLogout());
 
 	const Login = async () => {
 		return await fetchLogin();
@@ -63,10 +49,6 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 		}
 	}, [loginRes]);
 
-	useEffect(() => {
-		setError(errorLogin);
-	}, [errorLogin]);
-
 	const Signup = async () => {
 		return await fetchSignup();
 	};
@@ -77,10 +59,6 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 		}
 	}, [signupRes]);
 
-	useEffect(() => {
-		setError(errorSignup);
-	}, [errorSignup]);
-
 	const Logout = async () => {
 		return await fetchLogout();
 	};
@@ -90,10 +68,6 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 			setCurrentUser(null);
 		}
 	}, [logoutRes]);
-
-	useEffect(() => {
-		setError(errorLogout);
-	}, [errorLogout]);
 
 	const CheckAuth = async () => {
 		const res = await fetchCheckAuth();
@@ -109,5 +83,5 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 		}
 	}, [checkRes]);
 
-	return { Login, Signup, Logout, CheckAuth, error };
+	return { Login, Signup, Logout, CheckAuth };
 };

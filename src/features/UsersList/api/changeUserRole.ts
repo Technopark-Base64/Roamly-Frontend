@@ -1,23 +1,25 @@
-import { mapResponseToPlace } from 'src/entities/Place';
+import { UserRole } from 'src/entities/User';
 import { BACKEND_API_URL } from 'src/shared/config';
 
 interface IProps {
-  place_id: string,
+	access: UserRole,
+	member_id: number,
 	trip_id: string,
 }
 
-export const removePlaceFromTrip = (req: IProps) => ({
-	url: `${BACKEND_API_URL}/trip/${req.trip_id}/place/${req.place_id}`,
+export const changeUserRole = (props: IProps) => ({
+	url: `${BACKEND_API_URL}/trip/event/`,
 	options: {
-		method: 'DELETE',
+		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json',
 			accept: 'application/json',
 		},
 		credentials: 'include',
+		body: JSON.stringify(props),
 	},
 	enabled: false,
 	notifyOnError: true,
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	mapFunction: (body: any) => body.trip.places.map(mapResponseToPlace),
+	mapFunction: (body: any) => body.event,
 });

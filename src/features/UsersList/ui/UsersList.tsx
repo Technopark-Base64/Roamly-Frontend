@@ -1,5 +1,6 @@
 import { useCurrentTrip } from 'src/entities/Trip';
-import { IUser, useCurrentUser, UserCard } from 'src/entities/User';
+import { IUser, useCurrentUser, UserCard, UserRole } from 'src/entities/User';
+import { useUsersList } from '../hooks/useUsersList';
 import cls from './style.module.scss';
 
 interface IProps {
@@ -9,13 +10,13 @@ interface IProps {
 export const UsersList = ({ users } :IProps) => {
 	const { isOwner } = useCurrentTrip();
 	const { currentUser } = useCurrentUser();
+	const { DeleteUser, ChangeUserRole } = useUsersList();
 
-	const handleChangeRole = (userId: number, newRole: string) => {
-		console.log(`Changed ${userId} to ${newRole}`);
-	};
-
-	const handleDeleteUser = (userId: number) => {
-		console.warn(`Deleted ${userId}`);
+	const handleChangeRole = (userId: number, newRole: UserRole) => {
+		ChangeUserRole({
+			member_id: userId,
+			access: newRole,
+		});
 	};
 
 	return (
@@ -30,9 +31,9 @@ export const UsersList = ({ users } :IProps) => {
 						user={user}
 						key={user.id}
 						onChangeRole={isOwner && user.id !== currentUser?.id
-							? ((newRole: string) => handleChangeRole(user.id, newRole)) : undefined}
+							? ((newRole: UserRole) => handleChangeRole(user.id, newRole)) : undefined}
 						onDeleteUser={(isOwner && user.id !== currentUser?.id) || (!isOwner && user.id === currentUser?.id)
-							? (() => handleDeleteUser(user.id)) : undefined}
+							? (() => DeleteUser(user.id)) : undefined}
 					/>
 				)}
 			</div>

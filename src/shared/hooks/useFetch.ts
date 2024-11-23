@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNotificationService } from '../services/notifications';
 
 export interface IUseFetchProps<T> {
 	url: string,
@@ -12,6 +13,7 @@ export interface IUseFetchProps<T> {
 	enabled?: boolean,
 	retryCount?: number,
 	retryDelay?: number,
+	notifyOnError?: boolean,
 	// eslint-disable-next-line no-unused-vars
 	mapFunction?: (item: unknown) => T
 }
@@ -23,8 +25,11 @@ export const useFetch = <T>(props: IUseFetchProps<T>) => {
 		enabled = true,
 		retryCount = 1,
 		retryDelay = 500,
+		notifyOnError = false,
 		mapFunction = (item: T) => item,
 	} = props;
+
+	const { Notify } = useNotificationService();
 
 	const [data, setData] = useState<T | null>(null);
 	const [isFetching, setIsFetching] = useState<boolean>(enabled);
@@ -71,6 +76,13 @@ export const useFetch = <T>(props: IUseFetchProps<T>) => {
 		if (enabled)
 			refetch();
 	}, []);
+
+	useEffect(() => {
+		notifyOnError && error && Notify({
+			error: true,
+			message: error,
+		});
+	}, [error]);
 
 	return { data, isFetching, error, refetch };
 };

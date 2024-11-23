@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { IEventResponse, mapResponseToEvent } from 'src/entities/Event';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useFetch } from 'src/shared/hooks/useFetch';
@@ -22,12 +21,10 @@ export const useCreateUpdateEvent = (props: IProps) => {
 
 	const {
 		refetch: updateRefetch,
-		error: updateError,
 	} = useFetch<IEventResponse>(updateEvent(props));
 
 	const {
 		refetch: createRefetch,
-		error: createError,
 	} = useFetch<IEventResponse>(newEvent(props));
 
 	const UpdateEvent = async () => {
@@ -66,20 +63,6 @@ export const useCreateUpdateEvent = (props: IProps) => {
 
 		return true;
 	};
-
-	useEffect(() => {
-		updateError && Notify({
-			error: true,
-			message: updateError,
-		});
-	}, [updateError]);
-
-	useEffect(() => {
-		createError && Notify({
-			error: true,
-			message: createError,
-		});
-	}, [createError]);
 
 	return { UpdateEvent, CreateEvent };
 };

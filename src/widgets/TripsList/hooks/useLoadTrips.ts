@@ -12,7 +12,6 @@ export const useLoadTrips = () => {
 
 	const {
 		data,
-		error,
 		refetch,
 		isFetching,
 	} = useFetch<ITrip[]>(getTrips());
@@ -20,13 +19,6 @@ export const useLoadTrips = () => {
 	useEffect(() => {
 		data && setTrips(data);
 	}, [data]);
-
-	useEffect(() => {
-		error && Notify({
-			error: true,
-			message: error,
-		});
-	}, [error]);
 
 	const handleWebsocket = (message: IWebSocketMessage) => {
 		const actions = [WSActions.TripUpdate, WSActions.UsersUpdate];

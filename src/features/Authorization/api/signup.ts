@@ -18,4 +18,5 @@ export const requestSignup = ({ email, login, password }: IProps) => ({
 		body: JSON.stringify({ email, password, login }),
 	},
 	enabled: false,
+	notifyOnError: true,
 });
