@@ -24,6 +24,7 @@ export const MainWidget = () => {
 	const handleDayChange = (currentDayEvents: IEvent[]) => {
 		if (!currentDayEvents || !currentDayEvents.length) {
 			setSelectedEvent(null);
+			setMarkers([]);
 			return;
 		}
 

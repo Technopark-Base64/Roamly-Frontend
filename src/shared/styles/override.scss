@@ -1,3 +1,5 @@
+@import "button";
+
 // FullCalendar Colors Vars
 :root {
   --fc-button-bg-color: #4c5765;
@@ -17,6 +19,11 @@
 // Delete border color
 .fc .fc-button {
   border: none;
+}
+
+// Make shedule button blue
+.fc .fc-schedule-button {
+  @extend .shared-button-blue;
 }
 
 // Capitalize Calendar Title

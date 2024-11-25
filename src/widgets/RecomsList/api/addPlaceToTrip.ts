@@ -7,7 +7,7 @@ interface IProps {
 }
 
 export const addPlaceToTrip = (req: IProps) => ({
-	url: `${BACKEND_API_URL}/trip/place/`,
+	url: `${BACKEND_API_URL}/trip/place`,
 	options: {
 		method: 'POST',
 		headers: {

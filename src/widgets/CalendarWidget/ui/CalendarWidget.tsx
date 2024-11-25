@@ -32,7 +32,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 
 	return (
 		<>
-			<div className={cls.listContainer}>
+			<div className={cls.content}>
 				{!currentTrip?.places.length && !events.length &&
 					<div className={cls.emptyLabel}>
 						Сначала выберите места, которые хотите посетить
@@ -53,7 +53,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 				{(!!currentTrip?.places.length || !!events.length) && !LoadingSchedule &&
 					<FullCalendar
 						events={events}
-						views={['timeGridWeek', 'dayGridMonth', 'timeGridDay']}
+						views={['timeGridWeek', 'dayGridMonth']}
 						onAdd={() => setShowModal(true)}
 						onSchedule={AutoSchedule}
 						onClickEvent={setEventToEdit}

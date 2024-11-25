@@ -1,14 +1,22 @@
 .wrapper {
-  width: 440px;
+  min-width: 440px;
+  max-width: 440px;
   display: flex;
   flex-flow: column;
+  gap: 20px;
   height: 650px;
 }
 
-.circleButton {
-  position: absolute;
-  inset: 30px auto auto 490px;
-  z-index: 100;
+.buttonContainer {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.inputContainer {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
 .listContainer {
@@ -17,7 +25,6 @@
   flex-flow: column;
   flex: 1;
   gap: 10px;
-  margin-top: 20px;
   width: 100%;
   overflow-y: scroll;
 }

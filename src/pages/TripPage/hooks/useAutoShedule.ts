@@ -16,8 +16,10 @@ export const useAutoSchedule = () => {
 	} = useFetch<ITrip>(autoSchedule(currentTrip?.id ?? ''));
 
 	useEffect(() => {
-		scheduleData && setCurrentTrip(scheduleData);
-		navigate(`${location.pathname}#main`, { replace: true });
+		if (scheduleData) {
+			setCurrentTrip(scheduleData);
+			navigate(`${location.pathname}#main`, { replace: true });
+		}
 	}, [scheduleData]);
   
 	return { scheduleLoading, AutoSchedule };

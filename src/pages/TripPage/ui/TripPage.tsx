@@ -1,14 +1,12 @@
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
-import RecommendOutlinedIcon from '@mui/icons-material/RecommendOutlined';
 import { ReactNode, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
 import { CalendarWidget } from 'src/widgets/CalendarWidget';
 import { MainWidget } from 'src/widgets/MainWidget';
 import { MapWidget } from 'src/widgets/MapWidget';
-import { PlacesList } from 'src/widgets/PlacesList';
 import { RecomsList } from 'src/widgets/RecomsList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
 import { useCurrentUser } from 'src/entities/User';
@@ -21,10 +19,10 @@ import { getTrip } from '../api/getTrip';
 import { useAutoSchedule } from '../hooks/useAutoShedule';
 import cls from './style.module.scss';
 
-type TMenu = 'main' | 'recoms' | 'calendar' |'places';
+type TMenu = 'main' | 'recoms' | 'myplaces' | 'calendar';
 
 interface ITab {
-	menu: TMenu,
+	menu: TMenu[],
 	icon?: ReactNode,
 	label: string,
 	element: ReactNode,
@@ -58,7 +56,7 @@ export const TripPage = () => {
 		if (message.trip_id !== id)
 			return;
 
-		if (actions.includes(message.action) && message.author !== currentUser?.id
+		if ((actions.includes(message.action) && +message.author !== currentUser?.id)
 				|| message.action === WSActions.TripUpdate) {
 			refetch();
 			Notify({
@@ -76,33 +74,27 @@ export const TripPage = () => {
 
 	const tabs: ITab[] = [
 		{
-			menu: 'main',
+			menu: ['main'],
 			icon: <HomeOutlinedIcon className={cls.icon} />,
-			label: 'Главная',
+			label: 'Обзор',
 			element: <MainWidget />,
 		},
 		{
-			menu: 'recoms',
-			icon: <RecommendOutlinedIcon className={cls.icon} />,
-			label: 'Рекомендации',
+			menu: ['recoms', 'myplaces'],
+			icon: <PlaceOutlinedIcon className={cls.icon} />,
+			label: 'Места',
 			element: <RecomsList />,
 		},
 		{
-			menu: 'calendar',
+			menu: ['calendar'],
 			icon: <CalendarMonthOutlinedIcon className={cls.icon} />,
 			label: 'Календарь',
 			element: <CalendarWidget events={currentTrip?.events ?? []} />,
 		},
-		{
-			menu: 'places',
-			icon: <PlaceOutlinedIcon className={cls.icon} />,
-			label: 'Места',
-			element: <PlacesList places={currentTrip?.places ?? []} />,
-		},
 	];
 
 	useEffect(() => {
-		if (!tabs.find((item) => item.menu === menu))
+		if (!tabs.find((item) => item.menu.includes(menu as TMenu)))
 			navigate(`${location.pathname}#main`, { replace: true });
 	}, [menu]);
 
@@ -116,9 +108,9 @@ export const TripPage = () => {
 			<div className={cls.buttonContainer}>
 				{tabs.map((tab) => (
 					<button
-						className={`${cls.tab} ${menu === tab.menu && cls.tabActive}`}
-						onClick={() => navigate(`${location.pathname}#${tab.menu}`)}
-						key={tab.menu}
+						className={`${cls.tab} ${tab.menu.includes(menu as TMenu) && cls.tabActive}`}
+						onClick={() => navigate(`${location.pathname}#${tab.menu[0]}`)}
+						key={tab.menu[0]}
 					>
 						{tab.icon}{tab.label}
 					</button>
@@ -128,8 +120,8 @@ export const TripPage = () => {
 			{!scheduleLoading &&
 				<div className={cls.content}>
 					<div className={cls.wrapper}>
-						{ currentTrip && tabs.find((item) => item.menu === menu)?.element }
-						{ menu !== 'calendar' && <MapWidget showCircle={menu !== 'main'} /> }
+						{ currentTrip && tabs.find((item) => item.menu.includes(menu as TMenu))?.element }
+						{ menu !== 'calendar' && <MapWidget showCircle={menu === 'recoms'} /> }
 					</div>
 				</div>
 			}

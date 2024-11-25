@@ -1,7 +1,8 @@
 .page {
   display: flex;
   gap: 20px;
-  width: 1024px;
+  min-width: 1000px;
+  width: 75%;
   margin: 0 auto;
 }
 
@@ -24,7 +25,8 @@
 }
 
 .menu {
-  width: 190px;
+  min-width: 200px;
+  width: 20%;
   height: 300px;
   background-color: #2f343d;
   padding: 20px;

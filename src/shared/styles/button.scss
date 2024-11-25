@@ -27,8 +27,13 @@
   }
 }
 
-.shared-button-active {
-  background-color: #646e85;
+.shared-button-blue {
+  background-color: #69a6e7;
+  color: #ffffff;
+
+  &:hover {
+    background-color: #a5d2ff;
+  }
 }
 
 .shared-icon-button {
@@ -41,4 +46,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    background-color: #646e85;
+  }
+}
+
+.shared-button-active {
+  background-color: #646e85;
 }

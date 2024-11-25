@@ -16,7 +16,8 @@
   display: flex;
   flex-flow: column;
   min-height: calc(100dvh - 70px);
-  width: 1024px;
+  width: 75%;
+  min-width: 1000px;
   margin: 0 auto;
   padding-top: 10px;
   background-color: #2f343d;
