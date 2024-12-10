@@ -6,7 +6,7 @@ const RECOMS_CHUNK_SIZE = 20;
 
 export const recomsPlaces = (types: string[], circle: TCircle) => ({
 	url: `${BACKEND_API_URL}/place/recomendations
-	?types=${types.join(',')}&lat=${circle.center.lat}&lng=${circle.center.lng}
+	?types=${types.length ? types.join(',') : 'tourist_attraction'}&lat=${circle.center.lat}&lng=${circle.center.lng}
 	&radius=${circle.radius}&max_places=${RECOMS_CHUNK_SIZE}`,
 	options: {
 		method: 'GET',

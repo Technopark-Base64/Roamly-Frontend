@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useMapWidget } from 'src/widgets/MapWidget';
 import { COLLAPSED_PLACECARD_HEIGHT, IPlace, PlaceCard, recomsPlaces, searchPlaces } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
+import { CheckboxItem } from 'src/shared/components/CheckboxItem';
 import { Input } from 'src/shared/components/Input';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
@@ -26,7 +27,7 @@ export const PlacesList = () => {
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
 
-	const [category, setCategory] = useState<TCategory['name']>('tourist_attraction');
+	const [category, setCategory] = useState<TCategory['name'][]>([]);
 	const [showFilters, setShowFilters] = useState(false);
 	const [showMyPlaces, setShowMyPlaces] = useState(false);
 	const [search, setSearch] = useState('');
@@ -55,32 +56,43 @@ export const PlacesList = () => {
 	const categories: TCategory[] = [
 		{
 			name: 'museum',
-			label: 'Музеи'
+			label: 'Музеи искусств'
 		},
 		{
 			name: 'tourist_attraction',
-			label: 'Достоп.'
+			label: 'Знаковые места'
 		},
 		{
 			name: 'art_gallery',
-			label: 'Галереи'
+			label: 'Картинные галереи'
 		},
 		{
 			name: 'church',
-			label: 'Храмы'
+			label: 'Храмы, церкви, мечети'
 		},
-		// {
-		// 	name: 'park',
-		// 	label: 'Парки'
-		// },
+		{
+			name: 'park',
+			label: 'Парки и заповедники'
+		},
 	];
+
+	const toggleCategory = (cat: TCategory['name']) => {
+		const index = category.indexOf(cat);
+
+		if (index === -1) {
+			setCategory([...category, cat]);
+		} else {
+			category.splice(index, 1);
+			setCategory([...category]);
+		}
+	};
 
 	const {
 		data: recomData,
 		error: recomError,
 		refetch: recomRefetch,
 		isFetching: isRecomFetching,
-	} = useFetch<IPlace[]>(recomsPlaces([category], circle
+	} = useFetch<IPlace[]>(recomsPlaces(category, circle
 		?? {
 			center: currentTrip?.area.location ?? { lat: 0, lng: 0 },
 			radius: 20000,
@@ -146,17 +158,16 @@ export const PlacesList = () => {
 					</div>
 
 					{showFilters &&
-					<div className={cls.categories}>
-						{categories.map((cat, key) =>
-							<button
-								className={`shared-button ${category === cat.name && 'shared-button-active'}`}
-								onClick={() => setCategory(cat.name)}
-								key={key}
-							>
-								{cat.label}
-							</button>
-						)}
-					</div>
+						<div className={cls.categories}>
+							{categories.map((cat, key) =>
+								<CheckboxItem
+									name={cat.label}
+									value={category.includes(cat.name)}
+									onChange={() => toggleCategory(cat.name)}
+									key={key}
+								/>
+							)}
+						</div>
 					}
 				</>
 			}
