@@ -1,7 +1,7 @@
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useCallback, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
 import { CalendarWidget } from 'src/widgets/CalendarWidget';
@@ -51,7 +51,7 @@ export const TripPage = () => {
 		return () => setCurrentTrip(null);
 	}, [data]);
 
-	const handleWebsocket = (message: IWebSocketMessage) => {
+	const handleWebsocket = useCallback((message: IWebSocketMessage) => {
 		const actions = [WSActions.PlacesUpdate, WSActions.EventsUpdate, WSActions.UsersUpdate];
 		if (message.trip_id !== id)
 			return;
@@ -64,13 +64,13 @@ export const TripPage = () => {
 				message: message.message,
 			});
 		}
-	};
+	}, [currentUser]);
 
 	useEffect(() => {
 		WebSocket.subscribe(handleWebsocket);
 
 		return () => WebSocket.unsubscribe(handleWebsocket);
-	}, []);
+	}, [handleWebsocket]);
 
 	const tabs: ITab[] = [
 		{

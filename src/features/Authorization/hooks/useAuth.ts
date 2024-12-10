@@ -34,7 +34,7 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 		fetchedUser && setCurrentUser(fetchedUser);
 	}, [fetchedUser]);
 
-	const { data: checkRes, refetch: fetchCheckAuth } = useFetch<IAuthResponse>(requestCheckAuth());
+	const { refetch: fetchCheckAuth } = useFetch<IAuthResponse>(requestCheckAuth());
 	const { data: loginRes, refetch: fetchLogin } = useFetch<IAuthResponse>(requestLogin({ email, password }));
 	const { data: signupRes, refetch: fetchSignup } = useFetch<IAuthResponse>(requestSignup({ email, password, login }));
 	const { data: logoutRes, refetch: fetchLogout } = useFetch<IAuthResponse>(requestLogout());
@@ -71,17 +71,16 @@ export const useAuth = ({ login = '', email = '', password = '' }: IProps) => {
 
 	const CheckAuth = async () => {
 		const res = await fetchCheckAuth();
-		if (res)
-			setCurrentUser(defaultUser);
+		if (res) {
+			setUserId(res.user_id);
+			setCurrentUser({
+				...defaultUser,
+				id: res.user_id,
+			});
+		}
 
 		return res;
 	};
-
-	useEffect(() => {
-		if (checkRes) {
-			setUserId(checkRes.user_id);
-		}
-	}, [checkRes]);
 
 	return { Login, Signup, Logout, CheckAuth };
 };

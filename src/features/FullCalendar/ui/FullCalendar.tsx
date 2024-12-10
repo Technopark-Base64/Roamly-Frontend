@@ -1,4 +1,4 @@
-import { EventClickArg } from '@fullcalendar/core';
+import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
 import ruLocale from '@fullcalendar/core/locales/ru';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -18,6 +18,7 @@ interface IProps {
   events: IEvent[],
 	views: ('timeGridWeek' | 'dayGridMonth' | 'timeGridDay' | 'listWeek' | 'listDay')[],
 	height?: number,
+	selectedPlace?: string,
 	onShowMenu?: () => void,
 	// eslint-disable-next-line no-unused-vars
 	onClickEvent: (event: IEvent) => void,
@@ -25,7 +26,7 @@ interface IProps {
 	onVisibleEventsChange?: (events: IEvent[]) => void,
 }
 
-export const Calendar = ({ events, views, height, onShowMenu, onClickEvent, onVisibleEventsChange }: IProps) => {
+export const Calendar = ({ events, views, height, selectedPlace, onShowMenu, onClickEvent, onVisibleEventsChange }: IProps) => {
 	const { currentTrip, isReader } = useCurrentTrip();
 	const { handleEventChange, handleEventResize, handleDatesSet } = useHandleCalendarEvent({ onVisibleEventsChange });
 
@@ -34,6 +35,8 @@ export const Calendar = ({ events, views, height, onShowMenu, onClickEvent, onVi
 			id: event.id,
 			title: event.name || event.place?.name || 'Новое событие',
 			place: event.place,
+			backgroundColor: selectedPlace && selectedPlace === event.place?.placeId
+				? '#efcb75' : '',
 			start: event.startTime,
 			end: event.endTime,
 			name: event.name
@@ -42,7 +45,7 @@ export const Calendar = ({ events, views, height, onShowMenu, onClickEvent, onVi
 		const dayEvents = currentTrip ? createDayEvents(currentTrip.startTime, currentTrip.endTime) : [];
 
 		return [...e, ...dayEvents];
-	}, [events]);
+	}, [events, selectedPlace]);
 
 	const handleEventClick = (info: EventClickArg) => {
 		const event = info.event;
@@ -55,6 +58,18 @@ export const Calendar = ({ events, views, height, onShowMenu, onClickEvent, onVi
 			place: event.extendedProps.place,
 			startTime: event.start ?? new Date(),
 			endTime: event.end ?? new Date(),
+		});
+	};
+
+	const handleSelect = (info: DateSelectArg) => {
+		if (info.allDay)
+			return;
+
+		onClickEvent({
+			id: '',
+			name: '',
+			startTime: info.start,
+			endTime: info.end,
 		});
 	};
 
@@ -86,6 +101,7 @@ export const Calendar = ({ events, views, height, onShowMenu, onClickEvent, onVi
 				}}
 				nowIndicator={true}
 				navLinks={!views.includes('listDay')}
+				selectable={!isReader}
 				editable={!isReader}
 				firstDay={1}
 				locale={ruLocale}
@@ -94,6 +110,7 @@ export const Calendar = ({ events, views, height, onShowMenu, onClickEvent, onVi
 				eventClick={handleEventClick}
 				eventDrop={handleEventChange}
 				eventResize={handleEventResize}
+				select={handleSelect}
 				datesSet={handleDatesSet}
 			/>
 		</div>

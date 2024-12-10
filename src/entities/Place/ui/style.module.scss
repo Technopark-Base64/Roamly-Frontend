@@ -20,7 +20,7 @@
   align-items: center;
   gap: 20px;
   padding: 10px 15px;
-  cursor: grab;
+  cursor: pointer;
 
   .image {
     min-width: 60px;
@@ -37,6 +37,10 @@
     flex: 1;
     text-align: left;
   }
+}
+
+.selected {
+  background-color: #646e85;
 }
 
 .card {

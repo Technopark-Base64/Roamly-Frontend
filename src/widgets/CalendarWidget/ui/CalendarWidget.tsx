@@ -9,6 +9,7 @@ import { SmallPlaceCard } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
+import { useMapWidget } from '../../MapWidget';
 import { useAutoSchedule } from '../hooks/useAutoSchedule';
 import cls from './style.module.scss';
 
@@ -17,7 +18,8 @@ interface IProps {
 }
 
 export const CalendarWidget = ({ events }: IProps) => {
-	const { currentTrip } = useCurrentTrip();
+	const { currentTrip, isReader } = useCurrentTrip();
+	const { selectedId, selectPlace } = useMapWidget();
 	const { AutoSchedule, LoadingSchedule } = useAutoSchedule();
 	const [eventToEdit, setEventToEdit] = useState<IEvent | null>(null);
 	const [showModal, setShowModal] = useState(false);
@@ -58,16 +60,20 @@ export const CalendarWidget = ({ events }: IProps) => {
 					<>
 						{showMenu &&
 							<div className={cls.leftMenu}>
-								<div className={cls.buttonsContainer}>
-									<button className="shared-icon-button" onClick={() => setShowModal(true)}>
-										<AddOutlinedIcon/>
-									</button>
-									<button className="shared-button shared-button-blue" onClick={AutoSchedule}> Авто-планирование </button>
-								</div>
+								{!isReader &&
+									<div className={cls.buttonsContainer}>
+										<button className="shared-icon-button" onClick={() => setShowModal(true)}>
+											<AddOutlinedIcon/>
+										</button>
+										<button className="shared-button shared-button-blue" onClick={AutoSchedule}> Авто-планирование </button>
+									</div>
+								}
 								<div className={cls.listContainer}>
 									{currentTrip?.places.map((place) => (
 										<SmallPlaceCard
 											place={place}
+											selected={place.placeId === selectedId}
+											onClick={() => selectPlace(place.placeId === selectedId ? '' : place.placeId)}
 											key={place.placeId}
 										/>
 									))}
@@ -81,6 +87,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 						<FullCalendar
 							events={events}
 							views={['timeGridWeek', 'dayGridMonth']}
+							selectedPlace={selectedId}
 							onShowMenu={!showMenu ? () => setShowMenu(true) : undefined}
 							onClickEvent={setEventToEdit}
 						/>

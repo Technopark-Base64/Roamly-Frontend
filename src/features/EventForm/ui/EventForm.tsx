@@ -78,7 +78,7 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 		if (!currentTrip || !startTime || !endTime)
 			return;
 
-		const res = !prevEvent ? await CreateEvent() : await UpdateEvent();
+		const res = !prevEvent?.id ? await CreateEvent() : await UpdateEvent();
 
 		if (res)
 			onSuccess?.();
@@ -163,8 +163,8 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 
 			{!isReader &&
 				<div className={cls.buttonContainer}>
-					<button type="submit" className="shared-button"> {prevEvent ? 'Сохранить' :'Создать'} </button>
-					{ prevEvent &&
+					<button type="submit" className="shared-button"> {prevEvent?.id ? 'Сохранить' :'Создать'} </button>
+					{ prevEvent?.id &&
 						<button type="button" className="shared-button shared-button-red" onClick={() => Delete(prevEvent.id)}>
 							Удалить
 						</button>
