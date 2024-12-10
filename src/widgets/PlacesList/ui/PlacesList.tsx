@@ -16,7 +16,7 @@ type TCategory = {
 	label: string,
 }
 
-export const RecomsList = () => {
+export const PlacesList = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const menu = location.hash.replace('#', '');

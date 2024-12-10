@@ -1,15 +1,20 @@
 .content {
   display: flex;
   flex: 1;
-  gap: 20px;
+  gap: 5px;
   width: 100%;
 }
 
-.headerButtons {
-  position: absolute;
-  inset: 72px 20px auto auto;
+.buttonsContainer {
+  height: 36px;
+  margin: 1px 0 9px 0;
   display: flex;
   gap: 12px;
+
+  button {
+    height: 36px;
+    max-height: unset;
+  }
 }
 
 .emptyLabel {
@@ -28,4 +33,23 @@
 .dayLabel {
   font-size: 18px;
   text-align: start;
+}
+
+.leftMenu {
+  display: flex;
+  flex-flow: column;
+  gap: 15px;
+  height: 645px;
+  width: 290px;
+  padding-right: 20px;
+}
+
+.listContainer {
+  padding-right: 20px;
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  width: 290px;
+  flex: 1;
+  overflow-y: scroll;
 }

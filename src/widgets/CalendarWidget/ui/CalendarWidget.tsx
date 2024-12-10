@@ -1,8 +1,11 @@
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { EventForm } from 'src/features/EventForm';
 import { FullCalendar } from 'src/features/FullCalendar';
 import { IEvent } from 'src/entities/Event';
+import { SmallPlaceCard } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
@@ -18,6 +21,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 	const { AutoSchedule, LoadingSchedule } = useAutoSchedule();
 	const [eventToEdit, setEventToEdit] = useState<IEvent | null>(null);
 	const [showModal, setShowModal] = useState(false);
+	const [showMenu, setShowMenu] = useState(true);
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -51,13 +55,36 @@ export const CalendarWidget = ({ events }: IProps) => {
 				}
 
 				{(!!currentTrip?.places.length || !!events.length) && !LoadingSchedule &&
-					<FullCalendar
-						events={events}
-						views={['timeGridWeek', 'dayGridMonth']}
-						onAdd={() => setShowModal(true)}
-						onSchedule={AutoSchedule}
-						onClickEvent={setEventToEdit}
-					/>
+					<>
+						{showMenu &&
+							<div className={cls.leftMenu}>
+								<div className={cls.buttonsContainer}>
+									<button className="shared-icon-button" onClick={() => setShowModal(true)}>
+										<AddOutlinedIcon/>
+									</button>
+									<button className="shared-button shared-button-blue" onClick={AutoSchedule}> Авто-планирование </button>
+								</div>
+								<div className={cls.listContainer}>
+									{currentTrip?.places.map((place) => (
+										<SmallPlaceCard
+											place={place}
+											key={place.placeId}
+										/>
+									))}
+								</div>
+								<button className="shared-button" onClick={() => setShowMenu(false)}>
+									<KeyboardDoubleArrowLeftOutlinedIcon/> Свернуть
+								</button>
+							</div>
+						}
+
+						<FullCalendar
+							events={events}
+							views={['timeGridWeek', 'dayGridMonth']}
+							onShowMenu={!showMenu ? () => setShowMenu(true) : undefined}
+							onClickEvent={setEventToEdit}
+						/>
+					</>
 				}
 			</div>
 		</>

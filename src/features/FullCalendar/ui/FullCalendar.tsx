@@ -18,15 +18,14 @@ interface IProps {
   events: IEvent[],
 	views: ('timeGridWeek' | 'dayGridMonth' | 'timeGridDay' | 'listWeek' | 'listDay')[],
 	height?: number,
-	onAdd?: () => void,
-	onSchedule?: () => void,
+	onShowMenu?: () => void,
 	// eslint-disable-next-line no-unused-vars
 	onClickEvent: (event: IEvent) => void,
 	// eslint-disable-next-line no-unused-vars
 	onVisibleEventsChange?: (events: IEvent[]) => void,
 }
 
-export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEvent, onVisibleEventsChange }: IProps) => {
+export const Calendar = ({ events, views, height, onShowMenu, onClickEvent, onVisibleEventsChange }: IProps) => {
 	const { currentTrip, isReader } = useCurrentTrip();
 	const { handleEventChange, handleEventResize, handleDatesSet } = useHandleCalendarEvent({ onVisibleEventsChange });
 
@@ -62,12 +61,10 @@ export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEven
 	const initialDate = currentTrip?.startTime && calculateInitialDate(currentTrip.startTime, currentTrip.endTime);
 
 	const leftButtons = views.length > 1
-		? `${views.join(',')}${!isReader ? ' today' : ''}`
+		? `${onShowMenu ? 'showMenu ' : ''}${views.join(',')}`
 		: 'today';
 
-	const rightButtons = !isReader
-		? `${onSchedule ? 'schedule ' : ''}prev,next${onAdd ? ' add' : ''}`
-		: `${views.length > 1 ? 'today ' : ''}prev,next`;
+	const rightButtons = `prev,${views.length > 1 ? 'today,' : ''}next`;
 
 	return (
 		<div className={cls.wrapper}>
@@ -77,13 +74,9 @@ export const Calendar = ({ events, views, height, onSchedule, onAdd, onClickEven
 				initialView={views[0]}
 				scrollTime="09:00:00"
 				customButtons={{
-					schedule: {
-						text: 'Спланировать',
-						click: onSchedule,
-					},
-					add: {
-						text: '\xa0+\xa0',
-						click: onAdd,
+					showMenu: {
+						text: 'Места',
+						click: onShowMenu,
 					},
 				}}
 				headerToolbar={{

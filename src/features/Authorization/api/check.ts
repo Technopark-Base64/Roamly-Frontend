@@ -10,5 +10,5 @@ export const requestCheckAuth = () => ({
 		credentials: 'include',
 	},
 	enabled: false,
-	notifyOnError: true,
+	notifyOnError: false,
 });

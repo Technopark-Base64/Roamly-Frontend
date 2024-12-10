@@ -7,7 +7,7 @@ import { Page404 } from 'src/pages/Page404';
 import { CalendarWidget } from 'src/widgets/CalendarWidget';
 import { MainWidget } from 'src/widgets/MainWidget';
 import { MapWidget } from 'src/widgets/MapWidget';
-import { RecomsList } from 'src/widgets/RecomsList';
+import { PlacesList } from 'src/widgets/PlacesList';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
 import { useCurrentUser } from 'src/entities/User';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
@@ -83,7 +83,7 @@ export const TripPage = () => {
 			menu: ['recoms', 'myplaces'],
 			icon: <PlaceOutlinedIcon className={cls.icon} />,
 			label: 'Места',
-			element: <RecomsList />,
+			element: <PlacesList />,
 		},
 		{
 			menu: ['calendar'],
