@@ -1,4 +1,5 @@
-import { DatesSetArg, EventChangeArg } from '@fullcalendar/core';
+import { DatesSetArg, EventChangeArg, DateSelectArg, EventClickArg } from '@fullcalendar/core';
+import { EventReceiveArg } from '@fullcalendar/interaction';
 import { useEffect, useState } from 'react';
 import { IEvent, IEventResponse } from 'src/entities/Event';
 import { useCurrentTrip } from 'src/entities/Trip';
@@ -7,9 +8,11 @@ import { useCreateUpdateEvent } from '../../EventForm';
 interface IProps {
 	// eslint-disable-next-line no-unused-vars
 	onVisibleEventsChange?: (events: IEvent[]) => void,
+	// eslint-disable-next-line no-unused-vars
+	onClickEvent: (event: IEvent) => void,
 }
 
-export const useHandleCalendarEvent = ({ onVisibleEventsChange }: IProps) => {
+export const useHandleCalendarEvent = ({ onVisibleEventsChange, onClickEvent }: IProps) => {
 	const { currentTrip } = useCurrentTrip();
 	const [event, setEvent] = useState<IEventResponse>({
 		id: '',
@@ -57,5 +60,43 @@ export const useHandleCalendarEvent = ({ onVisibleEventsChange }: IProps) => {
 		onVisibleEventsChange(visibleEvents);
 	};
 
-	return { handleEventChange, handleEventResize, handleDatesSet };
+	const handleEventClick = (info: EventClickArg) => {
+		const event = info.event;
+		if (event.allDay)
+			return;
+
+		onClickEvent({
+			id: event.id,
+			name: event.extendedProps.name,
+			place: event.extendedProps.place,
+			startTime: event.start ?? new Date(),
+			endTime: event.end ?? new Date(),
+		});
+	};
+
+	const handleSelect = (info: DateSelectArg) => {
+		if (info.allDay)
+			return;
+
+		onClickEvent({
+			id: '',
+			name: '',
+			startTime: info.start,
+			endTime: info.end,
+		});
+	};
+
+	const handleEventReceive = (info: EventReceiveArg) => {
+		const event = info.event;
+
+		onClickEvent({
+			id: '',
+			name: event.extendedProps.name,
+			place: event.extendedProps.place,
+			startTime: event.start ?? new Date(),
+			endTime: event.end ?? new Date(),
+		});
+	};
+
+	return { handleEventChange, handleEventResize, handleDatesSet, handleEventClick, handleSelect, handleEventReceive };
 };

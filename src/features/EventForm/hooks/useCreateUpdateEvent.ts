@@ -2,6 +2,7 @@ import { IEventResponse, mapResponseToEvent } from 'src/entities/Event';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { useNotificationService } from 'src/shared/services/notifications';
+import { MINUTE_MS } from 'src/shared/utils';
 import { newEvent } from '../api/newEvent';
 import { updateEvent } from '../api/updateEvent';
 
@@ -54,7 +55,12 @@ export const useCreateUpdateEvent = (props: IProps) => {
 			return false;
 
 		const createdEvent = mapResponseToEvent(createRes, currentTrip?.places ?? []);
-		setCurrentTripEvents([...events, createdEvent]);
+		const offset = MINUTE_MS * new Date().getTimezoneOffset();
+		setCurrentTripEvents([...events, {
+			...createdEvent,
+			startTime: new Date(+createdEvent.startTime - offset),
+			endTime: new Date(+createdEvent.endTime - offset),
+		}]);
 
 		Notify({
 			error: false,

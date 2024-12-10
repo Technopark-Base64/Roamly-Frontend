@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { EventForm } from 'src/features/EventForm';
 import { FullCalendar } from 'src/features/FullCalendar';
 import { IEvent } from 'src/entities/Event';
-import { SmallPlaceCard } from 'src/entities/Place';
+import { EventPlaceCard } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
@@ -34,6 +34,9 @@ export const CalendarWidget = ({ events }: IProps) => {
 	const handleCloseModal = () => {
 		setShowModal(false);
 		setEventToEdit(null);
+
+		// Костыль! но по другому не придумал
+		selectPlace(selectedId + ' ');
 	};
 
 	return (
@@ -70,9 +73,10 @@ export const CalendarWidget = ({ events }: IProps) => {
 								}
 								<div className={cls.listContainer}>
 									{currentTrip?.places.map((place) => (
-										<SmallPlaceCard
+										<EventPlaceCard
 											place={place}
 											selected={place.placeId === selectedId}
+											draggable={!isReader}
 											onClick={() => selectPlace(place.placeId === selectedId ? '' : place.placeId)}
 											key={place.placeId}
 										/>

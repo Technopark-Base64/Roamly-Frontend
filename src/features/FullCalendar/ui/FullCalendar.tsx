@@ -1,4 +1,3 @@
-import { DateSelectArg, EventClickArg } from '@fullcalendar/core';
 import ruLocale from '@fullcalendar/core/locales/ru';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -28,7 +27,8 @@ interface IProps {
 
 export const Calendar = ({ events, views, height, selectedPlace, onShowMenu, onClickEvent, onVisibleEventsChange }: IProps) => {
 	const { currentTrip, isReader } = useCurrentTrip();
-	const { handleEventChange, handleEventResize, handleDatesSet } = useHandleCalendarEvent({ onVisibleEventsChange });
+	const { handleEventChange, handleEventResize, handleDatesSet, handleEventClick, handleSelect, handleEventReceive }
+		= useHandleCalendarEvent({ onVisibleEventsChange, onClickEvent });
 
 	const calendarEvents: ICalendarEvent[] = useMemo(() => {
 		const e: ICalendarEvent[] = events.map((event) => ({
@@ -46,32 +46,6 @@ export const Calendar = ({ events, views, height, selectedPlace, onShowMenu, onC
 
 		return [...e, ...dayEvents];
 	}, [events, selectedPlace]);
-
-	const handleEventClick = (info: EventClickArg) => {
-		const event = info.event;
-		if (event.allDay)
-			return;
-
-		onClickEvent({
-			id: event.id,
-			name: event.extendedProps.name,
-			place: event.extendedProps.place,
-			startTime: event.start ?? new Date(),
-			endTime: event.end ?? new Date(),
-		});
-	};
-
-	const handleSelect = (info: DateSelectArg) => {
-		if (info.allDay)
-			return;
-
-		onClickEvent({
-			id: '',
-			name: '',
-			startTime: info.start,
-			endTime: info.end,
-		});
-	};
 
 	const initialDate = currentTrip?.startTime && calculateInitialDate(currentTrip.startTime, currentTrip.endTime);
 
@@ -103,6 +77,7 @@ export const Calendar = ({ events, views, height, selectedPlace, onShowMenu, onC
 				navLinks={!views.includes('listDay')}
 				selectable={!isReader}
 				editable={!isReader}
+				droppable={!isReader}
 				firstDay={1}
 				locale={ruLocale}
 				height={height ?? 650}
@@ -112,6 +87,7 @@ export const Calendar = ({ events, views, height, selectedPlace, onShowMenu, onC
 				eventResize={handleEventResize}
 				select={handleSelect}
 				datesSet={handleDatesSet}
+				eventReceive={handleEventReceive}
 			/>
 		</div>
 	);
