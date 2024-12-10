@@ -36,48 +36,50 @@ export const SelectPlaceInput = ({ places, prevPlace, isEditable = true, onSelec
 			<span className={cls.hintLabel}> Выберите место </span>
 
 			{!selectedPlace &&
-        <Input
-        	initValue={search}
-        	placeholder={!isEditable ? 'Место не выбрано' : 'Выберите место'}
-        	delay={300}
-        	readonly={!isEditable}
-        	onChange={setSearch}
-        	onFocus={() => setShowList(true)}
-        	onBlur={() => setShowList(false)}
-        />
+				<Input
+					initValue={search}
+					placeholder={!isEditable ? 'Место не выбрано' : 'Выберите место'}
+					delay={300}
+					readonly={!isEditable}
+					onChange={setSearch}
+					onFocus={() => setShowList(true)}
+					onBlur={() => setShowList(false)}
+				/>
 			}
 
 			{selectedPlace &&
-        <div
-        	className={cls.regionShow}
-        >
-        	{ selectedPlace.name }
-        	{isEditable &&
-            <div className={`${cls.cancelBtn} ${cls.pointer}`} onClick={handleCanselSelect}>
-            	<CloseOutlinedIcon/>
-            </div>
-        	}
-        </div>
+				<div className={cls.regionShow}>
+					{ selectedPlace.name }
+					{isEditable &&
+						<div className={`${cls.cancelBtn} ${cls.pointer}`} onClick={handleCanselSelect}>
+							<CloseOutlinedIcon/>
+						</div>
+					}
+				</div>
 			}
 
 			{showList &&
-        <div className={cls.listContainer}>
-        	{!selectedPlace && !searchResults.length && search &&
-              <div className={cls.regionShow}>
-              	<span className={cls.errLabel}>
-              Места не найдено
-              	</span>
-              </div>
-        	}
+				<div className={cls.listContainer}>
+					{!selectedPlace && !searchResults.length && search &&
+						<div className={cls.regionShow}>
+							<span className={cls.errLabel}>
+						Места не найдено
+							</span>
+						</div>
+					}
 
-        	{!selectedPlace &&
-            searchResults.map((pl) => (
-            	<div className={`${cls.regionShow} ${cls.pointer}`} onMouseDown={() => setSelectedPlace(pl)}>
-            		{pl.name}
-            	</div>
-            ))
-        	}
-        </div>
+					{!selectedPlace &&
+						searchResults.map((pl) => (
+							<div
+								className={`${cls.regionShow} ${cls.pointer}`}
+								onMouseDown={() => setSelectedPlace(pl)}
+								key={pl.placeId}
+							>
+								{pl.name}
+							</div>
+						))
+					}
+				</div>
 			}
 
 		</div>

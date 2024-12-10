@@ -4,10 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
 import { getUserAvatarColor } from 'src/entities/User';
+import { useDialogService } from 'src/shared/services/dialog';
 import cls from './style.module.scss';
 
 export const Navbar = () => {
 	const { currentUser } = useCurrentUser();
+	const { OpenDialog } = useDialogService();
 	const { Logout } = useAuth({});
 	const navigate = useNavigate();
 
@@ -20,7 +22,13 @@ export const Navbar = () => {
 	};
 
 	const handleLogout = async () => {
-		await Logout();
+		OpenDialog({
+			text: 'Выход из профиля',
+			subtext: 'Вы уверены, что хотите выйти из аккаунта?',
+			onAccept: Logout,
+			acceptText: 'Выход',
+			cancelText: 'Отмена',
+		});
 	};
 
 	return (

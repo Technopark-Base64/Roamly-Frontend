@@ -1,9 +1,11 @@
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { IPlace, searchArea } from 'src/entities/Place';
 import { ITrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { useFetch } from 'src/shared/hooks/useFetch';
 import { defaultTripName } from 'src/shared/lang';
+import { useDialogService } from 'src/shared/services/dialog';
 import { useNotificationService } from 'src/shared/services/notifications';
 import { dateGreater } from 'src/shared/utils';
 import { useDeleteTrip } from '../hooks/useDeleteTrip';
@@ -26,6 +28,7 @@ export const TripForm = ({ prevTrip, onSuccess }: IProps) => {
 	const [tripName, setTripName] = useState<string>(prevTrip?.name ?? '');
 
 	const { Notify } = useNotificationService();
+	const { OpenDialog } = useDialogService();
 	const { DeleteTrip } = useDeleteTrip(prevTrip?.id ?? '');
 	const { UpdateTrip, CreateTrip } = useUpdateCreateTrip({
 		id: prevTrip?.id ?? '',
@@ -101,6 +104,18 @@ export const TripForm = ({ prevTrip, onSuccess }: IProps) => {
 		}
 	};
 
+	const handleDeleteTrip = () => {
+		OpenDialog({
+			icon: <DeleteOutlineOutlinedIcon/>,
+			text: 'Удаление поездки',
+			subtext: 'Поездка удалится со всеми местами и событиями в календаре',
+			onAccept: DeleteTrip,
+			acceptText: 'Удалить',
+			cancelText: 'Отмена',
+			isDangerous: true,
+		});
+	};
+
 	return (
 		<form className={cls.form} onSubmit={handleSubmit}>
 			<div className={cls.title}>
@@ -173,7 +188,7 @@ export const TripForm = ({ prevTrip, onSuccess }: IProps) => {
 			</div>
 
 			<button type="submit" className="shared-button"> {prevTrip ? 'Сохранить' :'Создать'} </button>
-			{ prevTrip && <button type="button" className="shared-button shared-button-red" onClick={DeleteTrip}> Удалить </button> }
+			{ prevTrip && <button type="button" className="shared-button shared-button-red" onClick={handleDeleteTrip}> Удалить </button> }
 		</form>
 	);
 };
