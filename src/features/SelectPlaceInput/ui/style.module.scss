@@ -1,0 +1,40 @@
+.hintLabel {
+  font-size: 16px;
+  text-align: start;
+  height: 30px;
+  padding-left: 10px;
+}
+
+.errLabel {
+  color: tomato;
+}
+
+.regionContainer {
+  display: flex;
+  flex-flow: column;
+  height: 60px;
+  position: relative;
+}
+
+.regionShow {
+  padding: 8px 20px;
+  background-color: #555a70;
+  position: relative;
+}
+
+.listContainer {
+  position: absolute;
+  width: 100%;
+  inset: 60px auto auto 0;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.cancelBtn {
+  position: absolute;
+  inset: 5px 15px auto auto;
+  cursor: pointer;
+  font-size: 20px;
+}

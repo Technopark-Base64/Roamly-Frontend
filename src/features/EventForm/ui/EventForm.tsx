@@ -1,9 +1,10 @@
-import { useMemo, useState, MouseEvent } from 'react';
+import { useState } from 'react';
 import { IEvent } from 'src/entities/Event';
-import { getPlacePhoto } from 'src/entities/Place';
+import { getPlacePhoto, IPlace } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { Input } from 'src/shared/components/Input';
 import { DAY_MS, dateGreater } from 'src/shared/utils';
+import { SelectPlaceInput } from '../../SelectPlaceInput';
 import { useCreateUpdateEvent } from '../hooks/useCreateUpdateEvent';
 import { useDeleteEvent } from '../hooks/useDeleteEvent';
 import cls from './style.module.scss';
@@ -20,32 +21,20 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 	const tripEnd = currentTrip ? new Date(+currentTrip.endTime + DAY_MS).toISOString().slice(0, 16) : '';
 
 	const [name, setName] = useState(prevEvent?.name ?? '');
-	const [search, setSearch] = useState(prevEvent?.place?.name ?? '');
-	const [isSelected, setIsSelected] = useState(!!prevEvent?.place);
 	const [startTime, setStartTime] = useState<string | undefined>(prevEvent?.startTime.toISOString().slice(0, 16));
 	const [endTime, setEndTime] = useState<string | undefined>(prevEvent?.endTime.toISOString().slice(0, 16));
 
-	const searchResult = useMemo(() => {
-		if (!search || !currentTrip)
-			return null;
-
-		return currentTrip.places.find((pl) => pl.name.toLowerCase().includes(search.trim().toLowerCase()));
-	}, [search]);
+	const [selectedPlace, setSelectedPlace] = useState<IPlace | null>(prevEvent?.place ?? null);
 
 	const { Delete } = useDeleteEvent({ onSuccess });
 	const { UpdateEvent, CreateEvent } = useCreateUpdateEvent({
 		id: prevEvent?.id ?? '',
 		name,
-		place_id: searchResult?.placeId ?? '',
+		place_id: selectedPlace?.placeId ?? '',
 		trip_id: currentTrip?.id ?? '',
 		start_time: startTime ?? '',
 		end_time: endTime ?? '',
 	});
-
-	const handleCanselSelect = (event: MouseEvent) => {
-		event.stopPropagation();
-		setIsSelected(false);
-	};
 
 	const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const start = e.target.value;
@@ -84,7 +73,7 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 			onSuccess?.();
 	};
 
-	const imageUrl = isSelected && searchResult?.photos.length && getPlacePhoto(searchResult.photos[0]);
+	const imageUrl = selectedPlace?.photos.length && getPlacePhoto(selectedPlace.photos[0]);
 
 	return (
 		<form className={cls.form} onSubmit={handleSubmit}>
@@ -108,44 +97,13 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 						/>
 					</div>
 
-					<div className={cls.regionContainer}>
-						<span className={cls.hintLabel}> Выберите место </span>
+					<SelectPlaceInput
+						places={currentTrip?.places ?? []}
+						prevPlace={prevEvent?.place}
+						onSelectedPlaceChange={setSelectedPlace}
+					/>
 
-						{!isSelected &&
-						<Input
-							initValue={search}
-							placeholder={isReader ? 'Место не выбрано' : 'Выберите место'}
-							delay={300}
-							readonly={isReader}
-							onChange={setSearch}
-						/>
-						}
-
-						{searchResult && search &&
-							<div
-								className={`${cls.regionShow} ${!isSelected && !isReader && cls.pointer}`}
-								onClick={() => setIsSelected(true)}
-							>
-								{ searchResult.name }
-
-								{isSelected && !isReader &&
-									<div className={cls.cancelBtn} onClick={handleCanselSelect}>
-										x
-									</div>
-								}
-							</div>
-						}
-
-						{!searchResult && search &&
-							<div className={cls.regionShow}>
-								<span className={cls.errLabel}>
-									Место не найдено
-								</span>
-							</div>
-						}
-					</div>
 				</div>
-
 
 			</div>
 
