@@ -49,7 +49,7 @@ export const useUsersList = () => {
 			return;
 
 		changeRoleRefetch().then((res) => {
-			if (res)
+			if (res !== false)
 				setCurrentTripUsers(users.map((u) => {
 					if (u.id === userUpdateInfo.member_id)
 						return {

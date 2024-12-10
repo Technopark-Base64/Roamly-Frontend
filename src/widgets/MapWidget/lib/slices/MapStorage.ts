@@ -6,6 +6,7 @@ const initialState: IMapStorage = {
 	markers: [],
 	isRoute: false,
 	selectedId: '',
+	mapSelectedPlace: null,
 	currentZoom: 12,
 	currentView: {
 		lat: 0,
@@ -24,6 +25,9 @@ const mapSlice = createSlice({
 		setMarkers: (state, action: { payload: { markers: IMarker[], isRoute: boolean } }) => {
 			state.markers = action.payload.markers;
 			state.isRoute = action.payload.isRoute;
+		},
+		setPlace: (state, action: { payload: IPlace | null }) => {
+			state.mapSelectedPlace = action.payload;
 		},
 		setView: (state, action: { payload: IPlace['location'] }) => {
 			state.currentView = action.payload;
@@ -45,6 +49,6 @@ const mapSlice = createSlice({
 	},
 });
 
-export const { setView, clearMap, setZoom, setMarkers, setSelectedId, setCircle } = mapSlice.actions;
+export const { setView, clearMap, setZoom, setMarkers, setPlace, setSelectedId, setCircle } = mapSlice.actions;
 
 export default mapSlice.reducer;

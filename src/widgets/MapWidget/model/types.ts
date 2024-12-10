@@ -1,3 +1,5 @@
+import { IPlace } from 'src/entities/Place';
+
 export interface IMarker {
   id: string,
   title?: string,
@@ -19,6 +21,7 @@ export interface IMapStorage {
   markers: IMarker[],
   isRoute: boolean,
   selectedId: string,
+  mapSelectedPlace: IPlace | null,
   currentView: {
     lat: number,
     lng: number,

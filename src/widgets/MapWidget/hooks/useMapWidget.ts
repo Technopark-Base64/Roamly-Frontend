@@ -5,6 +5,7 @@ import {
 	clearMap as clearM,
 	setView as setV,
 	setZoom as setZ,
+	setPlace as setP,
 	setMarkers as setM,
 	setSelectedId as setS,
 	setCircle as setC,
@@ -29,11 +30,14 @@ export const useMapWidget = () => {
 			markers,
 			isRoute,
 		}));
-		selectPlace('');
 	};
 
 	const selectPlace = (placeId: string) => {
 		dispatch(setS(placeId));
+	};
+
+	const setMapSelectedPlace = (place: IPlace | null) => {
+		dispatch(setP(place));
 	};
 
 	const setCircle = (circle: TCircle | null) => {
@@ -44,5 +48,5 @@ export const useMapWidget = () => {
 		dispatch(clearM());
 	};
 
-	return { ...MapProps, setView, setZoom, setMarkers, selectPlace, clearMap, setCircle };
+	return { ...MapProps, setView, setZoom, setMarkers, selectPlace, setMapSelectedPlace, clearMap, setCircle };
 };

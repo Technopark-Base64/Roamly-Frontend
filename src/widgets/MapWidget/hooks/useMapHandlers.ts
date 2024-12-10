@@ -6,7 +6,7 @@ import { useMapWidget } from './useMapWidget';
 
 export const useMapHandlers = (map: google.maps.Map | null) => {
 	const { currentTrip } = useCurrentTrip();
-	const { setZoom, setView, currentView, markers, setCircle, circle } = useMapWidget();
+	const { setZoom, setView, currentView, markers, setMapSelectedPlace, selectPlace, setCircle, circle } = useMapWidget();
 
 	const handleToggleCircle = () => {
 		if (circle) {
@@ -60,10 +60,17 @@ export const useMapHandlers = (map: google.maps.Map | null) => {
 
 		service.getDetails({ placeId }, (place, status) => {
 			if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-				// TODO add logic
-				return mapResponseToPlace(place as IPlaceResponse);
+				const placeObj = mapResponseToPlace(place as IPlaceResponse);
+
+				setMapSelectedPlace(placeObj);
+				setTimeout(() => {
+					selectPlace(placeId);
+					map?.setZoom(16);
+					map?.setCenter(placeObj.location);
+				});
 			} else {
 				console.error('Ошибка при поиске места по ID: ', status);
+				setMapSelectedPlace(null);
 			}
 		});
 

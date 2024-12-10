@@ -1,5 +1,5 @@
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMapWidget } from 'src/widgets/MapWidget';
 import { COLLAPSED_PLACECARD_HEIGHT, IPlace, PlaceCard, recomsPlaces, searchPlaces } from 'src/entities/Place';
@@ -22,7 +22,7 @@ export const PlacesList = () => {
 	const menu = location.hash.replace('#', '');
 
 	const { currentTrip } = useCurrentTrip();
-	const { setMarkers, selectPlace, selectedId, circle } = useMapWidget();
+	const { setMarkers, selectPlace, selectedId, circle, setMapSelectedPlace, mapSelectedPlace } = useMapWidget();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
 
@@ -34,6 +34,7 @@ export const PlacesList = () => {
 
 	useEffect(() => {
 		setShowMyPlaces(menu === 'myplaces');
+		return () => setMapSelectedPlace(null);
 	}, [menu]);
 
 	const {
@@ -89,10 +90,14 @@ export const PlacesList = () => {
 		currentTrip && recomRefetch();
 	}, [category, circle]);
 
-	const list = showMyPlaces ? currentTrip?.places ?? [] : search ? searchData : recomData;
+	const list = useMemo(() => {
+		const places = (showMyPlaces ? currentTrip?.places : search ? searchData : recomData) ?? [];
+
+		return !showMyPlaces && mapSelectedPlace ? [...places, mapSelectedPlace] : places;
+	}, [showMyPlaces, currentTrip, search, searchData, recomData, mapSelectedPlace]);
 
 	useEffect(() => {
-		list && setMarkers(list?.map((pl) => ({
+		list.length && setMarkers(list.map((pl) => ({
 			id: pl.placeId,
 			title: pl.name,
 			location: pl.location,
@@ -102,7 +107,7 @@ export const PlacesList = () => {
 	}, [list]);
 
 	useEffect(() => {
-		listRef.current?.scrollTo(0, (list?.findIndex((pl) => pl.placeId === selectedId) ?? 0) * COLLAPSED_PLACECARD_HEIGHT);
+		listRef.current?.scrollTo(0, (list.findIndex((pl) => pl.placeId === selectedId) ?? 0) * COLLAPSED_PLACECARD_HEIGHT);
 	}, [selectedId]);
 
 	return (
@@ -157,13 +162,13 @@ export const PlacesList = () => {
 			}
 
 			<div className={cls.listContainer} ref={listRef}>
-				{!list?.length && !(search ? searchError : recomError) &&
+				{!list.length && (!(search ? searchError : recomError) || showMyPlaces) &&
 					<div className={cls.label}>
 						{showMyPlaces ? 'Места не выбраны' : (search ? isSearchFetching : isRecomFetching) ? <LoadingScreen /> : 'Ничего не найдено'}
 					</div>
 				}
 
-				{(search ? searchError : recomError) && !(search ? isSearchFetching : isRecomFetching) && !list?.length && !showMyPlaces &&
+				{(search ? searchError : recomError) && !(search ? isSearchFetching : isRecomFetching) && !list.length && !showMyPlaces &&
 					<div className={cls.label}>
 						<span className={cls.errLabel}>
 							{ search ? searchError : recomError }
@@ -171,7 +176,7 @@ export const PlacesList = () => {
 					</div>
 				}
 
-				{list?.map((place, index) => (
+				{list.map((place, index) => (
 					<PlaceCard
 						place={place}
 						key={place.placeId}
