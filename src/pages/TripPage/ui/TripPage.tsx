@@ -1,3 +1,4 @@
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
@@ -12,6 +13,7 @@ import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
 import { useCurrentUser } from 'src/entities/User';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
+import { useDialogService } from 'src/shared/services/dialog';
 import { useNotificationService } from 'src/shared/services/notifications';
 import { WebSocket } from 'src/shared/services/websocket';
 import { IWebSocketMessage, WSActions } from 'src/shared/services/websocket/model/types';
@@ -36,6 +38,7 @@ export const TripPage = () => {
 	const { currentTrip, setCurrentTrip, isOwner } = useCurrentTrip();
 	const { currentUser } = useCurrentUser();
 	const { Notify } = useNotificationService();
+	const { OpenDialog } = useDialogService();
 	const navigate = useNavigate();
 	const { scheduleLoading, AutoSchedule } = useAutoSchedule();
 
@@ -98,12 +101,24 @@ export const TripPage = () => {
 			navigate(`${location.pathname}#main`, { replace: true });
 	}, [menu]);
 
+	const handleAutoSchedule = () => {
+		OpenDialog({
+			icon: <AutoAwesomeOutlinedIcon/>,
+			text: 'Доверьте выбор ИИ',
+			subtext: 'Выберем для Вас самые интересные места и составит план поездки от начала до конца',
+			warning: 'Внимание! Данная функция сотрет все выбранные вами места и события, будьте осторожны!',
+			onAccept: AutoSchedule,
+			acceptText: 'Продолжить',
+			cancelText: 'Отмена',
+		});
+	};
+
 	if (error)
 		return <Page404 />;
 
 	return (
 		<div className={cls.page}>
-			<TripCard trip={currentTrip} isTripPage={true} onAutoScheduleClick={isOwner ? AutoSchedule : undefined} />
+			<TripCard trip={currentTrip} isTripPage={true} onAutoScheduleClick={isOwner ? handleAutoSchedule : undefined} />
 
 			<div className={cls.buttonContainer}>
 				{tabs.map((tab) => (

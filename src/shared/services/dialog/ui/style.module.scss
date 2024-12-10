@@ -1,0 +1,41 @@
+.content {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 20px;
+  width: 350px;
+  text-align: center;
+}
+
+.icon {
+  svg {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.text {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.subtext {
+  font-size: 16px;
+}
+
+.warning {
+  font-size: 16px;
+  color: darkorange;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-flow: column;
+  gap: 10px;
+  width: 100%;
+
+  button {
+    max-height: unset;
+    min-height: 36px;
+  }
+}

@@ -1,4 +1,5 @@
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -9,6 +10,7 @@ import { EventPlaceCard } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
+import { useDialogService } from 'src/shared/services/dialog';
 import { useMapWidget } from '../../MapWidget';
 import { useAutoSchedule } from '../hooks/useAutoSchedule';
 import cls from './style.module.scss';
@@ -21,6 +23,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 	const { currentTrip, isReader } = useCurrentTrip();
 	const { selectedId, selectPlace } = useMapWidget();
 	const { AutoSchedule, LoadingSchedule } = useAutoSchedule();
+	const { OpenDialog } = useDialogService();
 	const [eventToEdit, setEventToEdit] = useState<IEvent | null>(null);
 	const [showModal, setShowModal] = useState(false);
 	const [showMenu, setShowMenu] = useState(true);
@@ -37,6 +40,18 @@ export const CalendarWidget = ({ events }: IProps) => {
 
 		// Костыль! но по другому не придумал
 		selectPlace(selectedId + ' ');
+	};
+
+	const handleAutoSchedule = () => {
+		OpenDialog({
+			icon: <AutoAwesomeOutlinedIcon/>,
+			text: 'Авто-планирование с ИИ',
+			subtext: 'Примем в расчет за Вас время работы заведений, их расположение и построим оптимальный маршрут',
+			warning: 'Внимание! Данная функция сотрет все события в календаре, будьте осторожны!',
+			onAccept: AutoSchedule,
+			acceptText: 'Продолжить',
+			cancelText: 'Отмена',
+		});
 	};
 
 	return (
@@ -68,7 +83,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 										<button className="shared-icon-button" onClick={() => setShowModal(true)}>
 											<AddOutlinedIcon/>
 										</button>
-										<button className="shared-button shared-button-blue" onClick={AutoSchedule}> Авто-планирование </button>
+										<button className="shared-button shared-button-blue" onClick={handleAutoSchedule}> Авто-планирование </button>
 									</div>
 								}
 								<div className={cls.listContainer}>

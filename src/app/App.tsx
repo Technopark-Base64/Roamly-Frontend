@@ -10,6 +10,7 @@ import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
 import { Redirect } from 'src/shared/components/Redirect';
 import { BACKEND_URL } from 'src/shared/config';
+import { Dialog } from 'src/shared/services/dialog';
 import { Notifications } from 'src/shared/services/notifications';
 import { WebSocket } from 'src/shared/services/websocket';
 
@@ -48,6 +49,7 @@ const App = () => {
 				</div>
 			}
 			<Notifications />
+			<Dialog />
 		</div>
 	);
 };
