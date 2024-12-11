@@ -1,3 +1,4 @@
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -8,6 +9,7 @@ import { CheckboxItem } from 'src/shared/components/CheckboxItem';
 import { Input } from 'src/shared/components/Input';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { useFetch } from 'src/shared/hooks/useFetch';
+import { useDialogService } from 'src/shared/services/dialog';
 import { useAddPlaceToTrip } from '../hooks/useAddPlaceToTrip';
 import { useRemovePlaceFromTrip } from '../hooks/useRemovePlaceFromTrip';
 import cls from './style.module.scss';
@@ -23,6 +25,7 @@ export const PlacesList = () => {
 	const menu = location.hash.replace('#', '');
 
 	const { currentTrip } = useCurrentTrip();
+	const { OpenDialog } = useDialogService();
 	const { setMarkers, selectPlace, selectedId, circle, setMapSelectedPlace, mapSelectedPlace } = useMapWidget();
 	const { AddPlace } = useAddPlaceToTrip();
 	const { RemovePlace } = useRemovePlaceFromTrip();
@@ -122,6 +125,27 @@ export const PlacesList = () => {
 		listRef.current?.scrollTo(0, (list.findIndex((pl) => pl.placeId === selectedId) ?? 0) * COLLAPSED_PLACECARD_HEIGHT);
 	}, [selectedId]);
 
+	const handleAddPlace = (placeId: string) => {
+		const onboarding = +(localStorage.getItem('add-place-onboarding') ?? 0);
+
+		AddPlace(placeId);
+
+		if (onboarding < 2) {
+			OpenDialog({
+				icon: <CalendarMonthOutlinedIcon/>,
+				text: 'Добавьте посещение этого места в календарь',
+				subtext: 'Вы выбрали интересное место - теперь запланируйте его посещение, перейдя в Календарь',
+				onAccept: () => {
+					navigate(`${location.pathname}#calendar`);
+					localStorage.setItem('add-place-onboarding', '2');
+				},
+				onCancel: () => localStorage.setItem('add-place-onboarding', `${onboarding + 1}`),
+				acceptText: 'Перейти в Календарь',
+				cancelText: onboarding < 1 ? 'Позже' : 'Больше не показывать',
+			});
+		}
+	};
+
 	return (
 		<div className={cls.wrapper}>
 
@@ -193,7 +217,7 @@ export const PlacesList = () => {
 						key={place.placeId}
 						selected={!!currentTrip?.places.find((pl) => pl.placeId === place.placeId)}
 						isOpened={place.placeId === selectedId}
-						onAdd={() => AddPlace(place.placeId)}
+						onAdd={() => handleAddPlace(place.placeId)}
 						onRemove={() => RemovePlace(place.placeId)}
 						onOpen={() => selectPlace(place.placeId)}
 						onClickNext={index < list.length - 1 ? () => selectPlace(list[index + 1].placeId) : undefined}

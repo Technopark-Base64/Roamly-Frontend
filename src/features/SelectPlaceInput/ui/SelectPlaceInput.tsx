@@ -22,7 +22,7 @@ export const SelectPlaceInput = ({ places, prevPlace, isEditable = true, onSelec
 	}, [selectedPlace]);
 
 	const searchResults = useMemo(() => {
-		const res = places.filter((pl) => pl.name.toLowerCase().includes(search.trim().toLowerCase())).slice(0, 5);
+		const res = places.filter((pl) => pl.name.toLowerCase().includes(search.trim().toLowerCase()));
 		return res;
 	}, [search, places]);
 
