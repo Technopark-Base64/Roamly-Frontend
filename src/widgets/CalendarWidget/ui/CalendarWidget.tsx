@@ -1,12 +1,12 @@
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { EventForm } from 'src/features/EventForm';
 import { FullCalendar } from 'src/features/FullCalendar';
 import { IEvent } from 'src/entities/Event';
-import { EventPlaceCard } from 'src/entities/Place';
+import { EVENT_PLACECARD_HEIGHT, EventPlaceCard } from 'src/entities/Place';
 import { useCurrentTrip } from 'src/entities/Trip';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
 import { ModalWrapper } from 'src/shared/components/ModalWrapper';
@@ -29,6 +29,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 	const [showMenu, setShowMenu] = useState(true);
 	const navigate = useNavigate();
 	const location = useLocation();
+	const listRef = useRef<HTMLDivElement | null>(null);
 
 	const handleGoToRecoms = () => {
 		navigate(`${location.pathname}#recoms`);
@@ -53,6 +54,10 @@ export const CalendarWidget = ({ events }: IProps) => {
 			cancelText: 'Отмена',
 		});
 	};
+
+	useEffect(() => {
+		listRef.current?.scrollTo(0, ((currentTrip?.places.findIndex((pl) => pl.placeId === selectedId) ?? 0) - 2) * EVENT_PLACECARD_HEIGHT);
+	}, []);
 
 	return (
 		<>
@@ -86,7 +91,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 										<button className="shared-button shared-button-blue" onClick={handleAutoSchedule}> Авто-планирование </button>
 									</div>
 								}
-								<div className={cls.listContainer}>
+								<div className={cls.listContainer} ref={listRef}>
 									{currentTrip?.places.map((place) => (
 										<EventPlaceCard
 											place={place}

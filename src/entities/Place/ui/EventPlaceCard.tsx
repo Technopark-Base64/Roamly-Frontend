@@ -13,6 +13,8 @@ interface IProps {
 	onClick?: () => void;
 }
 
+export const EVENT_PLACECARD_HEIGHT = 90;
+
 export const EventPlaceCard = ({ place, onClick, draggable, selected }: IProps) => {
 	const ref = useRef<HTMLDivElement>(null);
 	const { OpenDialog } = useDialogService();
