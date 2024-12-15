@@ -45,8 +45,8 @@
 
 .tab {
   flex: 1;
-  background-color: #4f5467;
-  color: white;
+  background-color: var(--tab-bg);
+  color: var(--font-primary-color);
   padding: 8px;
   font-size: 16px;
   border: none;
@@ -57,10 +57,10 @@
   justify-content: center;
 
   &:hover {
-    background-color: #646e85;
+    background-color: var(--button-hover-bg);
   }
 }
 
 .tabActive {
-  background-color: #646e85;
+  background-color: var(--button-hover-bg);
 }

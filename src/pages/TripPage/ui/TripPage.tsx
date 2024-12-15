@@ -9,6 +9,7 @@ import { CalendarWidget } from 'src/widgets/CalendarWidget';
 import { MainWidget } from 'src/widgets/MainWidget';
 import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
+import { getPlacePhoto } from 'src/entities/Place';
 import { ITrip, TripCard, useCurrentTrip } from 'src/entities/Trip';
 import { useCurrentUser } from 'src/entities/User';
 import { LoadingScreen } from 'src/shared/components/LoadingScreen';
@@ -116,34 +117,45 @@ export const TripPage = () => {
 	if (error)
 		return <Page404 />;
 
+	const backgroundStyle = currentTrip?.area.photos.length ? {
+		backgroundImage: `url(${getPlacePhoto(currentTrip.area.photos[1], 800)}), linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgb(255, 255, 255))`,
+		backgroundSize: 'auto 80%',
+		backgroundRepeat: 'repeat-x',
+		backgroundPosition: 'left top',
+		backgroundBlendMode: 'screen',
+		backgroundAttachment: 'fixed',
+	} : undefined;
+
 	return (
-		<div className={cls.page}>
-			<TripCard trip={currentTrip} isTripPage={true} onAutoScheduleClick={isOwner ? handleAutoSchedule : undefined} />
+		<div>
+			<div className={cls.page}>
+				<TripCard trip={currentTrip} isTripPage={true} onAutoScheduleClick={isOwner ? handleAutoSchedule : undefined} />
 
-			<div className={cls.buttonContainer}>
-				{tabs.map((tab) => (
-					<button
-						className={`${cls.tab} ${tab.menu.includes(menu as TMenu) && cls.tabActive}`}
-						onClick={() => navigate(`${location.pathname}#${tab.menu[0]}`)}
-						key={tab.menu[0]}
-					>
-						{tab.icon}{tab.label}
-					</button>
-				))}
-			</div>
-
-			{!scheduleLoading &&
-				<div className={cls.content}>
-					<div className={cls.wrapper}>
-						{ currentTrip && tabs.find((item) => item.menu.includes(menu as TMenu))?.element }
-						{ menu !== 'calendar' && <MapWidget showCircle={menu === 'recoms'} /> }
-					</div>
+				<div className={cls.buttonContainer}>
+					{tabs.map((tab) => (
+						<button
+							className={`${cls.tab} ${tab.menu.includes(menu as TMenu) && cls.tabActive}`}
+							onClick={() => navigate(`${location.pathname}#${tab.menu[0]}`)}
+							key={tab.menu[0]}
+						>
+							{tab.icon}{tab.label}
+						</button>
+					))}
 				</div>
-			}
 
-			{scheduleLoading &&
-				<LoadingScreen message="Ваша поездка готовится, пожалуйста, подождите" />
-			}
+				{!scheduleLoading &&
+					<div className={cls.content}>
+						<div className={cls.wrapper}>
+							{ currentTrip && tabs.find((item) => item.menu.includes(menu as TMenu))?.element }
+							{ menu !== 'calendar' && <MapWidget showCircle={menu === 'recoms'} /> }
+						</div>
+					</div>
+				}
+
+				{scheduleLoading &&
+					<LoadingScreen message="Ваша поездка готовится, пожалуйста, подождите" />
+				}
+			</div>
 		</div>
 	);
 };

@@ -1,0 +1,28 @@
+// Global variables
+:root {
+  // Background colors
+  --main-bg: #282c34;
+  --navbar-bg: #3e4250;
+  --card-bg: #4c5765;
+  --card-active-bg: #646e85;
+  --card-positive-bg: #7c9ebe;
+  --tab-bg: #4f5467;
+
+  // Image background colors
+  --image-primary-bg: #646e85;
+  --image-secondary-bg: #4c5765;
+
+  // Buttons colors
+  --button-bg: #4c5765;
+  --button-negative-bg: #654c4c;
+  --button-positive-bg: #69a6e7;
+
+  --button-hover-bg: #646e85;
+  --button-hover-negative-bg: #856464;
+  --button-hover-positive-bg: #a5d2ff;
+
+  // Font colors
+  --font-primary-color: white;
+  --font-secondary-color: #1d2125;
+  --font-error-color: #ff8080;
+}

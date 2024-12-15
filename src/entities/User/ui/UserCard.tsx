@@ -40,7 +40,7 @@ export const UserCard = ({ user, onDeleteUser, onChangeRole }: IProps) => {
 					Роль: {user.role && UserRoleLabel[user.role]}
 				</button>
 				{onDeleteUser ?
-					<div className={`shared-button-red ${cls.deleteBtn}`} onClick={onDeleteUser}>
+					<div className={`shared-button-negative ${cls.deleteBtn}`} onClick={onDeleteUser}>
 						<DeleteOutlineOutlinedIcon className={cls.icon} />
 					</div>
 					: <div className={cls.deleteBtnEmpty} />

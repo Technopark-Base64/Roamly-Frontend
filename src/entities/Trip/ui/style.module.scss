@@ -1,5 +1,5 @@
 .card {
-  background-color: #4c5765;
+  background-color: var(--card-bg);
   width: calc(100% - 40px);
   display: flex;
   gap: 30px;
@@ -13,14 +13,14 @@
 }
 
 .activeTrip {
-  background-color: #7c9ebe;
+  background-color: var(--card-positive-bg);
 }
 
 .image {
   width: 135px;
   height: 135px;
   object-fit: cover;
-  background-color: #646e85;
+  background-color: var(--image-primary-bg);
 }
 
 .info {
@@ -42,7 +42,7 @@
   }
 
   .editBtn {
-    background-color: #646e85;
+    background-color: var(--button-hover-bg);
     margin-left: 15px;
     width: 30px;
     height: 26px;

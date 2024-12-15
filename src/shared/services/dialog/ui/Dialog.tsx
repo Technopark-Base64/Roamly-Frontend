@@ -41,7 +41,7 @@ export const Dialog = () => {
 					</div>
 				}
 				<div className={cls.buttonContainer}>
-					<button className={`shared-button shared-button-${dialog.isDangerous ? 'red' : 'blue'}`} onClick={handleAccept}>
+					<button className={`shared-button shared-button-${dialog.isDangerous ? 'negative' : 'positive'}`} onClick={handleAccept}>
 						{dialog.acceptText}
 					</button>
 					{dialog.cancelText &&

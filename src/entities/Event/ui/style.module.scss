@@ -1,5 +1,5 @@
 .card {
-  background-color: #4c5765;
+  background-color: var(--card-bg);
   width: calc(100% - 40px);
   display: flex;
   gap: 30px;
@@ -25,7 +25,7 @@
   width: 120px;
   height: 120px;
   object-fit: cover;
-  background-color: #646e85;
+  background-color: var(--image-primary-bg);
 }
 
 .placeInfo {

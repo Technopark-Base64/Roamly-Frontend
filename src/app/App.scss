@@ -6,11 +6,11 @@ body {
 }
 
 .App {
-  background-color: #282c34;
+  background-color: var(--main-bg);
   text-align: center;
   min-height: 100vh;
   overflow: hidden;
-  color: white;
+  color: var(--font-primary-color);
 }
 
 .AppContent {

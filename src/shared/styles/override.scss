@@ -2,11 +2,11 @@
 
 // FullCalendar Colors Vars
 :root {
-  --fc-button-bg-color: #4c5765;
-  --fc-button-hover-bg-color: #646e85;
-  --fc-button-active-bg-color: #646e85;
-  --fc-neutral-bg-color: #4c5765;
-  --fc-list-event-hover-bg-color: #646e85;
+  --fc-button-bg-color: var(--button-bg);
+  --fc-button-hover-bg-color: var(--button-hover-bg);
+  --fc-button-active-bg-color: var(--button-hover-bg);
+  --fc-neutral-bg-color: var(--button-bg);
+  --fc-list-event-hover-bg-color: var(--button-hover-bg);
   --fc-bg-event-opacity: 1;
   --fc-today-bg-color: rgba(127, 190, 255, 0.6);
 }
@@ -23,7 +23,7 @@
 
 // Make show menu button blue
 .fc .fc-showMenu-button {
-  @extend .shared-button-blue;
+  @extend .shared-button-positive;
 }
 
 // Capitalize Calendar Title

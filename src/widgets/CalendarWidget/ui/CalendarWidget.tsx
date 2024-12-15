@@ -88,7 +88,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 										<button className="shared-icon-button" onClick={() => setShowModal(true)}>
 											<AddOutlinedIcon/>
 										</button>
-										<button className="shared-button shared-button-blue" onClick={handleAutoSchedule}> Авто-планирование </button>
+										<button className="shared-button shared-button-positive" onClick={handleAutoSchedule}> Авто-планирование </button>
 									</div>
 								}
 								<div className={cls.listContainer} ref={listRef}>

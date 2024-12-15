@@ -25,7 +25,7 @@
   }
 
   .copyBtn {
-    background-color: #646e85;
+    background-color: var(--button-hover-bg);
     padding: 5px 15px;
     cursor: copy;
   }

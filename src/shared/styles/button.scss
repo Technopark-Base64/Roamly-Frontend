@@ -1,7 +1,7 @@
 .shared-button {
-  background-color: #4c5765;
+  background-color: var(--button-bg);
   border: none;
-  color: white;
+  color: var(--font-primary-color);
   font-size: 18px;
   padding: 5px 20px;
   flex: 1;
@@ -14,44 +14,43 @@
   text-wrap: nowrap;
 
   &:hover {
-    background-color: #646e85;
+    background-color: var(--button-hover-bg);
   }
 }
 
-.shared-button-red {
-  background-color: #654c4c;
-  color: #ff8080;
+.shared-button-negative {
+  background-color: var(--button-negative-bg);
+  color: var(--font-error-color);
 
   &:hover {
-    background-color: #856464;
+    background-color: var(--button-hover-negative-bg);
   }
 }
 
-.shared-button-blue {
-  background-color: #69a6e7;
-  color: #ffffff;
+.shared-button-positive {
+  background-color: var(--button-positive-bg);
 
   &:hover {
-    background-color: #a5d2ff;
+    background-color: var(--button-hover-positive-bg);
   }
 }
 
 .shared-icon-button {
   width: 40px;
   height: 35px;
-  background-color: #4c5765;
+  background-color: var(--button-bg);
   border: none;
-  color: white;
+  color: var(--font-primary-color);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 
   &:hover {
-    background-color: #646e85;
+    background-color: var(--button-hover-bg);
   }
 }
 
 .shared-button-active {
-  background-color: #646e85;
+  background-color: var(--button-hover-bg);
 }

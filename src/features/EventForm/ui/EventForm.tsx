@@ -123,7 +123,7 @@ export const EventForm = ({ prevEvent, onSuccess }: IProps) => {
 				<div className={cls.buttonContainer}>
 					<button type="submit" className="shared-button"> {prevEvent?.id ? 'Сохранить' :'Создать'} </button>
 					{ prevEvent?.id &&
-						<button type="button" className="shared-button shared-button-red" onClick={() => Delete(prevEvent.id)}>
+						<button type="button" className="shared-button shared-button-negative" onClick={() => Delete(prevEvent.id)}>
 							Удалить
 						</button>
 					}

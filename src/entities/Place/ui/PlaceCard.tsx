@@ -109,7 +109,7 @@ export const PlaceCard = ({
 				</button>
 
 				<button
-					className={`shared-button shared-button-${selected ? 'red' : 'active'} ${(!onAdd || !onRemove || isReader) && cls.hidden}`}
+					className={`shared-button shared-button-${selected ? 'negative' : 'active'} ${(!onAdd || !onRemove || isReader) && cls.hidden}`}
 					onClick={selected ? onRemove : onAdd}
 				>
 					{selected ? 'Удалить' : 'Добавить'}
