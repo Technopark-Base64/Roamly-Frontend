@@ -12,6 +12,7 @@
   min-height: calc(100dvh - 50px);
   flex: 1;
   background-color: var(--page-bg);
+  border-radius: 8px;
 }
 
 .titleContainer {
@@ -34,4 +35,5 @@
   flex-flow: column;
   gap: 10px;
   text-align: start;
+  border-radius: 8px;
 }

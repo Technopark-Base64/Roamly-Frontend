@@ -30,7 +30,7 @@ body {
   position: absolute;
   z-index: -1;
   width: 100vw;
-  height: calc(55dvh - 300px);
-  inset: 360px 0 auto auto;
+  height: calc(55dvh - 350px);
+  inset: 410px 0 auto auto;
   background-image: linear-gradient(to bottom, rgba(0,0,0,0), var(--main-bg));
 }

@@ -12,6 +12,7 @@
   align-items: center;
   justify-content: center;
   text-wrap: nowrap;
+  border-radius: 6px;
 
   &:hover {
     background-color: var(--button-hover-bg);
@@ -46,6 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
 
   &:hover {
     background-color: var(--button-hover-bg);

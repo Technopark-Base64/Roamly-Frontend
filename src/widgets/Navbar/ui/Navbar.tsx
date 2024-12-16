@@ -1,6 +1,6 @@
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
 import { getUserAvatarColor } from 'src/entities/User';
@@ -11,6 +11,7 @@ export const Navbar = () => {
 	const { currentUser } = useCurrentUser();
 	const { OpenDialog } = useDialogService();
 	const { Logout } = useAuth({});
+	const location = useLocation();
 	const navigate = useNavigate();
 
 	const avatarStyle = {
@@ -18,6 +19,9 @@ export const Navbar = () => {
 	};
 
 	const handleLogoClick = () => {
+		if (location.pathname === '/login')
+			return;
+
 		navigate('/');
 	};
 
