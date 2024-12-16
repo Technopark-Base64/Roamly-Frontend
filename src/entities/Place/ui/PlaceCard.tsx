@@ -93,7 +93,7 @@ export const PlaceCard = ({
 					{ String(place.description) || 'Памятник культуры'}
 				</div>
 				<div>
-					📍&nbsp; {place.formattedAddress}
+					📍&nbsp; {place.formattedAddress.split(',').slice(0, -2).join(',')}
 				</div>
 				<div>
 					⏱&nbsp; 10:00–19:00

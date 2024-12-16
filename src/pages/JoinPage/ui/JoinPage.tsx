@@ -29,7 +29,7 @@ export const JoinPage = () => {
 					<div className={cls.title}>
 						403 - Приглашение недействительно
 					</div>
-					<button className="shared-button" onClick={handleNavigate}>
+					<button className="shared-button shared-button-active" onClick={handleNavigate}>
 						На главную
 					</button>
 				</>

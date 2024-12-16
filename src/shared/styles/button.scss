@@ -20,7 +20,7 @@
 
 .shared-button-negative {
   background-color: var(--button-negative-bg);
-  color: var(--font-error-color);
+  color: var(--font-secondary-color);
 
   &:hover {
     background-color: var(--button-hover-negative-bg);
@@ -29,6 +29,7 @@
 
 .shared-button-positive {
   background-color: var(--button-positive-bg);
+  color: var(--font-secondary-color);
 
   &:hover {
     background-color: var(--button-hover-positive-bg);

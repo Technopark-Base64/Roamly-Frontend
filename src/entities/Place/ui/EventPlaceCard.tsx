@@ -1,7 +1,5 @@
 import { Draggable } from '@fullcalendar/interaction';
-import SwipeRightOutlinedIcon from '@mui/icons-material/SwipeRightOutlined';
 import { useEffect, useRef } from 'react';
-import { useDialogService } from 'src/shared/services/dialog';
 import { getPlacePhoto } from '../api/getPlacePhoto';
 import { IPlace } from '../model/types';
 import cls from './style.module.scss';
@@ -17,7 +15,6 @@ export const EVENT_PLACECARD_HEIGHT = 90;
 
 export const EventPlaceCard = ({ place, onClick, draggable, selected }: IProps) => {
 	const ref = useRef<HTMLDivElement>(null);
-	const { OpenDialog } = useDialogService();
 
 	useEffect(() => {
 		if (!ref.current || !draggable)
@@ -42,18 +39,6 @@ export const EventPlaceCard = ({ place, onClick, draggable, selected }: IProps) 
 
 		if (!draggable)
 			return;
-
-		const onboarding = +(localStorage.getItem('drag-place-onboarding') ?? 0);
-
-		if (onboarding < 1) {
-			OpenDialog({
-				icon: <SwipeRightOutlinedIcon/>,
-				text: 'Перетащите место в календарь',
-				subtext: 'Так вы сможете быстро добавлять события привязанные к местам',
-				onAccept: () => localStorage.setItem('drag-place-onboarding', '1'),
-				acceptText: 'Понятно',
-			});
-		}
 	};
 
 	return (

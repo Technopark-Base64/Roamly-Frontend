@@ -1,3 +1,4 @@
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { INotification } from '../model/types';
 import cls from './style.module.scss';
 
@@ -15,7 +16,7 @@ export const NotificationCard = ({ notification, onClose }: IProps) => {
 			</div>
 
 			<div className={cls.closeBtn} onClick={onClose}>
-				X
+				<CloseOutlinedIcon/>
 			</div>
 		</div>
 	);

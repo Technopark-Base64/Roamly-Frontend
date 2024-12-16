@@ -8,6 +8,7 @@ import { TripPage } from 'src/pages/TripPage';
 import { Navbar } from 'src/widgets/Navbar';
 import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
+import { BACKGROUNDS } from 'src/shared/assets/links';
 import { Redirect } from 'src/shared/components/Redirect';
 import { BACKEND_URL } from 'src/shared/config';
 import { Dialog } from 'src/shared/services/dialog';
@@ -36,6 +37,11 @@ const App = () => {
 
 	return (
 		<div className="App">
+			<img
+				src={BACKGROUNDS[0]}
+				className="background"
+			/>
+			<div className="backgroundFade"/>
 			<Navbar />
 			{!isLoading &&
 				<div className="AppContent">

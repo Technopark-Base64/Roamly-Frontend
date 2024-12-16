@@ -57,7 +57,7 @@ export const MainWidget = () => {
 
 			{currentTrip && !currentTrip.events.length &&
 				<button
-					className={`shared-button shared-button-active ${cls.hintBtn}`}
+					className={`shared-button shared-button-positive ${cls.hintBtn}`}
 					onClick={!currentTrip.places.length ? handleGoToRecoms : handleGoToCalendar}
 				>
 					Перейти в {!currentTrip.places.length ? 'Рекомендации' : 'Календарь'}

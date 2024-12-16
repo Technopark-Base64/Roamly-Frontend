@@ -1,8 +1,9 @@
-.wrapper {
-  width: 100%;
+.content {
   display: flex;
-  gap: 20px;
-  flex: 1;
+  flex-flow: column;
+  align-items: center;
+  background-color: var(--page-bg);
+  box-shadow: var(--box-shadow);
 }
 
 .autoButton {
@@ -15,28 +16,28 @@
   position: relative;
   display: flex;
   flex-flow: column;
+  gap: 10px;
   min-height: calc(100dvh - 70px);
   width: 75%;
   min-width: 1000px;
   margin: 0 auto;
   padding-top: 10px;
-  background-color: #2f343d;
 }
 
 .buttonContainer {
-  margin-top: 10px;
   display: flex;
   justify-content: center;
   gap: 3px;
+  width: 100%;
 }
 
-.content {
-  position: relative;
+.wrapper {
+  width: calc(100% - 40px);
   display: flex;
-  flex-flow: column;
-  align-items: center;
-  padding: 20px;
+  gap: 20px;
   flex: 1;
+  position: relative;
+  padding: 20px;
 }
 
 .icon {
@@ -46,7 +47,7 @@
 .tab {
   flex: 1;
   background-color: var(--tab-bg);
-  color: var(--font-primary-color);
+  color: var(--font-secondary-color);
   padding: 8px;
   font-size: 16px;
   border: none;
@@ -57,10 +58,10 @@
   justify-content: center;
 
   &:hover {
-    background-color: var(--button-hover-bg);
+    background-color: var(--tab-active-bg);
   }
 }
 
 .tabActive {
-  background-color: var(--button-hover-bg);
+  background-color: var(--tab-active-bg);
 }

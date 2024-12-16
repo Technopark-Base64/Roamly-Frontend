@@ -18,7 +18,7 @@
 
 .regionShow {
   padding: 8px 20px;
-  background-color: #555a70;
+  background-color: var(--button-bg);
   position: relative;
 }
 
@@ -36,7 +36,7 @@
 
 .cancelBtn {
   position: absolute;
-  inset: 5px 15px auto auto;
+  inset: 5px 5px auto auto;
   cursor: pointer;
   font-size: 20px;
 }

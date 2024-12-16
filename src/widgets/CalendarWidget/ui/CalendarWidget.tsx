@@ -1,6 +1,7 @@
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined';
+import SwipeRightOutlinedIcon from '@mui/icons-material/SwipeRightOutlined';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { EventForm } from 'src/features/EventForm';
@@ -57,6 +58,19 @@ export const CalendarWidget = ({ events }: IProps) => {
 
 	useEffect(() => {
 		listRef.current?.scrollTo(0, ((currentTrip?.places.findIndex((pl) => pl.placeId === selectedId) ?? 0) - 2) * EVENT_PLACECARD_HEIGHT);
+
+		const onboarding = +(localStorage.getItem('drag-place-onboarding') ?? 0);
+
+		if (onboarding < 1 && currentTrip?.places.length) {
+			OpenDialog({
+				icon: <SwipeRightOutlinedIcon/>,
+				text: 'Перетащите место в календарь',
+				subtext: 'Так вы сможете быстро добавлять события привязанные к местам',
+				acceptText: 'Понятно',
+			});
+
+			localStorage.setItem('drag-place-onboarding', '1');
+		}
 	}, []);
 
 	return (
@@ -65,7 +79,7 @@ export const CalendarWidget = ({ events }: IProps) => {
 				{!currentTrip?.places.length && !events.length &&
 					<div className={cls.emptyLabel}>
 						Сначала выберите места, которые хотите посетить
-						<button className="shared-button" onClick={handleGoToRecoms}>
+						<button className="shared-button shared-button-positive" onClick={handleGoToRecoms}>
 							Перейти в Рекомендации
 						</button>
 					</div>

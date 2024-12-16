@@ -81,7 +81,7 @@ export const SignupForm = () => {
 				/>
 			</div>
 
-			<button type="submit" className="shared-button"> Регистрация </button>
+			<button type="submit" className="shared-button shared-button-positive"> Регистрация </button>
 		</form>
 	);
 };

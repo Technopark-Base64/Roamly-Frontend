@@ -4,13 +4,13 @@
   height: 60px;
   padding: 10px 30px 15px 15px;
   border-radius: 8px;
-  border: solid 3px var(--card-active-bg);
+  border: solid 2px var(--card-active-bg);
   background-color: var(--navbar-bg);
 }
 
 .errorCard {
   border: solid 3px #ff3a3a;
-  background-color: var(--button-negative-bg);
+  background-color: var(--navbar-bg);
 }
 
 .messageContainer {

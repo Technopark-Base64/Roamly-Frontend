@@ -1,28 +1,35 @@
 // Global variables
 :root {
   // Background colors
-  --main-bg: #282c34;
-  --navbar-bg: #3e4250;
-  --card-bg: #4c5765;
-  --card-active-bg: #646e85;
-  --card-positive-bg: #7c9ebe;
-  --tab-bg: #4f5467;
+  --main-bg: #EDEEF0;
+  --page-bg: #ffffff;
+  --navbar-bg: #ffffff;
+  --card-bg: #EDEEF0;
+  --card-active-bg: #d8d9da;
+  --card-positive-bg: #a2cbff;
+  --tab-bg: #3C87E7;
+  --tab-active-bg: #64a4ef;
 
   // Image background colors
-  --image-primary-bg: #646e85;
-  --image-secondary-bg: #4c5765;
+  --image-primary-bg: #d8d9da;
+  --image-secondary-bg: #d8d9da;
+
+  // Box shadows
+  // --box-shadow: 0px 0px 2px 2px #e8ebef;
 
   // Buttons colors
-  --button-bg: #4c5765;
-  --button-negative-bg: #654c4c;
-  --button-positive-bg: #69a6e7;
+  --button-bg: #EDEEF0;
+  --button-negative-bg: #E64646;
+  --button-positive-bg: #3C87E7;
 
-  --button-hover-bg: #646e85;
-  --button-hover-negative-bg: #856464;
-  --button-hover-positive-bg: #a5d2ff;
+  --button-hover-bg: #d8d9da;
+  --button-hover-negative-bg: #ce4747;
+  --button-hover-positive-bg: #3e82d3;
 
   // Font colors
-  --font-primary-color: white;
-  --font-secondary-color: #1d2125;
-  --font-error-color: #ff8080;
+  --font-primary-color: #282d34;
+  --font-secondary-color: #ffffff;
+  --font-teritary-color: #9b9b9b;
+  --font-positive-color: #3C87E7;
+  --font-negative-color: #E64646;
 }

@@ -12,7 +12,7 @@ export const Notifications = () => {
 	return (
 		<div className={cls.wrapper}>
 			<div  className={cls.listContainer}>
-				{notifications.map((not) =>
+				{notifications.slice(-4).map((not) =>
 					<NotificationCard key={not.id} notification={not} onClose={() => dispatch(removeNotification(not.id))} />)
 				}
 			</div>

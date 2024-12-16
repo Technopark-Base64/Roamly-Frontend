@@ -187,7 +187,7 @@ export const TripForm = ({ prevTrip, onSuccess }: IProps) => {
 				</div>
 			</div>
 
-			<button type="submit" className="shared-button"> {prevTrip ? 'Сохранить' :'Создать'} </button>
+			<button type="submit" className="shared-button shared-button-positive"> {prevTrip ? 'Сохранить' :'Создать'} </button>
 			{ prevTrip && <button type="button" className="shared-button shared-button-negative" onClick={handleDeleteTrip}> Удалить </button> }
 		</form>
 	);

@@ -6,6 +6,7 @@
   height: 135px;
   padding: 20px;
   border-radius: 8px;
+  box-shadow: var(--box-shadow);
 }
 
 .pointer {
@@ -14,6 +15,11 @@
 
 .activeTrip {
   background-color: var(--card-positive-bg);
+  color: var(--font-secondary-color);
+}
+
+.tripPage {
+  background-color: var(--page-bg);
 }
 
 .image {

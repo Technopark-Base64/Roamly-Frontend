@@ -51,7 +51,7 @@ export const MainPage = () => {
 					</div>
 
 					<div>
-						<button className="shared-button" onClick={() => setShowModal(true)} >
+						<button className="shared-button shared-button-positive" onClick={() => setShowModal(true)} >
 							<LibraryAddOutlinedIcon /> Новая
 						</button>
 					</div>

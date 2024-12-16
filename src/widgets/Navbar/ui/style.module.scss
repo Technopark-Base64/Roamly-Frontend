@@ -1,12 +1,12 @@
 .navbar {
   position: fixed;
   z-index: 10;
-  width: calc(100vw - 56px);
+  width: calc(100vw - 120px);
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 28px;
+  padding: 0 60px;
   background-color: var(--navbar-bg);
 }
 
@@ -34,5 +34,6 @@
   height: 36px;
   width: 36px;
   border-radius: 50%;
+  // border: solid 2px var(--font-secondary-color);
   background-color: var(--image-primary-bg);
 }

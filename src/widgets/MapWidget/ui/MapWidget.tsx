@@ -1,3 +1,4 @@
+import RadarOutlinedIcon from '@mui/icons-material/RadarOutlined';
 import { Circle, DirectionsRenderer, GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useCurrentTrip } from 'src/entities/Trip';
@@ -110,8 +111,8 @@ export const MapWidget = ({ showCircle = true }: IProps) => {
 			</GoogleMap>
 
 			{showCircle &&
-				<button className={`shared-button ${cls.circleButton}`} onClick={handleToggleCircle}>
-					{ circle ? 'Снять выделение' : 'Искать в этом радиусе'}
+				<button className={`shared-button shared-button-positive ${cls.circleButton}`} onClick={handleToggleCircle}>
+					<RadarOutlinedIcon/> { circle ? 'Снять выделение' : 'Искать в этом радиусе'}
 				</button>
 			}
 		</>

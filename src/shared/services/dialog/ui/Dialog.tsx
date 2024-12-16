@@ -19,15 +19,19 @@ export const Dialog = () => {
 		CloseDialog();
 	};
 
+	const headerAppearance = {
+		color: dialog?.isDangerous ? 'var(--font-negative-color)' : 'var(--font-positive-color)'
+	};
+
 	const Icon = dialog?.icon;
 
 	return dialog && (
 		<ModalWrapper onClose={handleCancel} showCloseButton={false}>
 			<div className={cls.content}>
-				<div className={cls.icon}>
+				<div className={cls.icon} style={headerAppearance} >
 					{ Icon ?? <InfoOutlinedIcon /> }
 				</div>
-				<div className={cls.text}>
+				<div className={cls.text} style={headerAppearance} >
 					{dialog.text}
 				</div>
 				{dialog.subtext &&

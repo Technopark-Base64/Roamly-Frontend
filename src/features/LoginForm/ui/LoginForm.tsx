@@ -47,7 +47,7 @@ export const LoginForm = () => {
 				/>
 			</div>
 
-			<button type="submit" className="shared-button"> Вход </button>
+			<button type="submit" className="shared-button shared-button-positive"> Вход </button>
 		</form>
 	);
 };

@@ -46,7 +46,10 @@ export const TripCard = ({ trip, isTripPage, onClick, onAutoScheduleClick }: IPr
 	};
 
 	return (
-		<div className={`${cls.card} ${onClick && cls.pointer} ${isActive && cls.activeTrip}`} onClick={onClick}>
+		<div
+			className={`${cls.card} ${onClick && cls.pointer} ${isActive && !isTripPage && cls.activeTrip} ${isTripPage && cls.tripPage}`}
+			onClick={onClick}
+		>
 			{trip?.area.photos?.length ?
 				<img className={cls.image} src={getPlacePhoto(trip.area.photos[0])} alt="" /> :
 				<div className={cls.image} />
@@ -70,11 +73,11 @@ export const TripCard = ({ trip, isTripPage, onClick, onAutoScheduleClick }: IPr
 
 					{isTripPage &&
 						<div className={cls.buttonContainer}>
-							<button className="shared-button shared-button-active" onClick={handleClickMembers}>
+							<button className="shared-button" onClick={handleClickMembers}>
 								{formatMembersNumber(trip.users.length)} <PeopleOutlinedIcon />
 							</button>
 							{myRole === UserRole.Owner &&
-								<button className="shared-button shared-button-active" onClick={handleClickShare}>
+								<button className="shared-button" onClick={handleClickShare}>
 									<PersonAddAltOutlinedIcon />
 								</button>
 							}
