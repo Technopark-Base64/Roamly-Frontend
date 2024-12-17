@@ -38,7 +38,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<img
-				src={BACKGROUNDS[0]}
+				src={BACKGROUNDS[1]}
 				className="background"
 			/>
 			<div className="backgroundFade"/>

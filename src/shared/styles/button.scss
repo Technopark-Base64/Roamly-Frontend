@@ -19,6 +19,23 @@
   }
 }
 
+.shared-icon-button {
+  width: 40px;
+  height: 35px;
+  background-color: var(--button-bg);
+  border: none;
+  color: var(--font-primary-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--button-hover-bg);
+  }
+}
+
 .shared-button-negative {
   background-color: var(--button-negative-bg);
   color: var(--font-secondary-color);
@@ -34,23 +51,6 @@
 
   &:hover {
     background-color: var(--button-hover-positive-bg);
-  }
-}
-
-.shared-icon-button {
-  width: 40px;
-  height: 35px;
-  background-color: var(--button-bg);
-  border: none;
-  color: var(--font-primary-color);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-
-  &:hover {
-    background-color: var(--button-hover-bg);
   }
 }
 

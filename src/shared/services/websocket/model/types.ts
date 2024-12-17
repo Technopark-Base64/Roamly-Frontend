@@ -7,6 +7,10 @@ export enum WSActions {
   EventsUpdate = 'trip_events_update',
   // eslint-disable-next-line no-unused-vars
   UsersUpdate = 'trip_users_update',
+  // eslint-disable-next-line no-unused-vars
+  ChatFreeze = 'chat_freeze',
+  // eslint-disable-next-line no-unused-vars
+  ChatReply = 'chat_reply_message',
 }
 
 export interface IWebSocketMessage {

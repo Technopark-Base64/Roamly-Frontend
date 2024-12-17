@@ -6,12 +6,34 @@
   box-shadow: var(--box-shadow);
   border-radius: 8px;
   overflow: hidden;
+  min-height: 650px;
 }
 
 .autoButton {
   position: absolute;
   inset: 120px 20px auto auto;
   z-index: 8;
+}
+
+.chatButton {
+  position: fixed;
+  inset: auto auto 20px 20px;
+  border-radius: 20px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--tab-active-bg) !important;
+  }
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .page {
@@ -66,4 +88,8 @@
 
 .tabActive {
   background-color: var(--tab-active-bg);
+}
+
+.hideChat {
+  transform: translateX(-100%);
 }

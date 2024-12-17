@@ -2,10 +2,11 @@ import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
-import { ReactNode, useCallback, useEffect } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Page404 } from 'src/pages/Page404';
 import { CalendarWidget } from 'src/widgets/CalendarWidget';
+import { ChatWidget } from 'src/widgets/ChatWidget';
 import { MainWidget } from 'src/widgets/MainWidget';
 import { MapWidget } from 'src/widgets/MapWidget';
 import { PlacesList } from 'src/widgets/PlacesList';
@@ -35,8 +36,9 @@ export const TripPage = () => {
 	const { id } = useParams();
 	const menu = location.hash.replace('#', '');
 
-	const { currentTrip, setCurrentTrip, isOwner } = useCurrentTrip();
+	const { currentTrip, setCurrentTrip, isOwner, isReader } = useCurrentTrip();
 	const { currentUser } = useCurrentUser();
+	const [showChat, setShowChat] = useState(false);
 	const { Notify } = useNotificationService();
 	const { OpenDialog } = useDialogService();
 	const navigate = useNavigate();
@@ -117,35 +119,42 @@ export const TripPage = () => {
 		return <Page404 />;
 
 	return (
-		<div>
-			<div className={cls.page}>
-				<TripCard trip={currentTrip} isTripPage={true} onAutoScheduleClick={isOwner ? handleAutoSchedule : undefined} />
+		<div className={cls.page}>
+			<TripCard trip={currentTrip} isTripPage={true} onAutoScheduleClick={isOwner ? handleAutoSchedule : undefined} />
 
-				<div className={cls.content}>
-					<div className={cls.buttonContainer}>
-						{tabs.map((tab) => (
-							<button
-								className={`${cls.tab} ${tab.menu.includes(menu as TMenu) && cls.tabActive}`}
-								onClick={() => navigate(`${location.pathname}#${tab.menu[0]}`)}
-								key={tab.menu[0]}
-							>
-								{tab.icon}{tab.label}
-							</button>
-						))}
-					</div>
+			<div className={cls.content}>
+				<div className={cls.buttonContainer}>
+					{tabs.map((tab) => (
+						<button
+							className={`${cls.tab} ${tab.menu.includes(menu as TMenu) && cls.tabActive}`}
+							onClick={() => navigate(`${location.pathname}#${tab.menu[0]}`)}
+							key={tab.menu[0]}
+						>
+							{tab.icon}{tab.label}
+						</button>
+					))}
+				</div>
 
-					{!scheduleLoading &&
+				{!scheduleLoading &&
 						<div className={cls.wrapper}>
 							{ currentTrip && tabs.find((item) => item.menu.includes(menu as TMenu))?.element }
 							{ menu !== 'calendar' && <MapWidget showCircle={menu === 'recoms'} /> }
 						</div>
-					}
+				}
 
-					{scheduleLoading &&
+				{scheduleLoading &&
 						<LoadingScreen message="Ваша поездка готовится, пожалуйста, подождите" />
-					}
-				</div>
+				}
 			</div>
+
+			{!isReader &&
+				<>
+					<div className={`shared-button-positive ${cls.chatButton}`} onClick={() => setShowChat(true)}>
+						<AutoAwesomeOutlinedIcon/>
+					</div>
+					<ChatWidget onClose={() => setShowChat(false)} className={!showChat && cls.hideChat}/>
+				</>
+			}
 		</div>
 	);
 };

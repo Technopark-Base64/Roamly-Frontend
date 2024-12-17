@@ -3,11 +3,15 @@
   display: flex;
   flex-flow: column;
   flex: 1;
+
+  input {
+    padding-right: 30px;
+  }
 }
 
 .clearBtn {
   position: absolute;
-  inset: 4px 6px auto auto;
+  inset: 6px 6px auto auto;
   cursor: pointer;
   font-size: 20px;
   color: black;

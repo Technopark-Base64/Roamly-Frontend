@@ -19,7 +19,7 @@ export const LoginPage = () => {
 
 	return (
 		<>
-			<img src={BACKGROUNDS[0]} className={cls.background} />
+			<img src={BACKGROUNDS[1]} className={cls.background} />
 			<div className={cls.bgFade} />
 			<div className={cls.page}>
 				<div className={cls.landingContainer}>
@@ -28,13 +28,13 @@ export const LoginPage = () => {
 							Roamly
 						</div>
 						<div className={cls.subtitle}>
-							Планируйте меньше, путешествуйте больше
+							Ваш компас в мире путешествий
 						</div>
 					</div>
 					<div className={cls.infoContainer}>
-						Больше, чем просто планировщик. Roamly - это ваш личный помощник в мире путешествий.
+						Больше, чем просто планировщик. Roamly - это ваш личный помощник для создания идеального путешествия.
 						Интеллектуальные маршруты, подбор достопримечательностей и оптимальное расписание
-						– все это в одном сервисе. Попробуйте!
+						– все это в одном сервисе. Попробуйте прямо сейчас
 					</div>
 				</div>
 

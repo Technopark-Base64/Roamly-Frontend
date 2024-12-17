@@ -1,0 +1,45 @@
+.window {
+  position: fixed;
+  z-index: 9;
+  inset: auto auto 0 0;
+  width: 600px;
+  height: calc(100dvh - 60px);
+  background-color: var(--page-bg);
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  box-shadow: 0 0 8px 0 var(--font-teritary-color);
+  transition: 0.4s;
+}
+
+.header {
+  background-color: var(--card-bg);
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 0 40px;
+
+  .nameContainer {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 18px;
+  }
+}
+
+.avatar {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  background-color:  var(--tab-active-bg);
+}
+
+.messagesList {
+  display: flex;
+  flex-flow: column;
+  gap: 15px;
+  overflow-y: scroll;
+  flex: 1;
+  padding: 20px 0;
+}

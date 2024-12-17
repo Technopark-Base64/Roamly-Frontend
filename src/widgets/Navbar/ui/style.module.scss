@@ -8,6 +8,7 @@
   justify-content: space-between;
   padding: 0 60px;
   background-color: var(--navbar-bg);
+  box-shadow: 0 0 4px 0 var(--font-teritary-color);
 }
 
 .logo {
@@ -34,6 +35,5 @@
   height: 36px;
   width: 36px;
   border-radius: 50%;
-  // border: solid 2px var(--font-secondary-color);
   background-color: var(--image-primary-bg);
 }

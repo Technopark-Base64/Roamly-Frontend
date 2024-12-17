@@ -1,0 +1,87 @@
+.message {
+  max-width: 80%;
+  width: fit-content;
+  border-radius: 8px;
+  box-sizing: border-box;
+  position: relative;
+  padding: 8px 12px 4px 12px;
+  text-align: start;
+}
+
+.myMessage {
+  background: var(--tab-bg);
+  color: var(--font-secondary-color);
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.otherMessage {
+  background: var(--card-bg);
+  color: var(--font-primary-color);
+  margin-right: auto;
+  margin-left: 20px;
+}
+
+.text {
+  display: inline;
+}
+
+.time {
+  height: 20px;
+  font-size: 14px;
+  opacity: 0.4;
+  display: flex;
+  align-items: flex-end;
+  float: right;
+  margin-left: 10px;
+}
+
+.placesShowcase {
+  display: flex;
+  gap: 15px;
+  overflow-x: scroll;
+  min-height: fit-content;
+  padding: 0 20px 15px 20px;
+}
+
+// Place Card
+.card {
+  position: relative;
+  background-color: var(--card-bg);
+  min-width: 200px;
+  max-width: 200px;
+  height: 320px;
+  display: flex;
+  flex-flow: column;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rating {
+  position: absolute;
+  inset: 8px auto auto 12px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+  padding: 0 6px;
+
+  .star {
+    color: gold;
+  }
+}
+
+.image {
+  height: 180px;
+  object-fit: cover;
+  background-color: var(--card-active-bg);
+}
+
+.infoBlock {
+  padding: 15px;
+  text-align: left;
+  display: flex;
+  flex-flow: column;
+
+  .name {
+    height: 80px;
+  }
+}
