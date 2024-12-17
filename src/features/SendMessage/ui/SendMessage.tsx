@@ -7,6 +7,7 @@ import cls from './style.module.scss';
 
 interface IProps {
 	tripId: string,
+	// eslint-disable-next-line no-unused-vars
 	onSend: (mes: string) => void;
 }
 

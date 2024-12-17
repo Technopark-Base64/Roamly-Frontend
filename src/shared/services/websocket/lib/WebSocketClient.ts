@@ -34,7 +34,10 @@ class WebSocketClient {
 			console.log('WebSocket connection closed');
 			this.ws = null;
 			this.isOpened = false;
-			this.handlers = [];
+
+			// Hard Restart
+			this.init(url);
+			// this.handlers = [];
 		};
 
 		this.ws.onerror = (error) => {
