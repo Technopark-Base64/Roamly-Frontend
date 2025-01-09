@@ -8,7 +8,7 @@ export interface IMessage {
 
 type TContent = {
   message: string,
-  places: IPlace[],
+  places?: IPlace[],
 }
 
 export interface IMessageResponse {
@@ -19,5 +19,5 @@ export interface IMessageResponse {
 
 export type TMessageContentResponse = {
   message: string,
-  places: IPlaceResponse[],
+  places: IPlaceResponse[] | null,
 }

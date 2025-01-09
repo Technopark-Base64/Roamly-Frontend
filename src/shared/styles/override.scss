@@ -24,9 +24,15 @@
   border: none;
 }
 
+// Delete event card time
+.fc .fc-event-time {
+  display: none;
+}
+
 // Make show menu button blue
 .fc .fc-showMenu-button {
   @extend .shared-button-positive;
+
 }
 
 // Capitalize Calendar Title

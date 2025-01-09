@@ -20,7 +20,7 @@ export const MessageCard = ({ message }: IProps) => {
 					{message.createdAt && (new Date(message.createdAt)).toTimeString().slice(0,5)}
 				</span>
 			</div>
-			{typeof message.content === 'object' &&
+			{typeof message.content === 'object' && message.content.places &&
 				<div className={cls.placesShowcase}>
 					{message.content.places.map((pl, index) =>
 						<PlaceMessageCard place={pl} key={index} />

@@ -9,15 +9,20 @@ interface IProps {
 	tripId: string,
 	// eslint-disable-next-line no-unused-vars
 	onSend: (mes: string) => void;
+	disabled?: boolean;
 }
 
-export const SendMessage = ({ onSend, tripId }: IProps) => {
+export const SendMessage = ({ onSend, tripId, disabled }: IProps) => {
 	const [message, setMessage] = useState('');
 
 	const { refetch } = useFetch(sendMessages(tripId, { message }));
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
+
+		if (disabled)
+			return;
+
 		message && refetch();
 		onSend(message);
 		setMessage('');
@@ -26,7 +31,7 @@ export const SendMessage = ({ onSend, tripId }: IProps) => {
 	return (
 		<form className={cls.bar} onSubmit={handleSubmit}>
 			<Input value={message} onChange={setMessage} placeholder="Начните писать" />
-			<button className="shared-icon-button">
+			<button disabled={disabled} className={`shared-icon-button ${disabled ? cls.disabledBtn : ''}`}>
 				<SendOutlinedIcon/>
 			</button>
 		</form>

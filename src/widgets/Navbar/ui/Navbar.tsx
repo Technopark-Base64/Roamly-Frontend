@@ -1,9 +1,10 @@
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
-import { getUserAvatarColor } from 'src/entities/User';
+// import { getUserAvatarColor } from 'src/entities/User';
 import { useDialogService } from 'src/shared/services/dialog';
 import cls from './style.module.scss';
 
@@ -14,9 +15,9 @@ export const Navbar = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	const avatarStyle = {
-		backgroundColor: currentUser?.id ? getUserAvatarColor(currentUser) : '',
-	};
+	// const avatarStyle = {
+	// 	backgroundColor: currentUser?.id ? getUserAvatarColor(currentUser) : '',
+	// };
 
 	const handleLogoClick = () => {
 		if (location.pathname === '/login')
@@ -26,6 +27,8 @@ export const Navbar = () => {
 	};
 
 	const handleLogout = async () => {
+		localStorage.setItem('redirectAfterLogin', window.location.pathname);
+
 		OpenDialog({
 			text: 'Выход из профиля',
 			subtext: 'Вы уверены, что хотите выйти из аккаунта?',
@@ -46,7 +49,8 @@ export const Navbar = () => {
 				<div className={cls.user}>
 					{currentUser.imageUrl ?
 						<></> :
-						<div className={cls.avatar} style={avatarStyle} />
+						<AccountCircleOutlinedIcon className={cls.avatarIcon} />
+						// <div className={cls.avatar} style={avatarStyle} />
 					}
 					<div>{currentUser.login}</div>
 					<button className="shared-icon-button" onClick={handleLogout}>

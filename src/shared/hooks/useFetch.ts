@@ -78,6 +78,9 @@ export const useFetch = <T>(props: IUseFetchProps<T>) => {
 	}, []);
 
 	useEffect(() => {
+		if (error === 'Fetch Error')
+			return;
+
 		notifyOnError && error && Notify({
 			error: true,
 			message: error,

@@ -13,7 +13,7 @@ export const Page404 = () => {
 			<div className={cls.title}>
 				404 - Страница не найдена
 			</div>
-			<button className="shared-button shared-button-active" onClick={handleNavigate} >
+			<button className="shared-button shared-button-positive" onClick={handleNavigate} >
 				На главную
 			</button>
 		</div>

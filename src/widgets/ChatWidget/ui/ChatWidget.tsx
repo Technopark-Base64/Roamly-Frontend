@@ -22,15 +22,22 @@ export const ChatWidget = ({ onClose, className }: IProps) => {
 	const chatRef = useRef<HTMLDivElement | null>(null);
 	const ListRef = useRef<HTMLDivElement | null>(null);
 	const [pendingMessage, setPendingMessage] = useState('');
+	const [disabled, setDisabled] = useState<boolean>(false);
 	const { id } = useParams();
 
 	const { data: messages, refetch } = useFetch<IMessage[]>(getMessages(id ?? ''));
 
 	const handleWebsocket = (message: IWebSocketMessage) => {
-		const actions = [WSActions.ChatReply];
+		const actions = [WSActions.ChatReply, WSActions.ChatFreeze];
 		if (message.trip_id === id && actions.includes(message.action)) {
 			refetch();
-			setPendingMessage('');
+			if (message.action === WSActions.ChatFreeze) {
+				setDisabled(true);
+				setTimeout(() => setDisabled(false), 5000);
+			} else {
+				setDisabled(false);
+				setPendingMessage('');
+			}
 		}
 	};
 
@@ -58,7 +65,7 @@ export const ChatWidget = ({ onClose, className }: IProps) => {
 		<div className={`${cls.window} ${className}`} ref={chatRef}>
 			<div className={cls.header}>
 				<div className={cls.nameContainer}>
-					<div className={cls.avatar} />
+					<img className={cls.avatar} src="/roamlik.png" />
 					<div>
 						Умный помощник Ромлик
 					</div>
@@ -78,7 +85,7 @@ export const ChatWidget = ({ onClose, className }: IProps) => {
 				}
 			</div>
 
-			<SendMessage onSend={setPendingMessage} tripId={id ?? ''} />
+			<SendMessage onSend={setPendingMessage} tripId={id ?? ''} disabled={disabled} />
 		</div>
 	);
 };

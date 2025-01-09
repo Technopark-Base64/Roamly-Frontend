@@ -8,7 +8,7 @@ export const mapResponseToMessage = (res: IMessageResponse): IMessage => {
 		const contentRes: TMessageContentResponse = JSON.parse(content);
 		content = {
 			message: contentRes.message,
-			places: contentRes.places.map(mapResponseToPlace),
+			places: contentRes.places?.map(mapResponseToPlace),
 		};
 	}
 

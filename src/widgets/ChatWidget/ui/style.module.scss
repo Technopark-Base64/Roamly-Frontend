@@ -13,8 +13,9 @@
 }
 
 .header {
-  background-color: var(--card-bg);
-  height: 50px;
+  background-color:  var(--tab-active-bg);
+  color: var(--font-secondary-color);
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,8 +30,8 @@
 }
 
 .avatar {
-  height: 36px;
-  width: 36px;
+  height: 42px;
+  width: 42px;
   border-radius: 50%;
   background-color:  var(--tab-active-bg);
 }

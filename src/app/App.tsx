@@ -24,12 +24,21 @@ const App = () => {
 	const { currentUser } = useCurrentUser();
 
 	useEffect(() => {
-		CheckAuth().then(() => setIsLoading(false));
+		CheckAuth().then((res) => {
+			if (!res || !res.user_id) {
+				if (location.pathname !== '/login')
+					localStorage.setItem('redirectAfterLogin', location.pathname);
+			} else {
+				localStorage.removeItem('redirectAfterLogin');
+			}
+			setIsLoading(false);
+		});
 	}, []);
 
 	useEffect(() => {
 		if (currentUser) {
 			!WebSocket.isOpened && WebSocket.init(`${BACKEND_URL}/notifications`);
+			localStorage.removeItem('redirectAfterLogin');
 		} else {
 			WebSocket.isOpened && WebSocket.close();
 		}
@@ -46,7 +55,7 @@ const App = () => {
 			{!isLoading &&
 				<div className="AppContent">
 					<Routes>
-						<Route path="/login" element={!currentUser ? <LoginPage/> : <Redirect url="/" replace={true} />}/>
+						<Route path="/login" element={!currentUser ? <LoginPage/> : <Redirect url={localStorage.getItem('redirectAfterLogin') ?? '/'} replace={true} />}/>
 						<Route path="/" element={currentUser ? <MainPage/> : <Redirect url="/login" replace={true} />}/>
 						<Route path="/trip/:id" element={currentUser ? <TripPage/> : <Redirect url="/login" replace={true} />}/>
 						<Route path="/join/:token" element={currentUser ? <JoinPage/> : <Redirect url="/login" replace={true} />}/>
