@@ -57,7 +57,7 @@ export const MainPage = () => {
 					</div>
 				</div>
 
-				<TripsList filter={menu} />
+				<TripsList filter={menu} onCreateNewTrip={() => setShowModal(true)} />
 			</div>
 
 			<div className={cls.menu}>

@@ -10,9 +10,10 @@ import cls from './style.module.scss';
 
 interface IProps {
 	filter?: string,
+	onCreateNewTrip?: () => void,
 }
 
-export const TripsList = ({ filter = '' }: IProps) => {
+export const TripsList = ({ filter = '', onCreateNewTrip }: IProps) => {
 	const { Trips, isLoading } = useLoadTrips();
 	const { currentUser } = useCurrentUser();
 	const navigate = useNavigate();
@@ -45,7 +46,16 @@ export const TripsList = ({ filter = '' }: IProps) => {
 		<div className={cls.listContainer}>
 			{!list.length &&
 				<div className={cls.emptyLabel}>
-					{isLoading ? <LoadingScreen /> : 'Пока ничего нет'}
+					{isLoading ? <LoadingScreen /> :
+						<div className={cls.emptyContainer}>
+							Пока ничего нет
+							{!Trips.length && ['mine', ''].includes(filter) &&
+								<button className="shared-button shared-button-positive" onClick={onCreateNewTrip}>
+									Создайте свою первую поездку
+								</button>
+							}
+						</div>
+					}
 				</div>
 			}
 

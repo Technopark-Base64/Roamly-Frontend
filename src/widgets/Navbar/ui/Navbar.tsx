@@ -41,7 +41,8 @@ export const Navbar = () => {
 	return (
 		<div className={cls.navbar}>
 			<div className={cls.logo} onClick={handleLogoClick}>
-				<MapOutlinedIcon className={cls.logoIcon} />
+				{/*<MapOutlinedIcon className={cls.logoIcon} />*/}
+				<img src="/logo.png" alt="logo" className={cls.logoIcon} />
 				Roamly
 			</div>
 
