@@ -1,6 +1,5 @@
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from 'src/features/Authorization';
 import { useCurrentUser } from 'src/entities/User';
@@ -41,7 +40,6 @@ export const Navbar = () => {
 	return (
 		<div className={cls.navbar}>
 			<div className={cls.logo} onClick={handleLogoClick}>
-				{/*<MapOutlinedIcon className={cls.logoIcon} />*/}
 				<img src="/logo.png" alt="logo" className={cls.logoIcon} />
 				Roamly
 			</div>
